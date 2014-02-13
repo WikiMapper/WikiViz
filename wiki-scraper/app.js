@@ -33,7 +33,7 @@ var writeToMaster = function() {
 var getHTML = function(err, resp, html) {
   var parsedHTML = $.load(html);
 
-  if (dirLinks.length % 500 === 0) {
+  if (dirLinks.length % 1 === 0) {
     writeToTemp();
   }
 
@@ -44,6 +44,7 @@ var getHTML = function(err, resp, html) {
   if (nextPageExists) {
     getNextPage(parsedHTML);
   } else {
+    writeToMaster();
     var endTime = new Date().getTime();
     console.log("\n ########### WE'RE SCRAPPIN', BRO!!! ########### \n",
                 "Street Scrapper brawled up some fools in", 
