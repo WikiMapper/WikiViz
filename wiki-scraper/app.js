@@ -33,7 +33,7 @@ var writeToMaster = function() {
 var getHTML = function(err, resp, html) {
   var parsedHTML = $.load(html);
 
-  if (dirLinks.length % 1 === 0) {
+  if (dirLinks.length % 500 === 0) {
     writeToTemp();
   }
 
