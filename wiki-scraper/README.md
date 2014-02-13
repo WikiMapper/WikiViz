@@ -12,5 +12,5 @@ npm install
 node app.js
 ```
 
-### By: Joseph Sample (aka Brawler) and Farhad Ghayour (aka Scrapper)
+By: Joseph Sample `(aka Brawler)` & Farhad Ghayour `(aka Scrapper)`
 
