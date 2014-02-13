@@ -3,11 +3,15 @@
 
 Ready to brawl?
 
-`npm install`
+```
+npm install
+```
 
 ... and then ...
 
-`node app.js`
+```
+node app.js
+```
 
 ### By: Joseph Sample (aka Brawler) and Farhad Ghayour (aka Scrapper)
 
