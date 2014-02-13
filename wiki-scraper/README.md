@@ -1,5 +1,4 @@
 # Wiki Scraper
-==============
 
 Ready to brawl?
 
