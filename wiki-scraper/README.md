@@ -3,14 +3,14 @@
 Ready to brawl?
 
 ```
-npm install
+$ npm install
 ```
 
 ... and then ...
 
 ```
-node app.js
+$ rock n' roll
 ```
 
-By: Joseph Sample `(aka Brawler)` & Farhad Ghayour `(aka Scrapper)`
+By: Joseph Sample `(aka Tank)` & Farhad Ghayour `(aka Bulldozer)`
 
