@@ -38,7 +38,7 @@ var trollWiki = function() {
 var getHTML = function(err, resp, html) {
   if (err) console.log(err);
 
-  if (resp.statusCode !== 200) {
+  if (resp.statusCode !== undefined && resp.statusCode !== 200) {
     trollWiki();
     return;
   }
@@ -47,9 +47,9 @@ var getHTML = function(err, resp, html) {
   pushPageLinks(parsedHTML);
 
   if (dirLinks.length % 50 === 0) {
-    writeToFile();
     console.log("\n #### "+ name + " IS SCRAPPIN, BRO! ####");
     console.log(dirLinks.length * ++dirCounter, "dirs brawled!!!");
+    writeToFile();
   }
 
   var nextPageExists = !!parsedHTML('a[title="Special:AllPages"]').last().text().match(/Next Page/gi);

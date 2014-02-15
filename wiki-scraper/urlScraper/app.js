@@ -6,12 +6,12 @@ var partitions = [
   [ // name of the child along with start and ending URL
     'TANK',
     'wiki/Special:AllPages', 
-    'w/index.php?title=Special:AllPages&from=%22Ram+Sajeevan%22'
+    MidURL???
   ], 
   [ // name of the child along with start and ending URL
-    'ROCKY',
+    'BULLDOZER',
     'w/index.php?title=Special:AllPages&from=%22Ram+Sajeevan%22', 
-    'w/index.php?title=Special:AllPages&from=%27Azzut+Panim'
+    LastURL???
   ]
 ];
 
