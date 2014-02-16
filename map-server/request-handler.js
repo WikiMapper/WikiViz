@@ -12,11 +12,13 @@ var Bookshelf = require('bookshelf').DB;  //note the suffix
 var Promise = require('bluebird');  //promises module
 
 var Url = Bookshelf.Model.extend({  //Url is a table ROW object
-  tableName: 'urls'
+  tableName: 'urls',
+  idAttribute: "url_id"
 });
 
 var Keyword = Bookshelf.Model.extend({  //Url is a table ROW object
-  tableName: 'keywords'
+  tableName: 'keywords',
+  idAttribute: "keyword_id"
 });
 
 exampleURLs = [
@@ -33,16 +35,160 @@ exampleKeywords = [
   {keyword: 'pro basketball'}
 ];
 
-var booyah = new Keyword({keyword: "booyah"})
-  .fetch({require: true})
-  .then(function(res){
-    console.log("Then... " + res);})
-  .otherwise(function(obj){    
-    console.log("Otherwise " + obj);
-    //console.log(test.save());
+// // //This example is working:************
+var findOrCreate = function(Constructor, obj){
+  var newRow = new Constructor(obj);
+  newRow.fetch({require: true})
+  .then(function(model){
+    console.log(model.id);
+  })
+  .otherwise(function(){
+    console.log("Otherwise it's a new row - save the row: " + newRow);
+    newRow.save();
   });
+ };
+
+findOrCreate(Url, {'title': "ESPN", url: "http://espn.com"});
+// // //************************************ 
+
+// // // //This example is working:************
+// var findOrCreate = function(){
+//   var newRow = new Url({'title': "ESPN", url: "http://espn.com"});
+//   newRow.fetch({require: true})
+//   .then(function(model){
+//     console.log(model.get('url'));
+//   })
+//   .otherwise(function(){
+//     console.log("Otherwise it's a new row - save the row: " + newRow);
+//     newRow.save();
+//   });
+//  };
+
+// findOrCreate();
+// // // //************************************ 
 
 
+// // // //This example is working:************
+// var findOrCreate = function(){
+//   var newRow = new Url({'title': "ESPN"});
+//   newRow.fetch({require: true})
+//   .then(function(model){
+//     console.log(model.get('url'));
+//   })
+//   .otherwise(function(){
+//     console.log("Otherwise it's a new row - save the row");
+//     //newRow.save();
+//   });
+//  };
+// findOrCreate();
+// // // //************************************  
+
+
+// // //This example is working:************
+// var testRow = new Url({'title': 'ESPN'})
+// testRow.fetch({require: true})
+//   .then(function(model) {
+//     console.log(model.get('url'));
+//   })
+//   .otherwise(function(){
+//     console.log("Otherwise it's a new row - save the row");
+//   });
+// // //************************************  
+
+// //This example is working:************
+// new Keyword({'keyword': 'javascript'})
+//   .fetch()
+//   .then(function(model) {
+//     console.log(model.get('keyword'));
+//   });
+// //************************************  
+
+// var findOrCreate = function(){
+//   //var newRow = new Constructor(obj);
+//   var newRow = new Url({'title': "test"});
+//   newRow.fetch({require: true})
+//   .then(function(model){
+//     console.log("Row found: then return the row id: " + model.attributes);
+//   })
+//   .otherwise(function(){
+//     console.log("Otherwise it's a new row - save the row");
+//     newRow.save();
+//   });
+//  };
+
+// findOrCreate();
+
+// var testRow = new Url({'title': 'test4'});
+// testRow.save()
+// .then(function(model){
+//   console.log(model);
+// })
+// .otherwise(function(){
+//   console.log("Row not found");
+// });
+
+
+// new Url({'title': 'ESPN'})
+//   .fetch({require: true})
+//   .then(function(model){
+//     console.log("Row found: then return the row id: " + model.attributes);
+//   })
+//   .otherwise(function(){
+//     console.log("Otherwise it's a new row - save the row: ");
+//     //newRow.save();
+//   });
+
+// var findOrCreate = function(){
+//   //var newRow = new Constructor(obj);
+//   var newRow = new Keyword({'keyword': "sports"});
+//   newRow.fetch({require: true})
+//     .then(function(model){
+//       console.log("Row found: then return the row id: " + model.attributes);
+//       //return id
+//     })
+//     .otherwise(function(){
+//       console.log("Otherwise it's a new row - save the row");
+//       newRow.save();
+//     });
+//  };
+
+// findOrCreate();
+
+//var testRow = new Keyword({'keyword': "hmmmm2"});
+
+//testRow.findOrCreate();
+
+ // Bookshelf.Model.prototype.findOrCreate = function(){
+ //  var that = this;
+ //  console.log(that);
+ //  that.fetch({require: true})
+ //    .then(function(res){
+ //      console.log("Then return the row id: " + res.attributes);
+ //      //return id
+ //    })
+ //    .otherwise(function(){
+ //      console.log("Otherwise, save the row");
+ //      that.save();
+ //    });
+ // }
+
+
+// testRow.fetch({require: true})
+//   .then(function(res){
+//     console.log("Then... " + res.get('keyword'));
+//   })
+//   .otherwise(function(){    
+//     console.log("Otherwise, save the row");
+//     testRow.save();
+//   });
+
+// sports.fetch({require: true})
+//   .then(function(res){
+//     console.log("Then... " + res.toJSON());})
+//   .otherwise(function(obj){    
+//     console.log("Otherwise " + obj);
+//     //console.log(test.save());
+//   });
 
 // for(var i =0; i < exampleKeywords.length; i++){
 //   new Keyword(exampleKeywords[i])
