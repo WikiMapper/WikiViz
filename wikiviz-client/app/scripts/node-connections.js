@@ -2,19 +2,31 @@ visApp.directive('nodeConnections', function() {
 
 	console.log(' from directive: data');
 	return {
-		restrict : 'E',
-		scope: { dataInside : '=dataoutside' },  // isolate scope
-		//set dataInside & dataoutside with same variable name, then use {data : '='}
-		template : 'Data is {{ dataInside }}',
+		// restrict : 'A',
+		// scope: { dataInside : '=dataoutside' },  // isolate scope
+		// //set dataInside & dataoutside with same variable name, then use {data : '='}
+		// template : 'Data is {{ dataInside }}',
 		link : link
 	};
 
-	var link = function(scope, element){
+	function link (scope, element, attributes){
 		console.log('scope is', scope );
-		return element.text(data);
+		return element.text(scope.data);
 	};
 
 });
+
+// visApp.directive('nodeConnections', function() {
+// 	return function(scope, element, attributes){
+// 		console.log('scope is', scope );
+// 		element.text('stufffffff');
+// 	};
+// });
+
+
+
+
+
 
 /*What we want to be able to do is separate the scope inside a 
 directive from the scope outside, and then map the outer scope 
