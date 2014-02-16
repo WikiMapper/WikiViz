@@ -12,11 +12,13 @@ var Bookshelf = require('bookshelf').DB;  //note the suffix
 var Promise = require('bluebird');  //promises module
 
 var Url = Bookshelf.Model.extend({  //Url is a table ROW object
-  tableName: 'urls'
+  tableName: 'urls',
+  idAttribute: "url_id"
 });
 
 var Keyword = Bookshelf.Model.extend({  //Url is a table ROW object
-  tableName: 'keywords'
+  tableName: 'keywords',
+  idAttribute: "keyword_id"
 });
 
 exampleURLs = [
@@ -33,19 +35,54 @@ exampleKeywords = [
   {keyword: 'pro basketball'}
 ];
 
-var findOrCreate = function(){
-  var newRow = new Url({'title': "ESPN"});
+// // //This example is working:************
+var findOrCreate = function(Constructor, obj){
+  var newRow = new Constructor(obj);
   newRow.fetch({require: true})
   .then(function(model){
-    console.log(model.get('url'));
+    console.log(model.id);
   })
   .otherwise(function(){
-    console.log("Otherwise it's a new row - save the row");
-    //newRow.save();
+    console.log("Otherwise it's a new row - save the row: " + newRow);
+    newRow.save();
   });
  };
 
-findOrCreate();
+findOrCreate(Url, {'title': "ESPN", url: "http://espn.com"});
+// // //************************************ 
+
+// // // //This example is working:************
+// var findOrCreate = function(){
+//   var newRow = new Url({'title': "ESPN", url: "http://espn.com"});
+//   newRow.fetch({require: true})
+//   .then(function(model){
+//     console.log(model.get('url'));
+//   })
+//   .otherwise(function(){
+//     console.log("Otherwise it's a new row - save the row: " + newRow);
+//     newRow.save();
+//   });
+//  };
+
+// findOrCreate();
+// // // //************************************ 
+
+
+// // // //This example is working:************
+// var findOrCreate = function(){
+//   var newRow = new Url({'title': "ESPN"});
+//   newRow.fetch({require: true})
+//   .then(function(model){
+//     console.log(model.get('url'));
+//   })
+//   .otherwise(function(){
+//     console.log("Otherwise it's a new row - save the row");
+//     //newRow.save();
+//   });
+//  };
+// findOrCreate();
+// // // //************************************  
+
 
 // // //This example is working:************
 // var testRow = new Url({'title': 'ESPN'})
