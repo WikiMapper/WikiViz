@@ -1,5 +1,7 @@
 extends layout
 
 block content
-  h1= title
-  p Welcome to #{title}
+  h3 Enter a url to enter into the database:
+  input(id='url' type='text')
+  input(id='user-submit' type='submit')
+  p#output

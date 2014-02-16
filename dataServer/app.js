@@ -2,56 +2,39 @@
 // DEPENDENCIES
 //////////////////////////////////////////////////////////////////
 
-var express   = require('express');
-var routes    = require('./routes');
-var user      = require('./routes/user');
-var http      = require('http');
-var path      = require('path');
-var Waterline = require('waterline');
-var _         = require('lodash');
+var express = require('express');
+var routes  = require('./routes');
+var user    = require('./routes/user');
+var http    = require('http');
+var path    = require('path');
+var mysql   = require('mysql')
 
 var app = express();
 
 
 //////////////////////////////////////////////////////////////////
-// ORM CONFIG
+// MYSQL SETUP
 //////////////////////////////////////////////////////////////////
 
-// Instantiate an ORM instance, require the adapter and config
-var orm = new Waterline();
-var diskAdapter = require('sails-mysql');
-
-var config = {
-  adapter: {
-    default: mysqlAdapter,
-    mysql: mysqlAdapter
-  },
-
-  connections: {
-    myLocalSql: {
-      adapter: 'mysql',
-      host: 'localhost',
-      database: 'wikiUrls'
-    }
-  }
-};
-
-
-//////////////////////////////////////////////////////////////////
-// ORM MODELS
-//////////////////////////////////////////////////////////////////
-
-var Url = Waterline.Collection.extend({
-  identity: 'url',
-  connection: 'myLocalSql',
-
-  attributes: {
-    href: 'string'
-  }
+var connection = mysql.createConnection({
+  host: 'localhost',
+  user: 'root',
+  password: ''
 });
 
-// Load the Model into the ORM
-orm.loadCollection(Url);
+connection.query('CREATE DATABASE IF NOT EXISTS wikiUrls', function(err) {
+  if (err) console.log(err);
+  connection.query('USE wikiUrls', function(err) {
+    if (err) console.log(err);
+    connection.query('CREATE TABLE IF NOT EXISTS urls('
+      + 'id INT NOT NULL AUTO_INCREMENT,'
+      + 'PRIMARY KEY (id),'
+      + 'url VARCHAR(100)'
+      + ')', function(err) {
+      if (err) console.log(err);
+    });
+  });
+});
 
 
 //////////////////////////////////////////////////////////////////
@@ -69,60 +52,28 @@ app.use(express.methodOverride());
 app.use(app.router);
 app.use(express.static(path.join(__dirname, 'public')));
 
-// Build Express Routes (CRUD routes for /users)
-app.get('/urls', function(req, res) {
-  app.models.url.find().done(function(err, models) {
-    if(err) return res.join({ err: err }, 500);
-    res.join(models);
-  });
+
+//////////////////////////////////////////////////////////////////
+// EXPRESS ROUTING
+//////////////////////////////////////////////////////////////////
+
+app.get('/', function(req, res) {
+  res.render('index');
 });
 
 app.post('/urls', function(req, res) {
-  app.models.url.create(req.body, function(err, model) {
-    if(err) return res.join({ err: err }, 500);
-    res.join(model);
+  connection.query('INSERT INTO urls SET ?', req.body, function(err, result) {
+    if (err) console.log(err);
+    console.log(result);
+    res.send('URL added to datavase with ID' + result);
   });
 });
 
-app.get('/urls/:id', function(req, res) {
-  app.models.url.findOne({ id: req.params.id }, function(err, model) {
-    if(err) return res.join({ err:err }, 500);
-    res.json(model);
-  });
-});
-
-app.del('/users/:id', function(req, res) {
-  app.models.user.destroy({ id: req.params.id }, function(err) {
-    if(err) res.join({ err:err }, 500);
-    res.json({ status: 'OK' });
-  });
-});
-
-app.put('/users/:id', function(req, res) {
-  // Don't pass ID to update
-  delete req.body.id;
-
-  app.models.user.update({ id: req.params.id }, req.body, function(err, model) {
-    if(err) res.join({ err:err }, 500);
-    res.json(model);
-  });
-});
 
 //////////////////////////////////////////////////////////////////
-// START THE ORM & SERVER
+// START THE SERVER
 //////////////////////////////////////////////////////////////////
 
-// Start the ORM passing adapter in
-orm.initialize(config, function(err, models) {
-  if(err) throw err;
-
-  app.models      = models.collections;
-  app.connections = models.connections;
-
-  // Start Server
-  http.createServer(app).listen(app.get('port'), function(){
-    console.log('Express server listening on port ' + app.get('port'));
-  });
-
-  // app.listen(3000);
+http.createServer(app).listen(app.get('port'), function(){
+  console.log('Express server listening on port ' + app.get('port'));
 });
