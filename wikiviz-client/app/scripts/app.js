@@ -1,14 +1,17 @@
 // App configuration
 
-var visApp = angular.module('VisApp', ['ngRoute']);
+angular.module('VisApp', ['ngRoute', 'd3']);
 
 var testdata = "hello world";
 
-visApp.controller('MainCtrl', function($scope, $location){
-  $scope.data = testdata;
-  });
+angular.module('VisApp')
+  .controller('MainCtrl', ['$scope', '$location',
+    function($scope, $location){
+      $scope.data = testdata;
+  }]);
 
-visApp.config(function ($routeProvider) {
+angular.module('VisApp')
+  .config(['$routeProvider', function ($routeProvider) {
     $routeProvider
       .when('/', {
         templateUrl: 'views/main.html',
@@ -20,4 +23,4 @@ visApp.config(function ($routeProvider) {
       })
       .otherwise({
         redirectTo: '/'});
-});
+  }]);
