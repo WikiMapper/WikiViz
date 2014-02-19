@@ -1,7 +1,7 @@
 <!doctype html>
 <html lang='en'>
 <head>
-  <title>Brain Space</title>
+  <title>Wiki Vis</title>
   <script src="bower_components/angular/angular.js"></script>
   <script src="bower_components/angular-route/angular-route.js"></script>
   <link rel="stylesheet" type="text/css" href="styles/bootstrap.css">
@@ -10,19 +10,23 @@
 </head>
 
 <body ng-app="VisApp">
-  <h2>Visualize the web</h2>
-  <div class="navigation">
-    <ul>
-      <li><a href="/#/" >Visualize</a></li>
-      <li><a href="/#/about">About</a></li>
-    </ul>
-  </div>
+  <header>
+    <h2>Visualize the web</h2>
+    <div class="navigation">
+      <ul>
+        <li><a href="/#/" >Visualize</a></li>
+        <li><a href="/#/about">About</a></li>
+      </ul>
+    </div>
+  </header>
 
   <div ng-view=''>
 
   <!-- Load app scripts -->
+  <script src="/scripts/services/d3factory.js"></script>
   <script src="/scripts/app.js"></script>
-  <script src="/scripts/node-connections.js"></script>
+  <script src="/scripts/controllers/node-controller.js"></script>
+  <script src="/scripts/directives/node-connections.js"></script>
 
 </body>
 </html>

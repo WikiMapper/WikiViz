@@ -1,84 +1,107 @@
 angular.module('VisApp')
-  .directive('nodeConnections',['d3Service', function(d3Service) {
-  	console.log(' from directive: data');
+  .directive('nodeConnections',['d3Service', '$window', function(d3Service, $window) {
+  	console.log(' from directive: scope.data');
   	return {
   		restrict : 'EA',
-  		scope: {},
+  		scope: {
+        data: '='
+      },
   		link : link
   	};
 
-  	function link (scope, element, attributes){
+  	function link (scope, element, attrs){
+      console.log('scope.data in link func', scope.data);
       //wait for d3 service to doad
       d3Service.d3().then(function(d3){
-        var margin =  20,
-            barHeight = 20,
-            barPadding = 5;
+        
+        var width = 960,
+          height = 600,
+          r = 12,
+          gravity = 0.1,   //force at center of layout
+          distance = 1,//length of link
+          charge = -400,    //repulsive force between nodes
+          fill = d3.scale.category10();
 
-        var svgCanvas = d3.select(element[0])
-          .append('svg')
-          .style('width', '100%');
+        // create the canvas for the model
+        var svgCanvas = d3.select("body").append("svg")
+          .attr("width", width)
+          .attr("height", height);
 
-        // Browser onresize event
+        // Browswer onresize event
         window.onresize = function() {
           scope.$apply();
-        };
-
-        // hard-code data
-        scope.data = [
-          {name: "Greg", score: 98},
-          {name: "Ari", score: 96},
-          {name: 'Q', score: 75},
-          {name: "Loser", score: 48}
-        ];
+        }  ;
 
         // Watch for resize event
         scope.$watch(function() {
-          return angular.element(window)[0].innerWidth;
+          return angular.element($window)[0].innerWidth;
         }, function() {
           scope.render(scope.data);
         });
 
+        scope.$watch('data', function(data){
+          console.log('watching', data);
+          scope.data = data;
+          if(!data) return;
+          return scope.render(data);
+        });
+
         scope.render = function(data) {
+          console.log('in render!!!!!!!', data);
           // remove all previous items before render
-          svgCanvas.selectAll('*').remove();          
+          svgCanvas.selectAll('*').remove();  
+          // construct the force-directed layout
+          var forceLayout = d3.layout.force()
+            .gravity(gravity)
+            .linkDistance(function(link){ return link.value; })
+            .charge(charge)
+            .size([width, height]);  //size of force layout
 
-        // If we don't pass any data, return out of the element
-        if (!scope.data) return;
+          forceLayout.nodes(data.nodes)
+          .links(data.links)
+          .start();
 
-        // setup variables
-        var width = d3.select(element[0]).node().offsetWidth - margin,
-            // calculate the height
-            height = scope.data.length * (barHeight + barPadding),
-            // Use the category20() scale function for multicolor support
-            color = d3.scale.category20(),
-            // our xScale
-            xScale = d3.scale.linear()
-              .domain([0, d3.max(scope.data, function(d) {
-                return d.score;
-              })])
-              .range([0, width]);
+          // add scope.data to links and nodes
+          var link = svgCanvas.selectAll(".link")
+            .data(scope.data.links)
+            .enter().append("line")
+            .attr("class", "link");
 
-        // set the height based on the calculations above
-        svgCanvas.attr('height', height);
+          //create node group to hold node + text
+          var gnodes = svgCanvas.selectAll("g.gnode")
+            .data(scope.data.nodes)
+            .enter().append("g")          //g element used to group svg shapes 
+            .attr("class", "node")
+          .append('svg:a')
+            .attr('xlink:href', function(d) { return d.url; });
 
-        console.log(scope.data);
-        //create the rectangles for the bar chart
-        svgCanvas.selectAll('rect')
-          .data(scope.data).enter()
-            .append('rect')
-            .attr('height', barHeight)
-            .attr('width', 140)
-            .attr('x', Math.round(margin/2))
-            .attr('y', function(d,i) {
-              return i * (barHeight + barPadding);
-            })
-            .attr('fill', function(d) { return color(d.score); })
-            .transition()
-              .duration(1000)
-              .attr('width', function(d) {
-                return xScale(d.score);
-              });
-        }      
+          var node = gnodes.append('circle')
+            .attr('class', 'node')
+            .attr('r', function(d) { return d.hits })
+            .style(fill, function(d) { return color(d.group); });
+
+          // add tooltip
+          node.append("svg:title").text(function(d, i) {
+            return "Yo some info! \n" + d.title + '\n' + d.url;
+          });
+
+          var label = gnodes.append("svg:text")   //svg element consisting of text
+            .attr('class', 'label')
+            .attr("x", 8)
+            .attr("y", '.34em')
+            .text(function(d) { return d.title; } );
+
+          // set node & link positions on tick -- d must be calculated from force settings???
+          forceLayout.on("tick", function() {
+            link.attr("x1", function(d) { return d.source.x; })  //pos of source node
+                .attr("y1", function(d) { return d.source.y; })
+                .attr("x2", function(d) { return d.target.x; })  //pos of target node
+                .attr("y2", function(d) { return d.target.y; });
+            gnodes.attr("transform", function(d) { return "translate(" + d.x + "," + d.y + ")"; });
+            // node.attr("cx", function(d) {return d.x})
+            //     .attr("cy", function(d) {return d.y});
+          });
+        };      
       });
   	};
 	}]);

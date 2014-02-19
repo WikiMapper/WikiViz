@@ -2,12 +2,10 @@
 
 angular.module('VisApp', ['ngRoute', 'd3']);
 
-var testdata = "hello world";
-
 angular.module('VisApp')
   .controller('MainCtrl', ['$scope', '$location',
     function($scope, $location){
-      $scope.data = testdata;
+      $scope.greeting = "Hola from the main controller";
   }]);
 
 angular.module('VisApp')
@@ -15,7 +13,7 @@ angular.module('VisApp')
     $routeProvider
       .when('/', {
         templateUrl: 'views/main.html',
-        controller: 'MainCtrl'
+        controller: 'NodeCtrl'
       })
       .when('/about', {
         templateUrl: 'views/about.html',
