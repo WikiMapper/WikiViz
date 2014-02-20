@@ -8,7 +8,8 @@ Bookshelf.DB = Bookshelf.initialize({
     host     : '127.0.0.1',
     user     : 'root',
     password : 'root',
-    database : 'urls'
+    // database : 'urls' //corresponds to db in request-handler-old.js
+    database : 'test_urls'
   }
 });
 
