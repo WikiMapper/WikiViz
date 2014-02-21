@@ -1,6 +1,6 @@
 angular.module('VisApp')
   .directive('nodeConnections',['d3Service', '$window', function(d3Service, $window) {
-  	console.log(' from directive: scope.data');
+  	console.log('nodeConnections directive called');
   	return {
   		restrict : 'EA',
   		scope: {
@@ -10,11 +10,10 @@ angular.module('VisApp')
   	};
 
   	function link (scope, element, attrs){
-      console.log('scope.data in link func', scope.data);
       //wait for d3 service to doad
       d3Service.d3().then(function(d3){
         
-        var width = 960,
+        var width = d3.select(element[0]).node().offsetWidth ,
           height = 600,
           r = 12,
           gravity = 0.1,   //force at center of layout
@@ -47,7 +46,6 @@ angular.module('VisApp')
         });
 
         scope.render = function(data) {
-          console.log('in render!!!!!!!', data);
           // remove all previous items before render
           svgCanvas.selectAll('*').remove();  
           // construct the force-directed layout
