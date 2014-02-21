@@ -65,7 +65,7 @@ angular.module('VisApp')
           var link = svgCanvas.selectAll(".link")
             .data(scope.data.links)
             .enter().append("line")
-            .attr("class", "link");
+            .attr("class", "nodelink");
 
           //create node group to hold node + text
           var gnodes = svgCanvas.selectAll("g.gnode")
