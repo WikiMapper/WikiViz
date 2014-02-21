@@ -42,12 +42,12 @@ angular.module('VisApp')
     ],
    "links" : [
         {"source":0,"target":1,"value":100}, {"source":0,"target":2,"value":100},
-        {"source":0,"target":3,"value":30},  {"source":0,"target":4,"value":100},
+        {"source":0,"target":3,"value":100},  {"source":0,"target":4,"value":100},
         {"source":0,"target":5,"value":100}, {"source":0,"target":6,"value":100},
-        {"source":0,"target":7,"value":100}, {"source":2,"target":8,"value":100},
-        {"source":0,"target":10,"value":20}, {"source":4,"target":11,"value":100},
-        {"source":0,"target":9,"value":20}, {"source":6,"target":13,"value":100},
-        {"source":0,"target":12,"value":80},  {"source":7,"target":14,"value":100}
+        {"source":0,"target":7,"value":100}, {"source":0,"target":8,"value":100},
+        {"source":0,"target":10,"value":100}, {"source":0,"target":11,"value":100},
+        {"source":0,"target":9,"value":100}, {"source":0,"target":13,"value":100},
+        {"source":0,"target":12,"value":100},  {"source":0,"target":14,"value":100}
     ]};
 
     return { request : data };

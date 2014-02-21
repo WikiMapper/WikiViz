@@ -14,12 +14,12 @@ angular.module('VisApp')
       d3Service.d3().then(function(d3){
         
         var width = d3.select(element[0]).node().offsetWidth ,
-          height = 600,
+          height = 300,
           r = 12,
           gravity = 0.1,   //force at center of layout
           distance = 1,//length of link
           charge = -400,    //repulsive force between nodes
-          fill = d3.scale.category10();
+          color = d3.scale.category10();
 
         // create the canvas for the model
         var svgCanvas = d3.select("body").append("svg")
@@ -46,6 +46,7 @@ angular.module('VisApp')
         });
 
         scope.render = function(data) {
+          console.log('start render. data:', data);
           // remove all previous items before render
           svgCanvas.selectAll('*').remove();  
           // construct the force-directed layout
@@ -76,7 +77,8 @@ angular.module('VisApp')
           var node = gnodes.append('circle')
             .attr('class', 'node')
             .attr('r', function(d) { return d.hits })
-            .style(fill, function(d) { return color(d.group); });
+            .style('fill', function(d) { return color(d.group); })
+            .on("click", function(d, i) {alert("Hello world")} );
 
           // add tooltip
           node.append("svg:title").text(function(d, i) {
@@ -85,7 +87,7 @@ angular.module('VisApp')
 
           var label = gnodes.append("svg:text")   //svg element consisting of text
             .attr('class', 'label')
-            .attr("x", 8)
+            .attr("x", '10')
             .attr("y", '.34em')
             .text(function(d) { return d.title; } );
 

@@ -27,6 +27,10 @@ body {
   width: 100%;
 }
 
+::-webkit-input-placeholder {
+   text-align:center;
+}
+
 
 
 /*** Override bootsrap styling ***************/
@@ -61,7 +65,7 @@ body {
 }
 
 text.label {
-  fill: #363F7A;
+  /*fill: #363F7A;*/
 }
 
 circle {
