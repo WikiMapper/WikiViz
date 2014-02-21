@@ -16,47 +16,56 @@ var Url = Bookshelf.Model.extend({  //Url is a table ROW object
   idAttribute: "url_id"
 });
 
-var Keyword = Bookshelf.Model.extend({  //Url is a table ROW object
-  tableName: 'keywords',
-  idAttribute: "keyword_id"
+var UrlsCollection = Bookshelf.Collection.extend({
+  model: Url
 });
 
-exampleURLs = [
-  {title: 'Hack Reactor', url: "http://hackreactor.com"},
-  {title: 'StackOverFlow', url: "http://stackoverflow.com"},
-  {title: 'ESPN', url: "http://espn.com"},
-  {title: 'NBA', url: "http://nba.com"},
-];
+var Url_to_url = Bookshelf.Model.extend({  //Url is a table ROW object
+  tableName: 'url_to_url'
+});
 
-exampleKeywords = [
-  {keyword: 'javascript'},
-  {keyword: 'a lot of help'},
-  {keyword: 'sports'},
-  {keyword: 'pro basketball'}
-];
+var Url_to_urlsCollection = Bookshelf.Collection.extend({
+  model: Url_to_url
+});
 
-// // //This example is working:************
-var findOrCreate = function(Constructor, obj){
-  var newRow = new Constructor(obj);
-  newRow.fetch({require: true})
-  .then(function(model){
-    console.log(model.id);
-  })
-  .otherwise(function(){
-    console.log("Otherwise it's a new row - save the row: " + newRow);
-    newRow.save();
+//Goal 1 of 2: Count number of child nodes
+//Iterate over each row in urls table
+  //Get url_id[i]
+  //Query url_to_url for child nodes of url_id[i]
+var urlsColl = new UrlsCollection();
+var url_to_urlsColl = new Url_to_urlsCollection();
+urlsColl.fetch()
+.then(function(coll){
+  var id;
+  coll.each(function(model){
+    id = model.id;
+    //console.log(id);
+    var childCollPromise = url_to_urlsColl.query({where: {url_id: id}}).fetch();
+    childCollPromise.then(function(childColl){
+      var child_id;
+      var child_title;
+      childColl.each(function(child){
+        child_id = child.get('child_id');
+        child_model = coll.get(child_id);
+        console.log(model.get('title') + " --> " + child_model.get('title'));
+      });
+    });
   });
- };
+});
 
-findOrCreate(Url, {'title': "ESPN", url: "http://espn.com"});
-// // //************************************ 
 
-// // // //This example is working:************
-// var findOrCreate = function(){
-//   var newRow = new Url({'title': "ESPN", url: "http://espn.com"});
+// var qb = Url.query();
+// qb.where({id: 1}).select().then(function(resp) {
+//   console.log(resp);
+// });
+
+
+
+// var findOrCreate = function(Constructor, obj){
+//   var newRow = new Constructor(obj);
 //   newRow.fetch({require: true})
 //   .then(function(model){
-//     console.log(model.get('url'));
+//     console.log(model.id);
 //   })
 //   .otherwise(function(){
 //     console.log("Otherwise it's a new row - save the row: " + newRow);
@@ -64,145 +73,4 @@ findOrCreate(Url, {'title': "ESPN", url: "http://espn.com"});
 //   });
 //  };
 
-// findOrCreate();
-// // // //************************************ 
-
-
-// // // //This example is working:************
-// var findOrCreate = function(){
-//   var newRow = new Url({'title': "ESPN"});
-//   newRow.fetch({require: true})
-//   .then(function(model){
-//     console.log(model.get('url'));
-//   })
-//   .otherwise(function(){
-//     console.log("Otherwise it's a new row - save the row");
-//     //newRow.save();
-//   });
-//  };
-// findOrCreate();
-// // // //************************************  
-
-
-// // //This example is working:************
-// var testRow = new Url({'title': 'ESPN'})
-// testRow.fetch({require: true})
-//   .then(function(model) {
-//     console.log(model.get('url'));
-//   })
-//   .otherwise(function(){
-//     console.log("Otherwise it's a new row - save the row");
-//   });
-// // //************************************  
-
-// //This example is working:************
-// new Keyword({'keyword': 'javascript'})
-//   .fetch()
-//   .then(function(model) {
-//     console.log(model.get('keyword'));
-//   });
-// //************************************  
-
-// var findOrCreate = function(){
-//   //var newRow = new Constructor(obj);
-//   var newRow = new Url({'title': "test"});
-//   newRow.fetch({require: true})
-//   .then(function(model){
-//     console.log("Row found: then return the row id: " + model.attributes);
-//   })
-//   .otherwise(function(){
-//     console.log("Otherwise it's a new row - save the row");
-//     newRow.save();
-//   });
-//  };
-
-// findOrCreate();
-
-// var testRow = new Url({'title': 'test4'});
-// testRow.save()
-// .then(function(model){
-//   console.log(model);
-// })
-// .otherwise(function(){
-//   console.log("Row not found");
-// });
-
-
-// new Url({'title': 'ESPN'})
-//   .fetch({require: true})
-//   .then(function(model){
-//     console.log("Row found: then return the row id: " + model.attributes);
-//   })
-//   .otherwise(function(){
-//     console.log("Otherwise it's a new row - save the row: ");
-//     //newRow.save();
-//   });
-
-// var findOrCreate = function(){
-//   //var newRow = new Constructor(obj);
-//   var newRow = new Keyword({'keyword': "sports"});
-//   newRow.fetch({require: true})
-//     .then(function(model){
-//       console.log("Row found: then return the row id: " + model.attributes);
-//       //return id
-//     })
-//     .otherwise(function(){
-//       console.log("Otherwise it's a new row - save the row");
-//       newRow.save();
-//     });
-//  };
-
-// findOrCreate();
-
-//var testRow = new Keyword({'keyword': "hmmmm2"});
-
-//testRow.findOrCreate();
-
- // Bookshelf.Model.prototype.findOrCreate = function(){
- //  var that = this;
- //  console.log(that);
- //  that.fetch({require: true})
- //    .then(function(res){
- //      console.log("Then return the row id: " + res.attributes);
- //      //return id
- //    })
- //    .otherwise(function(){
- //      console.log("Otherwise, save the row");
- //      that.save();
- //    });
- // }
-
-
-// testRow.fetch({require: true})
-//   .then(function(res){
-//     console.log("Then... " + res.get('keyword'));
-//   })
-//   .otherwise(function(){    
-//     console.log("Otherwise, save the row");
-//     testRow.save();
-//   });
-
-// sports.fetch({require: true})
-//   .then(function(res){
-//     console.log("Then... " + res.toJSON());})
-//   .otherwise(function(obj){    
-//     console.log("Otherwise " + obj);
-//     //console.log(test.save());
-//   });
-
-// for(var i =0; i < exampleKeywords.length; i++){
-//   new Keyword(exampleKeywords[i])
-//     .fetch()
-//     .then(function(model){
-//       console.log(model);
-//     });
-// }
-
-// for(var i =0; i < exampleKeywords.length; i++){
-//   new Keyword(exampleKeywords[i])
-//     .save()
-//     .then(function(res){
-//     console.log(res.attributes.id);
-//   });
-// }
-
+// findOrCreate(Url, {'title': "ESPN", url: "http://espn.com"});
