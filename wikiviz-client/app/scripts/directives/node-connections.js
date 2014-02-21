@@ -1,5 +1,6 @@
 angular.module('VisApp')
-  .directive('nodeConnections',['d3Service', '$window', function(d3Service, $window) {
+  .directive('nodeConnections',['DatabaseService','d3Service', '$window', 
+    function(DatabaseService, d3Service, $window) {
   	console.log('nodeConnections directive called');
   	return {
   		restrict : 'EA',
@@ -24,7 +25,9 @@ angular.module('VisApp')
         // create the canvas for the model
         var svgCanvas = d3.select("body").append("svg")
           .attr("width", width)
-          .attr("height", height);
+          .attr("height", height)
+          .attr('popover', "Woeeęèēeeoöooö!")
+          .attr('popover-trigger', 'mouseenter');
 
         // Browswer onresize event
         window.onresize = function() {
@@ -71,19 +74,24 @@ angular.module('VisApp')
             .data(scope.data.nodes)
             .enter().append("g")          //g element used to group svg shapes 
             .attr("class", "node")
-          .append('svg:a')
-            .attr('xlink:href', function(d) { return d.url; });
+            .attr('popover', "Woeeęèēeeoöooö!")
+            .attr('popover-trigger', 'mouseenter')
+          .append('svg:a');
+            // .attr('xlink:href', function(d) { return d.url; });
 
           var node = gnodes.append('circle')
             .attr('class', 'node')
             .attr('r', function(d) { return d.hits })
+
             .style('fill', function(d) { return color(d.group); })
-            .on("click", function(d, i) {alert("Hello world")} );
+            .on("click", function(d, i) {
+                console.log(d.title);
+                scope.render(DatabaseService.request); });
 
           // add tooltip
-          node.append("svg:title").text(function(d, i) {
-            return "Yo some info! \n" + d.title + '\n' + d.url;
-          });
+          // node.append("svg:title").text(function(d, i) {
+          //   return "Yo some info! \n" + d.title + '\n' + d.url;
+          // });
 
           var label = gnodes.append("svg:text")   //svg element consisting of text
             .attr('class', 'label')

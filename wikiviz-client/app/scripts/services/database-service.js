@@ -1,6 +1,7 @@
 
 angular.module('VisApp')
   .factory('DatabaseService', ['$http', function($http) {
+    console.log('DatabaseService called');
 
     // var doRequest = function() {
     //   console.log('making request');

@@ -1,28 +1,28 @@
 
   
-<div class="text-center">
-{{ greeting }}
+
+
+<div id="wikiviz-search" ng-show='showForm'> 
+  <form ng-submit='getInput()' >
+  <input autofocus/ class="col-md-6 col-md-offset-3"
+      ng-model='url' type="text" 
+      placeholder="enter a url for page link visualization" 
+      ng-submit='getInput()'>
+  </form>
 </div>
 
 
-<div class='block'>
-  <div class="centered">
-    <form ng-submit='getInput()' ng-show='showForm'>
-    <input autofocus/ class="col-md-6 col-md-offset-3"
-        ng-model='url' type="text" 
-        placeholder="enter a url for page link visualization" 
-        ng-submit='getInput()'>
-    </form>
-  </div>
-</div>
 
+  <div node-connections data='sourcedata'></div>
+{{showVis}}
 
-<div node-connections data='sourcedata'></div>
-
-
-<div>
-  <p>
-    <button popover="I appeared on mouse enter!" popover-trigger="mouseenter" class="btn btn-default">Mouseenter</button>
-  </p>
-</div>
+<!-- <div>
+  <svg 
+    popover="A popover on an svg!" popover-trigger="mouseenter" 
+    width="120" height="120" 
+     viewPort="0 0 120 120" version="1.1"
+     xmlns="http://www.w3.org/2000/svg">
+    <circle cx="60" cy="60" r="50"/>
+  </svg>
+</div> -->
 

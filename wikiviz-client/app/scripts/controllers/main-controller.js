@@ -2,8 +2,6 @@ angular.module('VisApp')
   .controller('MainCtrl', ['DatabaseService', 'd3Service', '$scope', '$location',
     function(DatabaseService, d3Service, $scope, $location){
 
-      $scope.greeting = "Hi! We're going to show you some data";
-
       $scope.showForm = true;
       $scope.showVis = false
 
@@ -12,7 +10,6 @@ angular.module('VisApp')
         $scope.showForm = false;
         $scope.showVis = true;
         $scope.sourcedata = DatabaseService.request;
-        $scope.$apply();
       };
 
 
@@ -29,10 +26,4 @@ angular.module('VisApp')
       //   });
       // };
 
-  }]);
-
-
-var PopoverDemoCtrl = function ($scope) {
-  $scope.dynamicPopover = "Hello, World!";
-  $scope.dynamicPopoverTitle = "Title";
-};
+  }])

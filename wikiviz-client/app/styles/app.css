@@ -4,6 +4,9 @@ body {
 }
 
 
+#wikiviz-search{
+  padding-top: 200px
+}
 /* This parent can be any width and height */
 .block {
   text-align: center;
