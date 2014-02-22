@@ -26,13 +26,13 @@ connection.query('CREATE DATABASE IF NOT EXISTS wikiUrls', function(err) {
   if (err) console.log(err);
   connection.query('USE wikiUrls', function(err) {
     if (err) console.log(err);
-    connection.query('CREATE TABLE IF NOT EXISTS urls('
-      + 'id INT NOT NULL AUTO_INCREMENT,'
-      + 'PRIMARY KEY (id),'
-      + 'url VARCHAR(100)'
-      + ')', function(err) {
-      if (err) console.log(err);
-    });
+    connection.query(
+      'CREATE TABLE IF NOT EXISTS urls('
+        + 'id INT NOT NULL AUTO_INCREMENT,'
+        + 'PRIMARY KEY (id),'
+        + 'url VARCHAR(100)'
+      + ')', function(err) { if (err) console.log(err); }
+    );
   });
 });
 
@@ -64,8 +64,7 @@ app.get('/', function(req, res) {
 app.post('/urls', function(req, res) {
   connection.query('INSERT INTO urls SET ?', req.body, function(err, result) {
     if (err) console.log(err);
-    console.log(result);
-    res.send('URL added to datavase with ID' + result);
+    res.send('URL added to database');
   });
 });
 
