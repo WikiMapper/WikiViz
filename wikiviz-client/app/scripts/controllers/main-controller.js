@@ -1,15 +1,16 @@
 angular.module('VisApp')
   .controller('MainCtrl', ['DatabaseService', 'd3Service', '$scope', '$location',
     function(DatabaseService, d3Service, $scope, $location){
+      console.log('MainCtrl called. $scope.showForm', $scope.showForm);
 
       $scope.showForm = true;
       $scope.showVis = false
 
       $scope.getInput = function(){
-        console.log('got info', $scope.somedata);
         $scope.showForm = false;
         $scope.showVis = true;
-        $scope.sourcedata = DatabaseService.request;
+        //DatabaseService.request($scope.url);
+        $scope.sourcedata = DatabaseService.request($scope.url);
       };
 
 

@@ -14,16 +14,15 @@ angular.module('VisApp')
       //wait for d3 service to doad
       d3Service.d3().then(function(d3){
         
-        var width = d3.select(element[0]).node().offsetWidth ,
-          height = 300,
-          r = 12,
-          gravity = 0.1,   //force at center of layout
-          distance = 1,//length of link
-          charge = -400,    //repulsive force between nodes
-          color = d3.scale.category10();
+        var el = element[0],
+            width = d3.select('body').node().offsetWidth ,
+            height = 600 ,
+            r = 12,
+            gravity = 0.05,   //force at center of layout
+            color = d3.scale.category10();
 
         // create the canvas for the model
-        var svgCanvas = d3.select("body").append("svg")
+        var svgCanvas = d3.select(element[0]).append("svg")
           .attr("width", width)
           .attr("height", height)
           .attr('popover', "Woeeęèēeeoöooö!")
@@ -38,55 +37,64 @@ angular.module('VisApp')
         scope.$watch(function() {
           return angular.element($window)[0].innerWidth;
         }, function() {
-          scope.render(scope.data);
+          scope.render(scope.data); // TODO: make sure this is correct scope for incoming data!
         });
 
         scope.$watch('data', function(data){
           console.log('watching', data);
-          scope.data = data;
+          scope.data = data;   // TODO: make sure this is correct scope
           if(!data) return;
           return scope.render(data);
         });
 
         scope.render = function(data) {
-          console.log('start render. data:', data);
+          var charge = function(nodeCount) {
+              return -(50+7200/(Math.pow(nodeCount,1.4)-2*nodeCount));
+              };    //repulsive force between nodes
+          
+          console.log('±±±±±±±±±±start render. data:', data);
+          console.log('start render selectAll:', svgCanvas.selectAll('*'));
+          console.log('before remove',svgCanvas.selectAll('*')[0].length)
+
           // remove all previous items before render
-          svgCanvas.selectAll('*').remove();  
+          svgCanvas.selectAll('g').remove();  
+          svgCanvas.selectAll('line').remove();
+          console.log('after remove',svgCanvas.selectAll('*')[0].length)
           // construct the force-directed layout
           var forceLayout = d3.layout.force()
             .gravity(gravity)
-            .linkDistance(function(link){ return link.value; })
-            .charge(charge)
+            .linkDistance(function(link){ return 2*link.value; })
+            .charge(charge(data.nodes.length))
             .size([width, height]);  //size of force layout
-
+          console.log('length', data.nodes.length, charge(data.nodes.length));
+          
           forceLayout.nodes(data.nodes)
           .links(data.links)
           .start();
 
-          // add scope.data to links and nodes
-          var link = svgCanvas.selectAll(".link")
-            .data(scope.data.links)
+          // add data to links and nodes
+          var link = svgCanvas.selectAll("line")
+            .data(data.links)
             .enter().append("line")
-            .attr("class", "nodelink");
+            .attr("class", "node-link");
 
           //create node group to hold node + text
-          var gnodes = svgCanvas.selectAll("g.gnode")
-            .data(scope.data.nodes)
+          var gnodes = svgCanvas.selectAll("g")
+            .data(data.nodes)
             .enter().append("g")          //g element used to group svg shapes 
-            .attr("class", "node")
+            .attr("class", "node-group")
             .attr('popover', "Woeeęèēeeoöooö!")
             .attr('popover-trigger', 'mouseenter')
-          .append('svg:a');
+          //.append('svg:a');
             // .attr('xlink:href', function(d) { return d.url; });
 
           var node = gnodes.append('circle')
             .attr('class', 'node')
-            .attr('r', function(d) { return d.hits })
-
-            .style('fill', function(d) { return color(d.group); })
+            .attr('r', function(d) { return d.linksTo })
+            .style('fill', function(d) { return color(d.linksTo); })
             .on("click", function(d, i) {
-                console.log(d.title);
-                scope.render(DatabaseService.request); });
+                console.log('CLICKED:', d.title);
+                scope.render(DatabaseService.request(5)); });
 
           // add tooltip
           // node.append("svg:title").text(function(d, i) {

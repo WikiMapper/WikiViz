@@ -6,15 +6,15 @@
   <form ng-submit='getInput()' >
   <input autofocus/ class="col-md-6 col-md-offset-3"
       ng-model='url' type="text" 
-      placeholder="enter a url for page link visualization" 
+      placeholder="for testing: enter a number " 
       ng-submit='getInput()'>
   </form>
 </div>
 
 
 
-  <div node-connections data='sourcedata'></div>
-{{showVis}}
+<div ng-show='showVis' node-connections data='sourcedata'></div>
+
 
 <!-- <div>
   <svg 

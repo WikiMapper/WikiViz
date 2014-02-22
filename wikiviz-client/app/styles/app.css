@@ -58,11 +58,11 @@ body {
 
 
 /*** d3 styling ***************/
-.nodelink {
+.node-link {
   stroke:  #000000;
 }
 
-.node text {
+.node-group text {
   pointer-events: none;
   font: 14px sans-serif;
 }
@@ -73,7 +73,7 @@ text.label {
 
 circle {
   fill: #ccc;
-  stroke: #333;
+  /*stroke: #333;*/
   stroke-width: 1.5px;
 }
 
