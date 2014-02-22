@@ -1,8 +1,8 @@
-var mysql   = require('mysql');
-
 //////////////////////////////////////////////////////////////////
 // MYSQL SETUP
 //////////////////////////////////////////////////////////////////
+
+var mysql   = require('mysql');
 
 var connection = mysql.createConnection({
   host: 'localhost',
@@ -21,26 +21,41 @@ connection.query('CREATE DATABASE IF NOT EXISTS wikiUrls', function(err) {
         + 'url VARCHAR(100)'
       + ')', function(err) { if (err) console.log(err); }
     );
+    connection.query(
+      'CREATE TABLE IF NOT EXISTS urlToUrls ('
+        + 'id INT NOT NULL AUTO_INCREMENT,'
+        + 'PRIMARY KEY (id),'
+        + 'urla VARCHAR(100),'
+        + 'urls VARCHAR(2000)'
+      + ')', function(err) { if (err) console.log(err); }
+    );
+    connection.query(
+      'CREATE TABLE IF NOT EXISTS urlToUrl ('
+        + 'id INT NOT NULL AUTO_INCREMENT,'
+        + 'PRIMARY KEY (id),'
+        + 'urla VARCHAR(100),'
+        + 'urlb VARCHAR(100)'
+      + ')', function(err) { if (err) console.log(err); }
+    );
   });
 });
 
 
-/********
-INSERTING USER INPUT INTO TABLE (inputUrls)
-*********/
+//////////////////////////////////////////////////////////////////
+// INSERTING USER INPUT INTO TABLE (inputUrls)
+//////////////////////////////////////////////////////////////////
 
-module.exports.insertInputUrl = function(req, res) {
+var insertInputUrl = function(req, cb) {
   connection.query('INSERT INTO inputUrls SET ?', 
     req.body, function(err, result) {
       if (err) console.log(err);
-      scrapeInputUrl();
-      res.send('URL added to database');
-  });
-}
-
-
-var scrapeInputUrl = function() {
-  connection.query('SELECT url FROM inputUrls ORDER BY id DESC LIMIT 1;', function(err, result) {
-    var inputUrl = result[0].url;
+      cb();
   });
 };
+
+
+//////////////////////////////////////////////////////////////////
+// EXPORTING FUNCTIONS
+//////////////////////////////////////////////////////////////////
+
+exports.insertInputUrl = insertInputUrl;
