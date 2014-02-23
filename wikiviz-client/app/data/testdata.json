@@ -1,4 +1,4 @@
-{"nodes":[
+{"nodes:[
         {"title" : "Article One",    "url" : "www.wikepedia.com",    "hits" : 20, "group" : 1},
         {"title" : "Article Two",    "url" : "www.wikepedia.com",    "hits" : 10, "group" : 1},
         {"title" : "Article Three",  "url" : "www.wikepedia.com",  "hits" : 8, "group" : 1},
