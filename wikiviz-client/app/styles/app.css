@@ -83,5 +83,27 @@ circle {
 
 title {
   fill: #B4B8D4;
+}
 
+.namefont {
+  font: bold 48px monospace;
+}
+
+.font1 {
+  font: bold 54px monospace;
+}
+
+.font2 {
+  font: bold 48px monospace;
+}
+.enter {
+  fill: green;
+}
+
+.update {
+  fill: #333;
+}
+
+.exit {
+  fill: brown;
 }

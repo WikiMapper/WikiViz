@@ -101,9 +101,9 @@ angular.module('VisApp')
                 scope.render(DatabaseService.request(5)); });
 
           // add tooltip
-          // node.append("svg:title").text(function(d, i) {
-          //   return "Yo some info! \n" + d.title + '\n' + d.url;
-          // });
+          node.append("svg:title").text(function(d, i) {
+            return "Yo some info! \n" + d.title + '\n' + d.url;
+          });
 
           var label = gnodes.append("svg:text")   //svg element consisting of text
             .attr('class', 'label')

@@ -13,9 +13,9 @@ angular.module('VisApp')
         templateUrl: 'views/about.html',
         controller: ''
       })
-      .when('/contact', {
-        templateUrl: 'views/contact.html',
-        controller: ''
+      .when('/credits', {
+        templateUrl: 'views/credits.html',
+        controller: 'CreditsCtrl'
       })
       .otherwise({
         redirectTo: '/'});
