@@ -48,9 +48,13 @@ angular.module('VisApp')
         });
 
         scope.render = function(data) {
+          var nodeCount = data.nodes.length;
           var charge = function(nodeCount) {
-              return -(50+7200/(Math.pow(nodeCount,1.4)-2*nodeCount));
-              };    //repulsive force between nodes
+              return -(50+7200/(Math.abs(Math.pow(nodeCount,1.4)-2*nodeCount)));
+              },    //repulsive force between nodes
+              linkDistance = function(nodeCount) {
+                return (50 * Math.log(nodeCount));
+              };
           
           console.log('±±±±±±±±±±start render. data:', data);
           console.log('start render selectAll:', svgCanvas.selectAll('*'));
@@ -63,8 +67,8 @@ angular.module('VisApp')
           // construct the force-directed layout
           var forceLayout = d3.layout.force()
             .gravity(gravity)
-            .linkDistance(function(link){ return 2*link.value; })
-            .charge(charge(data.nodes.length))
+            .linkDistance(linkDistance(nodeCount))
+            .charge(charge(nodeCount))
             .size([width, height]);  //size of force layout
           console.log('length', data.nodes.length, charge(data.nodes.length));
           
@@ -83,7 +87,7 @@ angular.module('VisApp')
             .data(data.nodes)
             .enter().append("g")          //g element used to group svg shapes 
             .attr("class", "node-group")
-            .attr('popover', "Woeeęèēeeoöooö!")
+            .attr('popover', "Woeeęèēeeoöooö! This popover worked.")
             .attr('popover-trigger', 'mouseenter')
           //.append('svg:a');
             // .attr('xlink:href', function(d) { return d.url; });
