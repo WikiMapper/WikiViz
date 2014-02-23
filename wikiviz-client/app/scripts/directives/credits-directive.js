@@ -58,8 +58,6 @@ angular.module('VisApp')
               .duration(750)
               .attr("y", 20)
               .style("fill-opacity", 1);
-
-
         }
 
         // The initial display.
