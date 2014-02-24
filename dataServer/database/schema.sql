@@ -12,6 +12,8 @@ CREATE TABLE `urlLinks` (
   PRIMARY KEY (`id`)
 );
 
+
+
 -- ---
 -- Table 'urlMap'
 -- 
