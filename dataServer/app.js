@@ -8,7 +8,7 @@ var user    = require('./routes/user');
 var http    = require('http');
 var path    = require('path');
 var scrape  = require('scraper/scrape').scrape;
-var db      = require('db');
+var db      = require('db'); //?
 
 var app = express();
 
@@ -38,10 +38,7 @@ app.get('/', function(req, res) {
 });
 
 app.post('/urls', function(req, res) {
-  db.insertInputUrl(req, function() {
-    scrape(req.body.url)
-    res.send('URL added to database');
-  });
+  scrape(req.body.url, res);
 });
 
 
