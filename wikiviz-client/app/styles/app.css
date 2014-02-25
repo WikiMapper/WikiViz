@@ -3,7 +3,14 @@ body {
   font-size: 20px;
 }
 
+.slateblue {
+  background-color: #2C4269;
+}
 
+
+#wikiviz-search{
+  padding-top: 200px
+}
 /* This parent can be any width and height */
 .block {
   text-align: center;
@@ -25,6 +32,10 @@ body {
   display: inline-block;
   vertical-align: middle;
   width: 100%;
+}
+
+::-webkit-input-placeholder {
+   text-align:center;
 }
 
 
@@ -51,26 +62,48 @@ body {
 
 
 /*** d3 styling ***************/
-.nodelink {
+.node-link {
   stroke:  #000000;
 }
 
-.node text {
+.node-group text {
   pointer-events: none;
   font: 14px sans-serif;
 }
 
 text.label {
-  fill: #363F7A;
+  /*fill: #363F7A;*/
 }
 
 circle {
   fill: #ccc;
-  stroke: #333;
+  /*stroke: #333;*/
   stroke-width: 1.5px;
 }
 
 title {
   fill: #B4B8D4;
+}
 
+.namefont {
+  font: bold 48px monospace;
+}
+
+.font1 {
+  font: bold 54px monospace;
+}
+
+.font2 {
+  font: bold 48px monospace;
+}
+.enter {
+  fill: green;
+}
+
+.update {
+  fill: #333;
+}
+
+.exit {
+  fill: brown;
 }
