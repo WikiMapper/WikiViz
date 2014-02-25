@@ -14,13 +14,10 @@ var connection = mysql.createConnection({
 // INSERTING USER INPUT INTO TABLE (inputUrls)
 //////////////////////////////////////////////////////////////////
 
-var insertInputUrl = function(url, link, cb) {
+var insertInputUrl = function(data, cb) {
   connection.query('USE wikiUrls', function(err, result) {
     var query = connection.query('INSERT INTO urlLinks SET ?', 
-    {
-      url: url,
-      title: link
-    }, function(err, result) {
+    data, function(err, result) {
       if (err) console.log(err);
       cb();
     });
