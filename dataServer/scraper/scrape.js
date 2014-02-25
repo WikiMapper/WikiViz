@@ -1,5 +1,8 @@
 var cheerio = require('cheerio');
+var Promise = require('Bluebird');
+var pReq    = Promise.promisify(require('request'));
 var request = require('request');
+var _       = require('underscore');
 var db      = require('database/db');
 
 
@@ -15,7 +18,7 @@ var getLinks = function(err, resp, html, url) {
   var title = $('title').text();
 
   title = title.replace(/ - Wikipedia, the free encyclopedia/, "");
-  url = url.replace(/http:\/\/en.wikipedia.org\/wiki/, "");
+  // url = url.replace(/http:\/\/en.wikipedia.org\/wiki/, "");
 
   var links = [];
   $('#mw-content-text a').each(function(i, link) {
@@ -32,13 +35,20 @@ var getLinks = function(err, resp, html, url) {
     incoming: null,
     outgoing: links.length
   });
+
+  return links;
 };
 
-var scrape = function(url) {
-  request(url, function(err, resp, html) {
-    getLinks(err, resp, html, url);
-  });
-};
+var urlLinksContains = function(url) {
+  return false;
+}
 
+var scrape = function(url, res) {
+  if (!urlLinksContains(url)) {
+    request(url, function(err, resp, html) {
+      getLinks(err, resp, html, url);
+    });
+  }
+};
 
 exports.scrape = scrape;
