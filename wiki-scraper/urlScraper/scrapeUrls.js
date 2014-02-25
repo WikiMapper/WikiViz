@@ -46,9 +46,10 @@ var getHTML = function(err, resp, html) {
   var parsedHTML = $.load(html);
   pushPageLinks(parsedHTML);
 
-  if (dirLinks.length % 50 === 0) {
-    console.log("\n #### "+ name + " IS SCRAPPIN, BRO! ####");
-    console.log(dirLinks.length * ++dirCounter, "dirs brawled!!!");
+  if (dirLinks.length % 10 === 0) {
+    var dirs = dirLinks.length * ++dirCounter;
+    console.log("\n #### "+ name + " AIN'T STOPPIN'! ####");
+    console.log(dirs, "dirs scrapped; i.e. " + dirs * 315 + " pages for " + name);
     writeToFile();
   }
 
@@ -62,8 +63,7 @@ var getHTML = function(err, resp, html) {
   } else {
     writeToFile();
     var endTime = new Date().getTime();
-    console.log("\n ########### WE'RE SCRAPPIN', BRO!!! ########### \n",
-                "Street Scrapper brawled up some fools in", 
+    console.log("\n ####### FINISHED! TIME TAKEN:", 
                (endTime - startTime) / 1000, "\n");
     return;
   }

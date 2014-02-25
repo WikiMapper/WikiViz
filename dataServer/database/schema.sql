@@ -33,16 +33,15 @@ CREATE TABLE `urlLinks` (
 DROP TABLE IF EXISTS `urlMap`;
     
 CREATE TABLE `urlMap` (
-  `id` TINYINT NULL DEFAULT NULL,
-  `linkId` TINYINT NULL DEFAULT NULL,
-  PRIMARY KEY (`id`)
+  `urlId` TINYINT NULL DEFAULT NULL,
+  `linkId` TINYINT NULL DEFAULT NULL
 );
 
 -- ---
 -- Foreign Keys 
 -- ---
 
-ALTER TABLE `urlMap` ADD FOREIGN KEY (id) REFERENCES `urlLinks` (`id`);
+ALTER TABLE `urlMap` ADD FOREIGN KEY (urlId) REFERENCES `urlLinks` (`id`);
 ALTER TABLE `urlMap` ADD FOREIGN KEY (linkId) REFERENCES `urlLinks` (`id`);
 
 -- ---
@@ -58,5 +57,5 @@ ALTER TABLE `urlMap` ADD FOREIGN KEY (linkId) REFERENCES `urlLinks` (`id`);
 
 -- INSERT INTO `urlLinks` (`id`,`url`,`title`,`outgoing`,`incoming`) VALUES
 -- ('','','','','');
--- INSERT INTO `urlMap` (`id`,`linkId`) VALUES
+-- INSERT INTO `urlMap` (`urlId`,`linkId`) VALUES
 -- ('','');
