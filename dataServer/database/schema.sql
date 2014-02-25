@@ -1,5 +1,18 @@
-CREATE DATABASE IF NOT EXISTS wikiUrls;
-USE wikiUrls;
+DROP DATABASE IF EXISTS `wikiUrls`;
+CREATE DATABASE `wikiUrls`;
+USE `wikiUrls`;
+
+-- ---
+-- Globals
+-- ---
+
+-- SET SQL_MODE="NO_AUTO_VALUE_ON_ZERO";
+-- SET FOREIGN_KEY_CHECKS=0;
+
+-- ---
+-- Table 'urlLinks'
+-- 
+-- ---
 
 DROP TABLE IF EXISTS `urlLinks`;
     
@@ -12,8 +25,6 @@ CREATE TABLE `urlLinks` (
   PRIMARY KEY (`id`)
 );
 
-
-
 -- ---
 -- Table 'urlMap'
 -- 
@@ -22,8 +33,8 @@ CREATE TABLE `urlLinks` (
 DROP TABLE IF EXISTS `urlMap`;
     
 CREATE TABLE `urlMap` (
-  `id` TINYINT NULL AUTO_INCREMENT DEFAULT NULL,
-  `linkId` TINYINT NULL DEFAULT NULL,
+  `id` TINYINT NOT NULL,
+  `linkId` TINYINT NOT NULL,
   PRIMARY KEY (`id`)
 );
 

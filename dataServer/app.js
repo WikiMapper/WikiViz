@@ -8,7 +8,7 @@ var user    = require('./routes/user');
 var http    = require('http');
 var path    = require('path');
 var scrape  = require('scraper/scrape').scrape;
-var db      = require('db'); //?
+var db      = require('database/db');
 
 var app = express();
 
