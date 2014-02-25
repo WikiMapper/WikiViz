@@ -1,163 +1,76 @@
 body {
-  background-color: #7F6B9C;
-  margin: 0;
-  margin-top: 10px;
-  font-family: arial, sans-serif;
+  background-color: #7A89A3;
+  font-size: 20px;
 }
 
-a {
-  color: #333;
-  font-size: 14px;
-  text-decoration: none;
-}
 
-h1 {
-  font-style: italic;
-  margin-bottom: 10px;
-}
-
-.navigation {
-  width: 100%;
-  height: 40px;
-  background-color: #eee;
-}
-
-.navigation ul {
-  margin: 0;
-  padding: 0;
-  list-style: none;
-}
-
-.navigation li {
-  float: left;
-}
-
-.navigation li a {
-  width: 100px;
-  height: 20px;
-  line-height: 20px;
-  padding: 10px;
-  display: block;
+/* This parent can be any width and height */
+.block {
   text-align: center;
+  height: 200px;
+}
+ 
+/* The ghost, nudged to maintain perfect centering */
+.block:before {
+  content: '';
+  display: inline-block;
+  height: 100%;
+  vertical-align: middle;
+  margin-right: -0.25em; /* Adjusts for spacing */
 }
 
-.navigation li a:hover {
-  background-color: #ddd;
+/* The element to be centered, can
+   also be of any width and height */ 
+.centered {
+  display: inline-block;
+  vertical-align: middle;
+  width: 100%;
 }
 
-.navigation li a.selected {
-  background-color: #ccc;
+
+
+/*** Override bootsrap styling ***************/
+.nav, .pagination, .carousel, .panel-title a {
+ cursor: pointer; 
 }
 
-#container {
-  clear: both;
-  margin-top: 10px;
+.navbar-default {
+  background-color: #2C4269;
+  border-color: #1C2D4A;
 }
 
-#linksContainer {
-  background-color: #eee;
+.navbar-default .navbar-brand {
+  color: #BFBFBF;
+  font-size: 24px;
 }
 
-.userInput {
-  padding-top: 100px;
+.navbar-default .navbar-nav > li > a {
+  color: #BFBFBF
 }
 
-.link {
-  clear: both;
-  margin-bottom: 5px;
-  padding: 5px;
-  min-height: 50px;
+
+
+/*** d3 styling ***************/
+.nodelink {
+  stroke:  #000000;
 }
 
-.link:hover {
-  background-color: #efe;
+.node text {
+  pointer-events: none;
+  font: 14px sans-serif;
 }
 
-.link img {
-  float: left;
-  margin: 0 5px;
+text.label {
+  fill: #363F7A;
 }
 
-.link .visits {
-  float: right;
-  margin-right: 10px;
-  margin-left: 20px;
+circle {
+  fill: #ccc;
+  stroke: #333;
+  stroke-width: 1.5px;
 }
 
-.link .visits .count {
-  font-size: 46px;
-  font-weight: 600;
-}
+title {
+  fill: #B4B8D4;
 
-.link .title {
-  font-weight: 600;
-}
-
-.link .original {
-  color: #aaa;
-  font-size: 12px;
-}
-
-.link .info {
-  margin-left: 55px;
-}
-
-form {
-  margin: 10px;
-}
-
-form input[type=text] {
-  width: 360px;
-  display: block;
-  font-size: 13px;
-  padding: 5px;
-  margin-bottom: 5px;
-}
-
-form input[name=username], form input[name=email], form input[name=password]  {
-  width: 150;
-  height: 25px;
-  padding: 5px;
-  margin-bottom: 5px;
-  display: block;
-}
-
-/*form input[name=password] {
-  width: 150;
-  height: 25px;
-  padding: 5px;
-  margin-bottom: 5px;
-  display: block;
-}*/
-
-
-.error {
-  background-color: #fee;
-  color: #a33;
-  padding: 10px;
-  margin: 0 10px;
-}
-
-.creator {
-  height: 50px;
-}
-
-.creator form {
-  float: left;
-  height: 80px;
-}
-
-.creator img.spinner {
-  height: 46px;
-  margin-bottom: 5px;
-  padding: 10px;
-  display: none;
-}
-
-.creator .message {
-  clear: both;
-}
-
-#logoutButton {
-  float: right;
 }
