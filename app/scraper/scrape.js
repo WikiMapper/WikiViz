@@ -29,14 +29,16 @@ var getLinks = function(err, resp, html, url) {
     }
   });
 
-  // insertDb({
-  //   url: url,
-  //   title: title,
-  //   incoming: null,
-  //   outgoing: links.length
-  // });
+  var linksObj = {
+    url: url,
+    title: title,
+    incoming: null,
+    outgoing: links.length
+  }
 
-  return links;
+  //insertDb(linkObj);
+
+  return linksObj;
 };
 
 var urlLinksContains = function(url) {
@@ -47,7 +49,8 @@ var urlLinksContains = function(url) {
 var scrape = function(url, res) {
   if (!urlLinksContains(url)) {
     request(url, function(err, resp, html) {
-      getLinks(err, resp, html, url);
+      var linksObj = getLinks(err, resp, html, url);
+      res.end(JSON.stringify(linksObj));
     });
   }
 };
