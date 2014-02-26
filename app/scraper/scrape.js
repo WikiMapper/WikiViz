@@ -29,16 +29,23 @@ var getLinks = function(err, resp, html, url) {
     }
   });
 
-  var linksObj = {
+  // var linksObj = {
+  //   url: url,
+  //   title: title,
+  //   incoming: null,
+  //   outgoing: links.length
+  // }
+  //insertDb(linkObj);
+
+  var linksObj2 = {
     url: url,
     title: title,
+    links: links,
     incoming: null,
     outgoing: links.length
   }
 
-  //insertDb(linkObj);
-
-  return linksObj;
+  return linksObj2;
 };
 
 var urlLinksContains = function(url) {
