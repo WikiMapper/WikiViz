@@ -40,6 +40,7 @@ var getLinks = function(err, resp, html, url) {
 };
 
 var urlLinksContains = function(url) {
+  // return db.contains(url);
   return false;
 }
 

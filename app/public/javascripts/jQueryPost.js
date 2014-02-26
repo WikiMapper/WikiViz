@@ -1,17 +1,22 @@
 $(document).ready(function() {
-  $('???').click(function() {
-    var payload = {
-      url: $('#url').val()
-    };
+  $('#form').submit(function() {
+    
+    // var payload = {
+    //   url: $('#url').val()
+    // };
+
+    var input = $('#url').val();
 
     $.ajax({
       url: "/urls",
       type: "POST",
-      contentType: "application/json",
+      // contentType: "application/json",
+      contentType: "text/plain",
       processData: false,
-      data: JSON.stringify(payload),
+      // data: JSON.stringify(payload),
+      data: input,
       complete: function (data) {
-          $('#output').html(data.responseText);
+        console.log('Posted!');
       }
     });
   });
