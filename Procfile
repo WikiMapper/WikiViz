@@ -1,1 +1,1 @@
-web: node dataServer/app.js
+web: node app/app.js
