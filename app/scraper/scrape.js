@@ -3,13 +3,13 @@ var Promise = require('Bluebird');
 var pReq    = Promise.promisify(require('request'));
 var request = require('request');
 var _       = require('underscore');
-var db      = require('database/db');
+var db      = require('../database/db');
 
 
 var insertDb = function(data) {
   db.insertInputUrl(data, function() {
     console.log('inserted to database');
-  });  
+  });
 };
 
 
