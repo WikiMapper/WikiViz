@@ -1,27 +1,27 @@
 var AlchemyAPI = require('./alchemyapi');
 var alchemyapi = new AlchemyAPI();
 
-var getWords = function(queryURL){
+var getWords = function(type, query){
 
   var prefiltered = {};
   var finished = false;
 
   var entities = function() {
-    alchemyapi.entities('url', queryURL, { 'sentiment':1 }, function(response) {
+    alchemyapi.entities(type, query, { 'sentiment':1 }, function(response) {
       prefiltered['entities'] = response['entities'];
     });
   };
 
   var keywords = function() {
-    alchemyapi.keywords('url', queryURL, { 'sentiment':1 }, function(response) {
+    alchemyapi.keywords(type, query, { 'sentiment':1 }, function(response) {
       prefiltered['keywords'] = response['keywords'];
     });
   };
 
   var concepts = function() {
-    alchemyapi.concepts('url', queryURL, { 'showSourceText':1 }, function(response) {
-      finished = true;
+    alchemyapi.concepts(type, query, { 'showSourceText':1 }, function(response) {
       prefiltered['concepts'] = response['concepts'];
+      finished = true;
     });
   };
 
@@ -32,7 +32,7 @@ var getWords = function(queryURL){
   var results = {};
 
   var wait = setInterval(function(){
-    if (finished) {
+    if (finished === true) {
       for (var i in prefiltered){
         for (var entry in prefiltered[i]){
           results[prefiltered[i][entry]['text']] = prefiltered[i][entry]['text'];
@@ -44,10 +44,11 @@ var getWords = function(queryURL){
       clearInterval(wait);
     }
   }
-  , 400);
+  , 300);
 };
 
-getWords(process.argv[2]);
+exports.getWords = getWords;
+// getWords(process.argv[2], process.argv[3]);
 
 // function text(req, res, output) {
 //   alchemyapi.text('url', demo_url, {}, function(response) {
