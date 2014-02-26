@@ -11,8 +11,11 @@ $(document).ready(function() {
       contentType: "application/json",
       processData: false,
       data: JSON.stringify(payload),
-      complete: function (data) {
-        console.log('Posted!');
+      success: function (data) {
+        console.log('Posted: ' + data);
+      },
+      fail: function( jqXHR, textStatus ) {
+        console.log("Request failed: " + textStatus);
       }
     });
   });
