@@ -12,9 +12,9 @@ var mysql   = require('mysql');
 
 var db_config = {
     host: 'us-cdbr-east-05.cleardb.net',
-    user: 'b6c17621c70215',
-    password: 'cb66271d',
-    database: 'heroku_73f08b2ebf46a85'
+    user: 'b81750249f2c70',
+    password: 'f5e9dc72',
+    database: 'heroku_5f9185d3bce5da5'
 };
 
 var connection;
@@ -28,7 +28,7 @@ function handleDisconnect() {
       setTimeout(handleDisconnect, 1000); // We introduce a delay before attempting to reconnect,
     }  // to avoid a hot loop, and to allow our node script to
   });  // process asynchronous requests in the meantime.
-    // If you're also serving http, display a 503 error.
+  // If you're also serving http, display a 503 error.
   connection.on('error', function(err) {
     console.log('3. db error', err);
     if (err.code === 'PROTOCOL_CONNECTION_LOST') {  // Connection to the MySQL server is usually
