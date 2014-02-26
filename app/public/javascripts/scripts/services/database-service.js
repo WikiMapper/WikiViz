@@ -59,9 +59,8 @@ angular.module('VisApp')
       return dummydata;
     };
     
-
     return {
-      request : function(url) { return doRequest(url); }
+      request : doRequest
     };
   }]);
 
