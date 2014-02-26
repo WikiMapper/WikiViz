@@ -37,7 +37,17 @@ app.use(express.static(path.join(__dirname, 'public')));
 app.get('/', routes.index);
 
 app.post('/urls', function(req, res) {
-  scrape(req.body.url, res);
+  var data = "";
+
+  req.on('data', function(chunk) {
+    data += chunk;
+  });
+
+  req.on('end', function() {
+    console.log(data);
+    res.end(); 
+  })
+  // scrape(req, res);
 });
 
 
