@@ -1,5 +1,5 @@
 $(document).ready(function() {
-  $('#user-submit').click(function() {
+  $('???').click(function() {
     var payload = {
       url: $('#url').val()
     };

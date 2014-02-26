@@ -1,0 +1,57 @@
+<!doctype html>
+<html lang='en'>
+<head>
+  <title>Wiki Vis</title>
+  <script src="javascripts/lib/angular/angular.js"></script>
+  <script src="javascripts/lib/angular-route/angular-route.js"></script> 
+  <script src="javascripts/lib/angular-bootstrap/ui-bootstrap.js"></script> 
+  <script src="javascripts/lib/angular-bootstrap/ui-bootstrap-tpls.js"></script>
+  <script src="javascripts/lib/underscore/underscore.js"></script> 
+  <script src="//ajax.googleapis.com/ajax/libs/jquery/2.0.0/jquery.min.js"></script>
+
+  <link rel="stylesheet" href="https://netdna.bootstrapcdn.com/font-awesome/4.0.0/css/font-awesome.css" />
+  <link rel="stylesheet" type="text/css" href="stylesheets/bootstrap.css">
+  <link rel="stylesheet" type="text/css" href="stylesheets/bootstrap.css.map">
+  <link rel="stylesheet" type="text/css" href="stylesheets/app.css">
+
+</head>
+
+<body ng-app="VisApp">
+<!--   <header>
+    <div class="navigation">
+      <ul>
+        <li id='viztitle'>Wiki Viz</li>
+        <li><a href="/#/" >Visualize</a></li>
+        <li><a href="/#/about">About</a></li>
+      </ul>
+    </div>
+  </header> -->
+    <nav class="navbar navbar-default">
+    <div class="container">
+      <div class="navbar-header">
+        <a class="navbar-brand" href="/">Wiki Viz</a>
+      </div>
+
+      <ul class="nav navbar-nav navbar-right">
+        <li><a href="/#/"><i class="fa fa-home"></i> Home</a></li>
+        <li><a href="/#/about"><i class="fa fa-bullseye"></i> About</a></li>
+        <li><a href="/#/credits"><i class="fa fa-comment"></i> Credits</a></li>
+      </ul>
+    </div>
+  </nav>
+
+
+  <div ng-view=''>
+
+  <!-- Load app scripts -->
+  <script src="javascripts/scripts/services/d3factory.js"></script>
+  <script src="javascripts/scripts/app.js"></script>
+  <script src="javascripts/scripts/controllers/main-controller.js"></script>
+  <script src="javascripts/scripts/controllers/credits-controller.js"></script>
+  <script src="javascripts/scripts/directives/node-connections.js"></script>
+  <script src="javascripts/scripts/directives/utility-directives.js"></script>
+  <script src="javascripts/scripts/directives/credits-directive.js"></script>
+  <script src="javascripts/scripts/services/database-service.js"></script>
+
+</body>
+</html>
