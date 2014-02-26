@@ -11,6 +11,10 @@
     "mysql": "~2.0.1",
     "cheerio": "~0.13.1",
     "underscore": "~1.6.0",
-    "bluebird": "~1.0.7"
+    "bluebird": "~1.0.7",
+    "angular": "~1.2.10",
+    "angular-ui-router": "~0.2.8",
+    "angular-bootstrap": "0.0.4",
+    "ejs": "~0.8.5"
   }
 }
