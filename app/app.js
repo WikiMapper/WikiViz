@@ -13,15 +13,6 @@ var db      = require('./database/db');
 
 var app = express();
 
-//////////////////////////////////////////////////////////////////
-// CORS middleware
-//////////////////////////////////////////////////////////////////
-var allowCrossDomain = function(req, res, next) {
-  res.header('Access-Control-Allow-Origin', config.allowedDomains);
-  res.header('Access-Control-Allow-Methods', 'GET,PUT,POST,DELETE');
-  res.header('Access-Control-Allow-Headers', 'Content-Type');
-  next();
-}
 
 //////////////////////////////////////////////////////////////////
 // EXPRESS SETUP
@@ -35,7 +26,6 @@ app.use(express.logger('dev'));
 app.use(express.json());
 app.use(express.urlencoded());
 app.use(express.methodOverride());
-app.use(allowCrossDomain);
 app.use(app.router);
 app.use(express.static(path.join(__dirname, 'public')));
 
@@ -47,6 +37,8 @@ app.use(express.static(path.join(__dirname, 'public')));
 app.get('/', routes.index);
 
 app.post('/urls', function(req, res) {
+  res.header("Access-Control-Allow-Origin", "*");
+  res.header("Access-Control-Allow-Headers", "X-Requested-With");
   console.log(req.body.url);
   scrape(req.body.url, res);
 });
