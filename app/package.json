@@ -15,6 +15,7 @@
     "angular": "~1.2.10",
     "angular-ui-router": "~0.2.8",
     "angular-bootstrap": "0.0.4",
-    "ejs": "~0.8.5"
+    "ejs": "~0.8.5",
+    "request": "~2.34.0"
   }
 }
