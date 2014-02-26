@@ -27,8 +27,8 @@ angular.module('VisApp')
           .attr("height", height);
 
         var tooltip_div = d3.select(element[0]).append("div")
-          .attr("class", "tooltip d3tooltip slateblue")
-          .style("opacity", .5);
+          .attr("class", "tooltip d3tooltip slateblue effect1")
+          .style("opacity", 1e-6);
 
         // Browswer onresize event
         window.onresize = function() {
@@ -36,11 +36,11 @@ angular.module('VisApp')
         };
 
         // Watch for resize event
-        scope.$watch(function() {
-          return angular.element($window)[0].innerWidth;
-        }, function() {
-          scope.render(scope.data); // TODO: make sure this is correct scope for incoming data!
-        });
+        // scope.$watch(function() {
+        //   return angular.element($window)[0].innerWidth;
+        // }, function() {
+        //   scope.render(scope.data); // TODO: make sure this is correct scope for incoming data!
+        // });
 
         scope.$watch('data', function(data){
           console.log('watching', data);
@@ -53,15 +53,16 @@ angular.module('VisApp')
           return "This article is <span class='bold'>" + data.title + "</span> and has <span class='red'>" + data.linksTo + "</span> sites pointing to it links.";
         };
 
+        
+
         scope.render = function(data) {
           console.log('±±±±±±±±±±start render. data:', data);
           console.log('start render selectAll:', svgCanvas.selectAll('*'));
           console.log('before remove',svgCanvas.selectAll('*')[0].length)
 
           // remove all previous items before render  UNLESS ADDING NEW!!!!!!!
-          svgCanvas.selectAll('*').remove();  
-          console.log('after remove',svgCanvas.selectAll('*')[0].length)
-          
+          svgCanvas.selectAll('*').remove();
+
           var nodeCount = data.nodes.length;
           var charge = function(nodeCount) {
                 return -(50+7200/(Math.abs(Math.pow(nodeCount,1.4)-2*nodeCount)));
@@ -77,11 +78,12 @@ angular.module('VisApp')
             .charge(charge(nodeCount))
             .size([width, height]);  //size of force layout
           
-          forceLayout.nodes(data.nodes)
-          .links(data.links)
-          .start();
+          forceLayout
+            .nodes(data.nodes)
+            .links(data.links)
+            .start();
 
-          // add data to links and nodes
+          // add data to links
           var link = svgCanvas.selectAll("line")
             .data(data.links)
             .enter().append("line")
@@ -102,13 +104,8 @@ angular.module('VisApp')
             .on("mouseover", mouseover)
             .on("mouseout", mouseout)
             .on("click", function(d, i) {
-              console.log('CLICKED:', d.title);
-              scope.render(DatabaseService.request(15)) })
-
-          // add tooltip
-          // node.append("svg:title").text(function(d, i) {
-          //   return "Yo some info! \n" + d.title + '\n' + d.url;
-          // });
+              console.log('CLICKED:', d.title, d.id);
+              scope.render(DatabaseService.request(d.id)) })
 
           var label = gnodes.append("svg:text")   //svg element consisting of text
             .attr('class', 'label')
@@ -122,17 +119,17 @@ angular.module('VisApp')
                 .attr("y1", function(d) { return d.source.y; })
                 .attr("x2", function(d) { return d.target.x; })  //pos of target node
                 .attr("y2", function(d) { return d.target.y; });
-            gnodes.attr("transform", function(d) { return "translate(" + d.x + "," + d.y + ")"; });
+             gnodes.attr("transform", function(d) { return "translate(" + d.x + "," + d.y + ")"; });
             // node.attr("cx", function(d) {return d.x})
             //     .attr("cy", function(d) {return d.y});
           });
         
           function mouseover(d) { 
-            console.log('mouseover happening', d3.event.pageX);
+            console.log('mouseover: id', d.id);
             tooltip_div
                 .html(scope.tooltipText(d)) //must immediately follow tooltip_div or doesn't work
                 .transition().style("opacity", 1)
-                .style("left", (width-300) + "px")
+                .style("left", (width-400) + "px")
                 .style("top", 100 + "px");
             d3.select(this)
                 .transition().duration(150)

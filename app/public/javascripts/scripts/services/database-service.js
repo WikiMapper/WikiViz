@@ -18,16 +18,24 @@ angular.module('VisApp')
     //   });
     //   //return {'url': 'www.hi.com'};
     // };
-    var count = 0;
-    var doRequest = function(numNodes){
-      count++;
-      console.log('doRequest called', numNodes, 'count', count);
-      var numNodes,
-          data,
-          nodes = [],
-          links = [];
+    var count = 0,
+        dummydata,
+        nodes = [],
+        links = [];
 
-      angular.forEach(_.range(0,numNodes), function(value){
+    var doRequest = function(url){
+      console.log('doRequest called', url, 'count', count);
+
+      if (nodes.length) {
+        sourceid = url;
+        startNode = nodes.length;
+      }else{
+        sourceid = 0; 
+        startNode = 0;
+      }
+       
+
+      angular.forEach(_.range(startNode, startNode+url), function(value){
         var node = {};
         node.id       = value;
         node.title    = 'Article ' + count + value + ' Title';
@@ -37,21 +45,23 @@ angular.module('VisApp')
         nodes.push(node);
         var link = {};
         if (value !== 0){
-          link.source = 0;
+          link.source = sourceid;
           link.target = value;
           link.value  = 100;
           links.push(link);
         }
       });
 
-      data = { "nodes" : nodes, "links" : links };
-      console.log('dataservice data', data);
-      return data;
+      dummydata = { "nodes" : nodes, "links" : links };
+      console.log('count', count, 'dummydataservice dummydata', dummydata);
+      //debugger;
+      count++;
+      return dummydata;
     };
-
+    
 
     return {
-      request : function(numNodes) { return doRequest(numNodes); }
+      request : function(url) { return doRequest(url); }
     };
   }]);
 
