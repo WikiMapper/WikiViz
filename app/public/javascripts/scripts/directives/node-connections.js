@@ -135,11 +135,13 @@ angular.module('VisApp')
           function mouseover(d) { 
             console.log('mouseover happening', d3.event.pageX);
             tooltip_div
-              .transition().style("opacity", 1)
-              //.html(scope.tooltipText(d)) 
-              .text(scope.tooltipText(d))
-              .style("left", (d3.event.pageX) + "px")
-              .style("top", (d3.event.pageY) + "px");
+                .html(scope.tooltipText(d)) //must immediately follow tooltip_div or doesn't work
+                .transition().style("opacity", 1)
+                .style("left", (width-300) + "px")
+                .style("top", 100 + "px");
+            d3.select(this)
+                .transition().duration(250)
+                .attr('r', 50);
           }
 
 
