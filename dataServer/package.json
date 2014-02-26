@@ -1,5 +1,5 @@
 {
-  "name": "application-name",
+  "name": "WikiViz",
   "version": "0.0.1",
   "private": true,
   "scripts": {
@@ -9,6 +9,24 @@
     "express": "3.4.8",
     "jade": "*",
     "mysql": "~2.0.1",
-    "cheerio": "~0.13.1"
-  }
+    "cheerio": "~0.13.1",
+    "underscore": "~1.6.0",
+    "bluebird": "~1.0.7"
+  },
+  "engines": {
+    "node": "0.10.25"
+  },
+  "description": "Wikipedia visualizer",
+  "main": "app.js",
+  "devDependencies": {},
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/WikiMapper/WikiViz"
+  },
+  "author": "",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/WikiMapper/WikiViz/issues"
+  },
+  "homepage": "https://github.com/WikiMapper/WikiViz"
 }

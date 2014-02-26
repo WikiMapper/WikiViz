@@ -18,10 +18,10 @@ DROP TABLE IF EXISTS `urlLinks`;
     
 CREATE TABLE `urlLinks` (
   `id` TINYINT NULL AUTO_INCREMENT DEFAULT NULL,
-  `url` VARCHAR(100) NOT NULL DEFAULT 'NULL',
-  `title` VARCHAR(100) NOT NULL DEFAULT 'NULL',
-  `incoming` TINYINT NULL DEFAULT NULL,
-  `outgoing` TINYINT NULL DEFAULT NULL,
+  `url` VARCHAR(100) NOT NULL,
+  `title` VARCHAR(100) NOT NULL,
+  `outgoing` VARCHAR(10) NULL DEFAULT NULL,
+  `incoming` VARCHAR(10) NULL DEFAULT NULL,
   PRIMARY KEY (`id`)
 );
 
@@ -33,16 +33,16 @@ CREATE TABLE `urlLinks` (
 DROP TABLE IF EXISTS `urlMap`;
     
 CREATE TABLE `urlMap` (
-  `id` TINYINT NOT NULL,
-  `linkId` TINYINT NOT NULL,
-  PRIMARY KEY (`id`)
+  `urlId` TINYINT NULL DEFAULT NULL,
+  `linkId` TINYINT NULL DEFAULT NULL
 );
 
 -- ---
 -- Foreign Keys 
 -- ---
 
-ALTER TABLE `urlMap` ADD FOREIGN KEY (id) REFERENCES `urlLinks` (`id`);
+ALTER TABLE `urlMap` ADD FOREIGN KEY (urlId) REFERENCES `urlLinks` (`id`);
+ALTER TABLE `urlMap` ADD FOREIGN KEY (linkId) REFERENCES `urlLinks` (`id`);
 
 -- ---
 -- Table Properties
@@ -55,7 +55,7 @@ ALTER TABLE `urlMap` ADD FOREIGN KEY (id) REFERENCES `urlLinks` (`id`);
 -- Test Data
 -- ---
 
--- INSERT INTO `urlLinks` (`id`,`url`,`title`,`incoming`,`outgoing`) VALUES
+-- INSERT INTO `urlLinks` (`id`,`url`,`title`,`outgoing`,`incoming`) VALUES
 -- ('','','','','');
--- INSERT INTO `urlMap` (`id`,`linkId`) VALUES
+-- INSERT INTO `urlMap` (`urlId`,`linkId`) VALUES
 -- ('','');
