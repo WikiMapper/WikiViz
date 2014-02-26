@@ -1,0 +1,32 @@
+
+
+
+<div id="wikiviz-search" ng-show='showForm'> 
+  <form name='wikivizsearch' ng-submit='getInput()' novalidate>
+    <input autofocus/ class="col-md-6 col-md-offset-3"
+        ng-model='url' type="text" 
+        placeholder="for testing: enter a number ">
+  </form>
+</div>
+
+
+<div ng-show='showVis'>
+  <div node-connections data='sourcedata'></div>
+  <button ng-click='reset()'
+    type="button" class="btn btn-primary center-block slateblue"> 
+    Reset 
+  </button>
+</div>
+
+
+<!-- <div>
+  <svg 
+    width="120" height="120" 
+     viewPort="0 0 120 120" version="1.1"
+     xmlns="http://www.w3.org/2000/svg">
+    <g popover="A popover on an svg!" popover-trigger="mouseenter" >
+    <circle cx="60" cy="60" r="50"/>
+    </g>
+  </svg>
+</div>  -->
+
