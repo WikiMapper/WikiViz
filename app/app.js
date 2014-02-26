@@ -37,17 +37,10 @@ app.use(express.static(path.join(__dirname, 'public')));
 app.get('/', routes.index);
 
 app.post('/urls', function(req, res) {
-  var data = "";
-
-  req.on('data', function(chunk) {
-    data += chunk;
-  });
-
-  req.on('end', function() {
-    console.log(data);
-    res.end(); 
-  })
-  // scrape(req, res);
+  res.header("Access-Control-Allow-Origin", "*");
+  res.header("Access-Control-Allow-Headers", "X-Requested-With");
+  console.log(req.body.url);
+  scrape(req.body.url, res);
 });
 
 

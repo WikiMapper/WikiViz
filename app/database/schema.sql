@@ -1,6 +1,6 @@
-DROP DATABASE IF EXISTS `wikiUrls`;
-CREATE DATABASE `wikiUrls`;
-USE `wikiUrls`;
+DROP DATABASE IF EXISTS heroku_73f08b2ebf46a85;
+CREATE DATABASE heroku_73f08b2ebf46a85;
+USE heroku_73f08b2ebf46a85;
 
 -- ---
 -- Globals

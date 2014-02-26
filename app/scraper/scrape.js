@@ -24,19 +24,32 @@ var getLinks = function(err, resp, html, url) {
   $('#mw-content-text a').each(function(i, link) {
     var internal = /#/gi.test( $(link).attr('href') );
     if (!internal) {
+      var linkTitle = $(link).attr('title'); 
       var href = $(link).attr('href');
-      links.push(href);
+      links.push({
+        title: linkTitle,
+        url: 'http://wikipedia.com'+ href
+      });
     }
   });
 
-  insertDb({
+  // var linksObj = {
+  //   url: url,
+  //   title: title,
+  //   incoming: null,
+  //   outgoing: links.length
+  // }
+  //insertDb(linkObj);
+
+  var linksObj2 = {
     url: url,
     title: title,
+    links: links,
     incoming: null,
     outgoing: links.length
-  });
+  }
 
-  return links;
+  return linksObj2;
 };
 
 var urlLinksContains = function(url) {
@@ -47,7 +60,8 @@ var urlLinksContains = function(url) {
 var scrape = function(url, res) {
   if (!urlLinksContains(url)) {
     request(url, function(err, resp, html) {
-      getLinks(err, resp, html, url);
+      var linksObj = getLinks(err, resp, html, url);
+      res.end(JSON.stringify(linksObj));
     });
   }
 };

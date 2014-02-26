@@ -1,22 +1,21 @@
 $(document).ready(function() {
   $('#form').submit(function() {
     
-    // var payload = {
-    //   url: $('#url').val()
-    // };
-
-    var input = $('#url').val();
+    var payload = {
+      url: $('#url').val()
+    };
 
     $.ajax({
       url: "/urls",
       type: "POST",
-      // contentType: "application/json",
-      contentType: "text/plain",
+      contentType: "application/json",
       processData: false,
-      // data: JSON.stringify(payload),
-      data: input,
-      complete: function (data) {
-        console.log('Posted!');
+      data: JSON.stringify(payload),
+      success: function (data) {
+        console.log('Posted: ' + data);
+      },
+      fail: function( jqXHR, textStatus ) {
+        console.log("Request failed: " + textStatus);
       }
     });
   });
