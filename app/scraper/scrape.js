@@ -1,5 +1,5 @@
 var cheerio = require('cheerio');
-var Promise = require('Bluebird');
+var Promise = require('bluebird');
 var pReq    = Promise.promisify(require('request'));
 var request = require('request');
 var _       = require('underscore');
