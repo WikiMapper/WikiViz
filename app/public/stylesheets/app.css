@@ -107,3 +107,24 @@ title {
 .exit {
   fill: brown;
 }
+
+div.d3tooltip { 
+    position: absolute;     
+    text-align: center;     
+    width: 300px;          
+    height: 300px;         
+    padding: 8px;       
+    font: 18px sans-serif;    
+    background: -webkit-linear-gradient(top, #7A89A3 0%,#fff 30%);
+    color: white;
+    border: 3px; /* solid #2C4269 ;*/
+    border-radius: 8px;     
+    pointer-events: none;     
+}
+
+.effect1{
+/* l r b t */
+/*  -webkit-box-shadow: 3px 10px 6px -10px #777;
+     -moz-box-shadow: 3px 10px 6px -10px #777;*/
+          box-shadow: 3px 3px 5px #777;
+}

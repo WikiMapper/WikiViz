@@ -1,6 +1,6 @@
 angular.module('VisApp')
-  .directive('nodeConnections',['DatabaseService','d3Service', '$window', 
-    function(DatabaseService, d3Service, $window) {
+  .directive('nodeConnections',['DatabaseService','d3Service', '$window', '$position',
+    function(DatabaseService, d3Service, $window, $position) {
   	console.log('nodeConnections directive called');
   	return {
   		restrict : 'EA',
@@ -19,21 +19,25 @@ angular.module('VisApp')
             height = 600 ,
             r = 12,
             gravity = 0.05,   //force at center of layout
+            charge,
+            linkDistance,
             color = d3.scale.category10();
 
         // create the canvas for the model
         var svgCanvas = d3.select(element[0]).append("svg")
           .attr("width", width)
-          .attr("height", height)
-          .attr('popover', "Woeeęèēeeoöooö!")
-          .attr('popover-trigger', 'mouseenter');
+          .attr("height", height);
+
+        var tooltip_div = d3.select(element[0]).append("div")
+          .attr("class", "tooltip d3tooltip slateblue effect1")
+          .style("opacity", 1e-6);
 
         // Browswer onresize event
         window.onresize = function() {
           scope.$apply();
-        }  ;
+        };
 
-        // Watch for resize event
+        //Watch for resize event
         scope.$watch(function() {
           return angular.element($window)[0].innerWidth;
         }, function() {
@@ -47,80 +51,102 @@ angular.module('VisApp')
           return scope.render(data);
         });
 
+        scope.tooltipText = function(data) {
+             var text = "<span class='bold'>" + data.title + "</span> and has <span class='red'>" + data.linksTo + "</span> sites pointing to it links.";
+          return text
+        };
+
+        // construct the force-directed layout
+        var forceLayout = d3.layout.force()
+          .gravity(gravity)
+          .size([width, height]);  //size of force layout
+
+        // tick = delta_t for simulation
+        // set functions tor run on tick event for node & link positions
+        forceLayout.on("tick", function() {
+          console.log('tick');
+          link.attr("x1", function(d) { return d.source.x; })  //pos of source node
+              .attr("y1", function(d) { return d.source.y; })
+              .attr("x2", function(d) { return d.target.x; })  //pos of target node
+              .attr("y2", function(d) { return d.target.y; });
+           gnodes.attr("transform", function(d) { return "translate(" + d.x + "," + d.y + ")"; });
+          // node.attr("cx", function(d) {return d.x})
+          //     .attr("cy", function(d) {return d.y});
+        });
+
+        charge = function(nodeCount) {
+          return -(50+7200/(Math.abs(Math.pow(nodeCount,1.4)-2*nodeCount)));
+        };//repulsive force between nodes
+
+        linkDistance = function(nodeCount) {
+          return (50 * Math.log(nodeCount));
+        };
+
+        var link, gnodes
+
+        function mouseover(d) { 
+          console.log('mouseover: id', d.id);
+          tooltip_div
+              .html(scope.tooltipText(d)) //must immediately follow tooltip_div or doesn't work
+              .transition().style("opacity", 1)
+              .style("left", (width-400) + "px")
+              .style("top", 100 + "px");
+          d3.select(this)
+              .transition().duration(150)
+              .attr('r', 50);
+        }
+
+        function mouseout(){
+          tooltip_div.transition().style("opacity", 1e-6);
+          d3.select(this)
+            .transition().duration(450)
+          .attr('r', function(d) { return d.linksTo })
+        }
+
         scope.render = function(data) {
-          var nodeCount = data.nodes.length;
-          var charge = function(nodeCount) {
-              return -(50+7200/(Math.abs(Math.pow(nodeCount,1.4)-2*nodeCount)));
-              },    //repulsive force between nodes
-              linkDistance = function(nodeCount) {
-                return (50 * Math.log(nodeCount));
-              };
-          
           console.log('±±±±±±±±±±start render. data:', data);
           console.log('start render selectAll:', svgCanvas.selectAll('*'));
           console.log('before remove',svgCanvas.selectAll('*')[0].length)
 
-          // remove all previous items before render
-          svgCanvas.selectAll('g').remove();  
-          svgCanvas.selectAll('line').remove();
-          console.log('after remove',svgCanvas.selectAll('*')[0].length)
-          // construct the force-directed layout
-          var forceLayout = d3.layout.force()
-            .gravity(gravity)
-            .linkDistance(linkDistance(nodeCount))
-            .charge(charge(nodeCount))
-            .size([width, height]);  //size of force layout
-          console.log('length', data.nodes.length, charge(data.nodes.length));
-          
-          forceLayout.nodes(data.nodes)
-          .links(data.links)
-          .start();
+          forceLayout
+            .nodes(data.nodes)
+            .links(data.links);
 
-          // add data to links and nodes
-          var link = svgCanvas.selectAll("line")
-            .data(data.links)
-            .enter().append("line")
+          var nodeCount = data.nodes.length;
+
+          forceLayout
+            .linkDistance(linkDistance(nodeCount))
+            .charge(charge(nodeCount));
+        
+
+          // add data to links
+          link = svgCanvas.selectAll("line").data(data.links)
+          link.enter().append("line")
             .attr("class", "node-link");
 
           //create node group to hold node + text
-          var gnodes = svgCanvas.selectAll("g")
-            .data(data.nodes)
-            .enter().append("g")          //g element used to group svg shapes 
-            .attr("class", "node-group")
-            .attr('popover', "Woeeęèēeeoöooö! This popover worked.")
-            .attr('popover-trigger', 'mouseenter')
-          //.append('svg:a');
-            // .attr('xlink:href', function(d) { return d.url; });
-
-          var node = gnodes.append('circle')
+          gnodes = svgCanvas.selectAll("g").data(data.nodes);
+          gnodesEnter = gnodes.enter()
+            .append("g")          //g element used to group svg shapes 
+            .attr("class", "node-group");
+          gnodesEnter
+            .append('circle')
             .attr('class', 'node')
             .attr('r', function(d) { return d.linksTo })
             .style('fill', function(d) { return color(d.linksTo); })
+            .on("mouseover", mouseover)
+            .on("mouseout", mouseout)
             .on("click", function(d, i) {
-                console.log('CLICKED:', d.title);
-                scope.render(DatabaseService.request(5)); });
+              console.log('CLICKED:', d.title, d.id);
+              scope.render(DatabaseService.request(d.id)) })
 
-          // add tooltip
-          node.append("svg:title").text(function(d, i) {
-            return "Yo some info! \n" + d.title + '\n' + d.url;
-          });
-
-          var label = gnodes.append("svg:text")   //svg element consisting of text
+          gnodesEnter.append("svg:text")   //svg element consisting of text
             .attr('class', 'label')
             .attr("x", '10')
             .attr("y", '.34em')
-            .text(function(d) { return d.title; } );
+            .text(function(d) { return d.id; } );
 
-          // set node & link positions on tick -- d must be calculated from force settings???
-          forceLayout.on("tick", function() {
-            link.attr("x1", function(d) { return d.source.x; })  //pos of source node
-                .attr("y1", function(d) { return d.source.y; })
-                .attr("x2", function(d) { return d.target.x; })  //pos of target node
-                .attr("y2", function(d) { return d.target.y; });
-            gnodes.attr("transform", function(d) { return "translate(" + d.x + "," + d.y + ")"; });
-            // node.attr("cx", function(d) {return d.x})
-            //     .attr("cy", function(d) {return d.y});
-          });
+          forceLayout.start();
         };      
       });
   	};
