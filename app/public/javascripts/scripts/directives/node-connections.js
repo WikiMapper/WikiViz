@@ -100,12 +100,7 @@ angular.module('VisApp')
             .attr('r', function(d) { return d.linksTo })
             .style('fill', function(d) { return color(d.linksTo); })
             .on("mouseover", mouseover)
-            // .on("mousemove", function(d, i){
-            //   tooltip_div
-            //   })
-            .on("mouseout", function(){
-              tooltip_div.transition().style("opacity", 1e-6) 
-              })
+            .on("mouseout", mouseout)
             .on("click", function(d, i) {
               console.log('CLICKED:', d.title);
               scope.render(DatabaseService.request(15)) })
@@ -140,8 +135,15 @@ angular.module('VisApp')
                 .style("left", (width-300) + "px")
                 .style("top", 100 + "px");
             d3.select(this)
-                .transition().duration(250)
+                .transition().duration(150)
                 .attr('r', 50);
+          }
+
+          function mouseout(){
+            tooltip_div.transition().style("opacity", 1e-6);
+            d3.select(this)
+              .transition().duration(450)
+            .attr('r', function(d) { return d.linksTo })
           }
 
 
