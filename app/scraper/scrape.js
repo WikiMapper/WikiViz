@@ -29,12 +29,12 @@ var getLinks = function(err, resp, html, url) {
     }
   });
 
-  insertDb({
-    url: url,
-    title: title,
-    incoming: null,
-    outgoing: links.length
-  });
+  // insertDb({
+  //   url: url,
+  //   title: title,
+  //   incoming: null,
+  //   outgoing: links.length
+  // });
 
   return links;
 };
