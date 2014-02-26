@@ -29,10 +29,11 @@ angular.module('VisApp')
 
       angular.forEach(_.range(0,numNodes), function(value){
         var node = {};
-        node.title = 'Article ' + count + value + ' Title';
-        node.url = 'www.wikepedia.com';
-        node.linksTo = Math.floor(Math.random()*10+10);
-        node.summary = 'This is a summary of article '+ count + value +'.  It contains all the secrets of life and a map of the universe and lots of stories about pirates.'
+        node.id       = value;
+        node.title    = 'Article ' + count + value + ' Title';
+        node.url      = 'www.wikepedia.com';
+        node.linksTo  = Math.floor(Math.random()*10+10);
+        node.summary  = 'This is a summary of article '+ count + value +'.  It contains all the secrets of life and a map of the universe and lots of stories about pirates.'
         nodes.push(node);
         var link = {};
         if (value !== 0){

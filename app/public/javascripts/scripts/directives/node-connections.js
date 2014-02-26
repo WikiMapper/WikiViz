@@ -1,6 +1,6 @@
 angular.module('VisApp')
-  .directive('nodeConnections',['DatabaseService','d3Service', '$window', 
-    function(DatabaseService, d3Service, $window) {
+  .directive('nodeConnections',['DatabaseService','d3Service', '$window', '$position',
+    function(DatabaseService, d3Service, $window, $position) {
   	console.log('nodeConnections directive called');
   	return {
   		restrict : 'EA',
@@ -24,14 +24,16 @@ angular.module('VisApp')
         // create the canvas for the model
         var svgCanvas = d3.select(element[0]).append("svg")
           .attr("width", width)
-          .attr("height", height)
-          .attr('popover', "Woeeęèēeeoöooö!")
-          .attr('popover-trigger', 'mouseenter');
+          .attr("height", height);
+
+        var tooltip_div = d3.select(element[0]).append("div")
+          .attr("class", "tooltip d3tooltip slateblue")
+          .style("opacity", .5);
 
         // Browswer onresize event
         window.onresize = function() {
           scope.$apply();
-        }  ;
+        };
 
         // Watch for resize event
         scope.$watch(function() {
@@ -47,30 +49,33 @@ angular.module('VisApp')
           return scope.render(data);
         });
 
+        scope.tooltipText = function(data) {
+          return "This article is <span class='bold'>" + data.title + "</span> and has <span class='red'>" + data.linksTo + "</span> sites pointing to it links.";
+        };
+
         scope.render = function(data) {
+          console.log('±±±±±±±±±±start render. data:', data);
+          console.log('start render selectAll:', svgCanvas.selectAll('*'));
+          console.log('before remove',svgCanvas.selectAll('*')[0].length)
+
+          // remove all previous items before render  UNLESS ADDING NEW!!!!!!!
+          svgCanvas.selectAll('*').remove();  
+          console.log('after remove',svgCanvas.selectAll('*')[0].length)
+          
           var nodeCount = data.nodes.length;
           var charge = function(nodeCount) {
-              return -(50+7200/(Math.abs(Math.pow(nodeCount,1.4)-2*nodeCount)));
+                return -(50+7200/(Math.abs(Math.pow(nodeCount,1.4)-2*nodeCount)));
               },    //repulsive force between nodes
               linkDistance = function(nodeCount) {
                 return (50 * Math.log(nodeCount));
               };
           
-          console.log('±±±±±±±±±±start render. data:', data);
-          console.log('start render selectAll:', svgCanvas.selectAll('*'));
-          console.log('before remove',svgCanvas.selectAll('*')[0].length)
-
-          // remove all previous items before render
-          svgCanvas.selectAll('g').remove();  
-          svgCanvas.selectAll('line').remove();
-          console.log('after remove',svgCanvas.selectAll('*')[0].length)
           // construct the force-directed layout
           var forceLayout = d3.layout.force()
             .gravity(gravity)
             .linkDistance(linkDistance(nodeCount))
             .charge(charge(nodeCount))
             .size([width, height]);  //size of force layout
-          console.log('length', data.nodes.length, charge(data.nodes.length));
           
           forceLayout.nodes(data.nodes)
           .links(data.links)
@@ -86,9 +91,7 @@ angular.module('VisApp')
           var gnodes = svgCanvas.selectAll("g")
             .data(data.nodes)
             .enter().append("g")          //g element used to group svg shapes 
-            .attr("class", "node-group")
-            .attr('popover', "Woeeęèēeeoöooö! This popover worked.")
-            .attr('popover-trigger', 'mouseenter')
+            .attr("class", "node-group");
           //.append('svg:a');
             // .attr('xlink:href', function(d) { return d.url; });
 
@@ -96,20 +99,27 @@ angular.module('VisApp')
             .attr('class', 'node')
             .attr('r', function(d) { return d.linksTo })
             .style('fill', function(d) { return color(d.linksTo); })
+            .on("mouseover", mouseover)
+            // .on("mousemove", function(d, i){
+            //   tooltip_div
+            //   })
+            .on("mouseout", function(){
+              tooltip_div.transition().style("opacity", 1e-6) 
+              })
             .on("click", function(d, i) {
-                console.log('CLICKED:', d.title);
-                scope.render(DatabaseService.request(5)); });
+              console.log('CLICKED:', d.title);
+              scope.render(DatabaseService.request(15)) })
 
           // add tooltip
-          node.append("svg:title").text(function(d, i) {
-            return "Yo some info! \n" + d.title + '\n' + d.url;
-          });
+          // node.append("svg:title").text(function(d, i) {
+          //   return "Yo some info! \n" + d.title + '\n' + d.url;
+          // });
 
           var label = gnodes.append("svg:text")   //svg element consisting of text
             .attr('class', 'label')
             .attr("x", '10')
             .attr("y", '.34em')
-            .text(function(d) { return d.title; } );
+            .text(function(d) { return d.id; } );
 
           // set node & link positions on tick -- d must be calculated from force settings???
           forceLayout.on("tick", function() {
@@ -121,6 +131,18 @@ angular.module('VisApp')
             // node.attr("cx", function(d) {return d.x})
             //     .attr("cy", function(d) {return d.y});
           });
+        
+          function mouseover(d) { 
+            console.log('mouseover happening', d3.event.pageX);
+            tooltip_div
+              .transition().style("opacity", 1)
+              //.html(scope.tooltipText(d)) 
+              .text(scope.tooltipText(d))
+              .style("left", (d3.event.pageX) + "px")
+              .style("top", (d3.event.pageY) + "px");
+          }
+
+
         };      
       });
   	};
