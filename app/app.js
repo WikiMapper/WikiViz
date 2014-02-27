@@ -42,8 +42,11 @@ app.get('/', function(request, response) {
         if (err) {
             console.log('error: ', err);
             throw err;
+            response.send("ERROR: " + error);
+
+        } else {
+          response.send(['Hello World!!!! HOLA MUNDO!!!!', rows]);
         }
-        response.send(['Hello World!!!! HOLA MUNDO!!!!', rows]);
     });
 });
 
