@@ -10,6 +10,7 @@ var path    = require('path');
 var request = require('request');
 var scrape  = require('./scraper/scrape').scrape;
 var db      = require('./database/db');
+var mysql   = require('mysql');
 
 var app = express();
 
