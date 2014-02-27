@@ -31,7 +31,7 @@ var insertInputUrl = function(data, cb) {
   pg.connect(process.env.HEROKU_POSTGRESQL_GOLD_URL, function(err, client, done) {
     if (err) { console.log(err) }
     else {
-      client.query("INSERT INTO urlLinks (url) VALUES ($1)",['www.hi.com']);
+      client.query("INSERT INTO urlLinks (url) VALUES ($1)",[data.url]);
       cb();
     }
   });
