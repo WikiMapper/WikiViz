@@ -1,68 +1,84 @@
 
 angular.module('VisApp')
   .factory('DatabaseService', ['$http', function($http) {
-    //WAIT - this is only called once per app instance
+    // A service or factory is only called once per app instance and returns
+    // a function or an object containing a function
 
-    // var doRequest = function() {
-    //   console.log('making request');
-    //   return $http({
-    //     method: 'JSONP',
-    //     url: '../data/testdata.json' 
-    //   })
-    //   .then(function(data){
-    //     console.log(data);
-    //     return data;
-    //   })
-    //   .catch(function(e){
-    //     throw e;
-    //   });
-    //   //return {'url': 'www.hi.com'};
-    // };
-    var count = 0,
-        dummydata,
-        nodes = [],
-        links = [];
 
-    var doRequest = function(url){
-      console.log('doRequest called', url, 'count', count);
-
-      if (nodes.length) {
-        sourceid = url;
-        startNode = nodes.length;
-      }else{
-        sourceid = 0; 
-        startNode = 0;
-      }
-       
-
-      angular.forEach(_.range(startNode, startNode+url), function(value){
-        var node = {};
-        node.id       = value;
-        node.title    = 'Article ' + count + value + ' Title';
-        node.url      = 'www.wikepedia.com';
-        node.linksTo  = Math.floor(Math.random()*10+10);
-        node.summary  = 'This is a summary of article '+ count + value +'.  It contains all the secrets of life and a map of the universe and lots of stories about pirates.'
-        nodes.push(node);
-        var link = {};
-        if (value !== 0){
-          link.source = sourceid;
-          link.target = value;
-          link.value  = 100;
-          links.push(link);
-        }
+    var doRequest = function(url) {
+      console.log('making request for ', url);
+      return $http({
+        method: 'JSON',
+        url: '/urls',
+        data: JSON.stringify(url) 
+      })
+      .then(function(data){
+        console.log('Posted: ', data);
+        return data;
+      })
+      .catch(function(e){
+        console.log('Request failed:', arguements);
+        throw e;
       });
-
-      dummydata = { "nodes" : nodes, "links" : links };
-      console.log('count', count, 'dummydataservice dummydata', dummydata);
-      //debugger;
-      count++;
-      return dummydata;
+      //return {'url': 'www.hi.com'};
     };
-    
+
+
+
+
     return {
       request : doRequest
     };
   }]);
+
+    
+
+
+  //   var count = 0,
+  //       dummydata,
+  //       nodes = [],
+  //       links = [];
+
+  //   var doRequest = function(url){
+  //     console.log('doRequest called', url, 'count', count);
+
+  //     if (nodes.length) {
+  //       sourceid = url;
+  //       startNode = nodes.length;
+  //     }else{
+  //       sourceid = 0; 
+  //       startNode = 0;
+  //     }
+       
+
+  //     angular.forEach(_.range(startNode, startNode+url), function(value){
+  //       var node = {};
+  //       node.id       = value;
+  //       node.title    = 'Article ' + count + value + ' Title';
+  //       node.url      = 'www.wikepedia.com';
+  //       node.linksTo  = Math.floor(Math.random()*10+10);
+  //       node.summary  = 'This is a summary of article '+ count + value +'.  It contains all the secrets of life and a map of the universe and lots of stories about pirates.'
+  //       nodes.push(node);
+  //       var link = {};
+  //       if (value !== 0){
+  //         link.source = sourceid;
+  //         link.target = value;
+  //         link.value  = 100;
+  //         links.push(link);
+  //       }
+  //     });
+
+  //     dummydata = { "nodes" : nodes, "links" : links };
+  //     console.log('count', count, 'dummydataservice dummydata', dummydata);
+  //     //debugger;
+  //     count++;
+  //     return dummydata;
+  //   };
+    
+  //   return {
+  //     request : doRequest
+  //   };
+  // }]);
 
 /**
  * this service will :
