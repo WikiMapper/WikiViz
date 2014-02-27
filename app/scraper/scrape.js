@@ -6,13 +6,6 @@ var _       = require('underscore');
 var db      = require('../database/db');
 
 
-var insertDb = function(data) {
-  db.insertInputUrl(data, function() {
-    console.log('inserted to database');
-  });
-};
-
-
 var getLinks = function(err, resp, html, url) {
   var $ = cheerio.load(html);
   var title = $('title').text();
@@ -48,6 +41,9 @@ var getLinks = function(err, resp, html, url) {
     incoming: null,
     outgoing: links.length
   }
+  db.insertInputUrl(linkObj2, function(){
+    console.log('added to database!');
+  });
 
   return linksObj2;
 };
@@ -58,17 +54,13 @@ var urlLinksContains = function(url) {
 }
 
 var scrape = function(url, res) {
-  urlLinksContains(url)
-  .then(function(result){
-    console.log(result);
-  }).error(function(e){console.log(e)});
 
-  // if (!urlLinksContains(url)) {
-  //   request(url, function(err, resp, html) {
-  //     var linksObj = getLinks(err, resp, html, url);
-  //     res.end(JSON.stringify(linksObj));
-  //   });
-  // }
+  if (!urlLinksContains(url)) {
+    request(url, function(err, resp, html) {
+      var linksObj = getLinks(err, resp, html, url);
+      res.end(JSON.stringify(linksObj));
+    });
+  }
 };
 
 exports.scrape = scrape;
