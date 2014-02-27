@@ -55,12 +55,12 @@ var urlLinksContains = function(url) {
 
 var scrape = function(url, res) {
 
-  if (!urlLinksContains(url)) {
+  //if (!urlLinksContains(url)) {
     request(url, function(err, resp, html) {
       var linksObj = getLinks(err, resp, html, url);
       res.end(JSON.stringify(linksObj));
     });
-  }
+  //}
 };
 
 exports.scrape = scrape;

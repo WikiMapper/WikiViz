@@ -22,9 +22,9 @@ var conString = "postgres://postgres:password@localhost:5432/wikiviz";
 // };
 
 
-var contains = function(url) {
-  return client.queryAsync(urlLinksSelect(url, null));
-};
+// var contains = function(url) {
+//   return client.queryAsync(urlLinksSelect(url, null));
+// };
 
 
 var insertInputUrl = function(data, cb) {
