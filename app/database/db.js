@@ -43,5 +43,5 @@ var insertInputUrl = function(data, cb) {
 // //////////////////////////////////////////////////////////////////
 
 exports.insertInputUrl = insertInputUrl;
-exports.contains = contains;
+//exports.contains = contains;
 // exports.connection = connection;
