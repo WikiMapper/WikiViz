@@ -18,6 +18,7 @@ var db_config_new = {
     database: 'heroku_5f9185d3bce5da5'
 };
 
+//Hello World Example DB:
 var db_config = {
     host: 'us-cdbr-east-05.cleardb.net',
     user: 'b6c17621c70215',
@@ -50,12 +51,14 @@ function handleDisconnect() {
 handleDisconnect();
 
 //connection.query("SELECT * FROM urlLinks", function(err, data){
-connection.query("SELECT * FROM urls", function(err, data){
-  if (err){
-    console.log("ERROR:  " + err);
-  } else {
-    console.log("Data: " + data);
-  }
+app.get('/', function(request, response) {
+    connection.query("SELECT * FROM urls", function(err, rows, fields) {
+        if (err) {
+            console.log('error: ', err);
+            throw err;
+        }
+        response.send(['Hello World!!!! HOLA MUNDO!!!!', rows]);
+    });
 });
 
 // Promise.promisifyAll(connection);

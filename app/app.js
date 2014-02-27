@@ -34,7 +34,17 @@ app.use(express.static(path.join(__dirname, 'public')));
 // EXPRESS ROUTING
 //////////////////////////////////////////////////////////////////
 
-app.get('/', routes.index);
+//app.get('/', routes.index);  //KEEP ME!
+
+app.get('/', function(request, response) {
+    connection.query("SELECT * FROM urls", function(err, rows, fields) {
+        if (err) {
+            console.log('error: ', err);
+            throw err;
+        }
+        response.send(['Hello World!!!! HOLA MUNDO!!!!', rows]);
+    });
+});
 
 app.post('/urls', function(req, res) {
   res.header("Access-Control-Allow-Origin", "*");
