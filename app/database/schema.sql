@@ -11,11 +11,11 @@ USE heroku_73f08b2ebf46a85;
 
 -- ---
 -- Table 'urlLinks'
--- 
+--
 -- ---
 
 DROP TABLE IF EXISTS `urlLinks`;
-    
+
 CREATE TABLE `urlLinks` (
   `id` TINYINT NULL AUTO_INCREMENT DEFAULT NULL,
   `url` VARCHAR(100) NOT NULL,
@@ -27,18 +27,18 @@ CREATE TABLE `urlLinks` (
 
 -- ---
 -- Table 'urlMap'
--- 
+--
 -- ---
 
 DROP TABLE IF EXISTS `urlMap`;
-    
+
 CREATE TABLE `urlMap` (
   `urlId` TINYINT NULL DEFAULT NULL,
   `linkId` TINYINT NULL DEFAULT NULL
 );
 
 -- ---
--- Foreign Keys 
+-- Foreign Keys
 -- ---
 
 ALTER TABLE `urlMap` ADD FOREIGN KEY (urlId) REFERENCES `urlLinks` (`id`);
@@ -59,3 +59,5 @@ ALTER TABLE `urlMap` ADD FOREIGN KEY (linkId) REFERENCES `urlLinks` (`id`);
 -- ('','','','','');
 -- INSERT INTO `urlMap` (`urlId`,`linkId`) VALUES
 -- ('','');
+
+INSERT INTO `urlLinks`

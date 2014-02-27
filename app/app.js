@@ -10,6 +10,8 @@ var path    = require('path');
 var request = require('request');
 var scrape  = require('./scraper/scrape').scrape;
 var db      = require('./database/db');
+var mysql   = require('mysql');
+var pg      = require('pg');
 
 var app = express();
 
@@ -34,7 +36,8 @@ app.use(express.static(path.join(__dirname, 'public')));
 // EXPRESS ROUTING
 //////////////////////////////////////////////////////////////////
 
-app.get('/', routes.index);
+app.get('/', routes.index);  //KEEP ME!
+
 
 app.post('/urls', function(req, res) {
   res.header("Access-Control-Allow-Origin", "*");
