@@ -23,6 +23,7 @@ angular.module('VisApp')
             linkDistance,
             color = d3.scale.category10();
 
+
         // create the canvas for the model
         var svgCanvas = d3.select(element[0]).append("svg")
           .attr("width", width)
@@ -52,7 +53,7 @@ angular.module('VisApp')
         });
 
         scope.tooltipText = function(data) {
-             var text = "<span class='bold'>" + data.title + "</span> and has <span class='red'>" + data.linksTo + "</span> sites pointing to it links.";
+          var text = " <span class='bold'> Title:"  + "</span> "+ data.title;
           return text
         };
 
@@ -84,24 +85,7 @@ angular.module('VisApp')
 
         var link, gnodes
 
-        function mouseover(d) { 
-          console.log('mouseover: id', d.id);
-          tooltip_div
-              .html(scope.tooltipText(d)) //must immediately follow tooltip_div or doesn't work
-              .transition().style("opacity", 1)
-              .style("left", (width-400) + "px")
-              .style("top", 100 + "px");
-          d3.select(this)
-              .transition().duration(150)
-              .attr('r', 50);
-        }
-
-        function mouseout(){
-          tooltip_div.transition().style("opacity", 1e-6);
-          d3.select(this)
-            .transition().duration(450)
-          .attr('r', function(d) { return d.linksTo })
-        }
+    
 
         scope.render = function(data) {
           console.log('±±±±±±±±±±start render. data:', data);
@@ -113,6 +97,10 @@ angular.module('VisApp')
             .links(data.links);
 
           var nodeCount = data.nodes.length;
+          var scale = d3.scale.linear().domain([0, nodeCount]).range([2, 20]);
+          var radius = function(d) { return scale(d.rank); };
+
+          console.log('nodeCount',nodeCount, scale(10));
 
           forceLayout
             .linkDistance(linkDistance(nodeCount))
@@ -132,19 +120,42 @@ angular.module('VisApp')
           gnodesEnter
             .append('circle')
             .attr('class', 'node')
-            .attr('r', function(d) { return d.linksTo })
-            .style('fill', function(d) { return color(d.linksTo); })
+            .attr('r', function(d) { return scale(d.rank) })
+            .style('fill', function(d) { return color(d.rank); })
             .on("mouseover", mouseover)
             .on("mouseout", mouseout)
             .on("click", function(d, i) {
-              console.log('CLICKED:', d.title, d.id);
-              scope.render(DatabaseService.request(d.id)) })
+              console.log('CLICKED:', d.title, d.id, d.url);
+              DatabaseService.request(d.url).then(function(data){
+                scope.render(data);
+              })
+             });
 
-          gnodesEnter.append("svg:text")   //svg element consisting of text
+          //svg element consisting of text
+          gnodesEnter.append("svg:text")   
             .attr('class', 'label')
             .attr("x", '10')
             .attr("y", '.34em')
-            .text(function(d) { return d.id; } );
+            .text(function(d) { return d.title; } );
+
+            function mouseover(d) { 
+              console.log('mouseover: id', d.id);
+              tooltip_div
+                  .html(scope.tooltipText(d)) //must immediately follow tooltip_div or doesn't work
+                  .transition().style("opacity", 1)
+                  .style("left", (width-400) + "px")
+                  .style("top", 100 + "px");
+              d3.select(this)
+                  .transition().duration(150)
+                  .attr('r', 50);
+            }
+
+            function mouseout(){
+              tooltip_div.transition().style("opacity", 1e-6);
+              d3.select(this)
+                .transition().duration(450)
+              .attr('r', radius)
+            }
 
           forceLayout.start();
         };      
