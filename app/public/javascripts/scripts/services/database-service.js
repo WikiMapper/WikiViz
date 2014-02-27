@@ -19,8 +19,7 @@ angular.module('VisApp')
       })
       .then(function(data){
         console.log('Posted: ', data);
-        format(data.data);
-        return 'hi';
+        return format(data.data);
       })
       .catch(function(e){
         console.log('Request failed:', arguements);
@@ -30,13 +29,12 @@ angular.module('VisApp')
       function format(data) {
         var nodes, children, d3links;
         nodes = [];
+        d3links = [];
         children = data.links;
         sourceNode = {};  
         childNode = {};
+        sourceid = count;
 
-        console.log('data-----title', data.title);
-
-        console.log('children data.links-----', children[0]);
 
         //add source url data
         var sourceNode = {};
@@ -50,20 +48,30 @@ angular.module('VisApp')
 
         //add child url data
         angular.forEach(children, function (item, i ){
-          var childNode = {};
-          childNode.id       = count;
-          childNode.title    = item.title;
-          childNode.url      = item.url;
-          childNode.rank     = i;
-          console.log('assembled childNode', childNode);
-          nodes.push(childNode);
-          console.log('checking array of nodes', nodes);
-          count++;
+          var rank = children.length - i;
+          //skip first child, it's a repeat of source
+          if (i !== 0){
+            var childNode = {};
+            childNode.id       = count;
+            childNode.title    = item.title;
+            childNode.url      = item.url;
+            childNode.rank     = rank;
+            //console.log('assembled childNode', childNode);
+            nodes.push(childNode);
+            //console.log('checking array of nodes', nodes);
+            var link = {};
+            link.source = sourceid;
+            link.target = count;
+            link.value  = 100;
+            d3links.push(link);
+            count++;
+          }
         });
-        
+        console.log('nodes.length', nodes.length, 'count', count);
         console.log('we got some nodes', nodes);
+        data = { "nodes" : nodes, "links" : d3links };
+        return data;
       }
-      return nodes;
     };
 
     return {
