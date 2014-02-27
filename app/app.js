@@ -57,7 +57,7 @@ var conString = "postgres://postgres:password@localhost:5432/wikiviz";
 //   });
 // });
 app.get('/', function(request, response) {
-  pg.connect(process.env.HEROKU_POSTGRE SQL_GOLD_URL, function(err, client, done) {
+  pg.connect(process.env.HEROKU_POSTGRESQL_GOLD_URL, function(err, client, done) {
     client.query("INSERT INTO urlLinks (url) VALUES ($1)",['www.hi.com']);
     });
   });
