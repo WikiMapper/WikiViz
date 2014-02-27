@@ -39,7 +39,6 @@ app.get('/', routes.index);
 app.post('/urls', function(req, res) {
   res.header("Access-Control-Allow-Origin", "*");
   res.header("Access-Control-Allow-Headers", "X-Requested-With");
-  console.log(req.body.url);
   scrape(req.body.url, res);
 });
 
