@@ -41,7 +41,7 @@ var getLinks = function(err, resp, html, url) {
     incoming: null,
     outgoing: links.length
   }
-  db.insertInputUrl(linkObj2, function(){
+  db.insertInputUrl(linksObj2, function(){
     console.log('added to database!');
   });
 
