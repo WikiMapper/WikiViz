@@ -4,27 +4,67 @@ angular.module('VisApp')
     // A service or factory is only called once per app instance and returns
     // a function or an object containing a function
 
+    var count = 0,
+        dummydata,
+        nodes = [],
+        links = [];
 
     var doRequest = function(url) {
-      console.log('making request for ', url);
+      console.log('making request for ', url, 'checking nodes', nodes);
       return $http({
-        method: 'JSON',
+        method: 'POST',
         url: '/urls',
-        data: JSON.stringify(url) 
+        data: {url : url} ,
+        headers : {'Content-Type':'application/json'}
       })
       .then(function(data){
         console.log('Posted: ', data);
-        return data;
+        format(data.data);
+        return 'hi';
       })
       .catch(function(e){
         console.log('Request failed:', arguements);
         throw e;
       });
-      //return {'url': 'www.hi.com'};
+
+      function format(data) {
+        var nodes, children, d3links;
+        nodes = [];
+        children = data.links;
+        sourceNode = {};  
+        childNode = {};
+
+        console.log('data-----title', data.title);
+
+        console.log('children data.links-----', children[0]);
+
+        //add source url data
+        var sourceNode = {};
+        if (!nodes.length) sourceNode.id = 0; 
+        sourceNode.title    = data.title;
+        sourceNode.url      = data.url;
+        sourceNode.incoming = data.incoming;
+        sourceNode.outgoing = data.outgoing;
+        count++;
+        nodes.push(sourceNode);
+
+        //add child url data
+        angular.forEach(children, function (item, i ){
+          var childNode = {};
+          childNode.id       = count;
+          childNode.title    = item.title;
+          childNode.url      = item.url;
+          childNode.rank     = i;
+          console.log('assembled childNode', childNode);
+          nodes.push(childNode);
+          console.log('checking array of nodes', nodes);
+          count++;
+        });
+        
+        console.log('we got some nodes', nodes);
+      }
+      return nodes;
     };
-
-
-
 
     return {
       request : doRequest

@@ -5,6 +5,7 @@ angular.module('VisApp')
 
       $scope.showForm = true;
       $scope.showVis = false;
+      $scope.url = 'http://en.wikipedia.org/wiki/Lollipop';            ;
 
       $scope.reset = function(){
         console.log('should call right away');
@@ -16,7 +17,8 @@ angular.module('VisApp')
       $scope.getInput = function(){
         $scope.showForm = false;
         $scope.showVis = true;
-        //DatabaseService.request($scope.url);
+        //DatabaseService.request('http://en.wikipedia.org/wiki/' + $scope.url);
+        //DatabaseService.request( $scope.url);
         $scope.sourcedata = DatabaseService.request($scope.url);
       };
 
