@@ -51,15 +51,6 @@ function handleDisconnect() {
 handleDisconnect();
 
 //connection.query("SELECT * FROM urlLinks", function(err, data){
-app.get('/', function(request, response) {
-    connection.query("SELECT * FROM urls", function(err, rows, fields) {
-        if (err) {
-            console.log('error: ', err);
-            throw err;
-        }
-        response.send(['Hello World!!!! HOLA MUNDO!!!!', rows]);
-    });
-});
 
 // Promise.promisifyAll(connection);
 
@@ -96,3 +87,4 @@ app.get('/', function(request, response) {
 
 // exports.insertInputUrl = insertInputUrl;
 // exports.contains = contains;
+exports.connection = connection;

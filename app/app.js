@@ -37,7 +37,7 @@ app.use(express.static(path.join(__dirname, 'public')));
 //app.get('/', routes.index);  //KEEP ME!
 
 app.get('/', function(request, response) {
-    connection.query("SELECT * FROM urls", function(err, rows, fields) {
+    db.connection.query("SELECT * FROM urls", function(err, rows, fields) {
         if (err) {
             console.log('error: ', err);
             throw err;
