@@ -3,6 +3,7 @@
 //////////////////////////////////////////////////////////////////
 
 var mysql   = require('mysql');
+var Promise = require('bluebird');
 
 // var connection = mysql.createConnection({
 //   host: 'localhost',
@@ -10,11 +11,18 @@ var mysql   = require('mysql');
 //   password: ''
 // });
 
-var db_config = {
+var db_config_new = {
     host: 'us-cdbr-east-05.cleardb.net',
     user: 'b81750249f2c70',
     password: 'f5e9dc72',
     database: 'heroku_5f9185d3bce5da5'
+};
+
+var db_config = {
+    host: 'us-cdbr-east-05.cleardb.net',
+    user: 'b6c17621c70215',
+    password: 'cb66271d',
+    database: 'heroku_73f08b2ebf46a85'
 };
 
 var connection;
@@ -39,41 +47,49 @@ function handleDisconnect() {
   });
 }
 
-//////////////////////////////////////////////////////////////////
-// INSERTING USER INPUT INTO TABLE (inputUrls)
-//////////////////////////////////////////////////////////////////
+handleDisconnect();
 
-var urlLinksSelect = function(url, title) {
-  return 'select * from urlLinks where url = '
-          + url 
-          + 'AND title != ' 
-          + title 
-          + ';'
-};
+//connection.query("SELECT * FROM urlLinks", function(err, data){
+connection.query("SELECT * FROM urls", function(err, data){
+  if (err){
+    console.log("ERROR:  " + err);
+  } else {
+    console.log("Data: " + data);
+  }
+});
 
-var dbContains = function(url) {
-  connection.query(urlLinksSelect(url, null), function(err, rows) {
-    console.log(rows, rows.length);
-    return rows.length > 0;
-  });
-};
+// Promise.promisifyAll(connection);
 
-//retrieve
+// //////////////////////////////////////////////////////////////////
+// // INSERTING USER INPUT INTO TABLE (inputUrls)
+// //////////////////////////////////////////////////////////////////
 
-var insertInputUrl = function(data, cb) {
-  connection.query('USE wikiUrls', function(err, result) {
-    var query = connection.query('INSERT INTO urlLinks SET ?', 
-    data, function(err, result) {
-      if (err) console.log(err);
-      cb();
-    });
-  });
-};
+// var urlLinksSelect = function(url, title) {
+//   return 'select * from urlLinks where url = \''
+//           + url
+//           + '\' AND title != \'NULL\';';
+// };
+
+// var contains = function(url) {
+//   return connection.queryAsync(urlLinksSelect(url, null));
+// };
+
+// //retrieve
+
+// var insertInputUrl = function(data, cb) {
+//   connection.queryAsync('USE wikiUrls', function(err, result) {
+//     var query = connection.query('INSERT INTO urlLinks SET ?',
+//     data, function(err, result) {
+//       if (err) console.log(err);
+//       cb();
+//     });
+//   });
+// };
 
 
-//////////////////////////////////////////////////////////////////
-// EXPORTING FUNCTIONS
-//////////////////////////////////////////////////////////////////
+// //////////////////////////////////////////////////////////////////
+// // EXPORTING FUNCTIONS
+// //////////////////////////////////////////////////////////////////
 
-exports.insertInputUrl = insertInputUrl;
-exports.dbContains = dbContains;
+// exports.insertInputUrl = insertInputUrl;
+// exports.contains = contains;

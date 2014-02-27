@@ -24,7 +24,7 @@ var getLinks = function(err, resp, html, url) {
   $('#mw-content-text a').each(function(i, link) {
     var internal = /#/gi.test( $(link).attr('href') );
     if (!internal) {
-      var linkTitle = $(link).attr('title'); 
+      var linkTitle = $(link).attr('title');
       var href = $(link).attr('href');
       links.push({
         title: linkTitle,
@@ -53,17 +53,22 @@ var getLinks = function(err, resp, html, url) {
 };
 
 var urlLinksContains = function(url) {
-  // return db.contains(url);
-  return false;
+  return db.contains(url);
+  //return false;
 }
 
 var scrape = function(url, res) {
-  if (!urlLinksContains(url)) {
-    request(url, function(err, resp, html) {
-      var linksObj = getLinks(err, resp, html, url);
-      res.end(JSON.stringify(linksObj));
-    });
-  }
+  urlLinksContains(url)
+  .then(function(result){
+    console.log(result);
+  }).error(function(e){console.log(e)});
+
+  // if (!urlLinksContains(url)) {
+  //   request(url, function(err, resp, html) {
+  //     var linksObj = getLinks(err, resp, html, url);
+  //     res.end(JSON.stringify(linksObj));
+  //   });
+  // }
 };
 
 exports.scrape = scrape;
