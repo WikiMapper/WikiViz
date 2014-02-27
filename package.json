@@ -26,7 +26,8 @@
     "angular-ui-router": "~0.2.8",
     "angular-bootstrap": "0.0.4",
     "ejs": "~0.8.5",
-    "request": "~2.34.0"
+    "request": "~2.34.0",
+    "pg": "~2.11.1"
   },
   "homepage": "https://github.com/WikiMapper/WikiViz"
 }

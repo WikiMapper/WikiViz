@@ -11,6 +11,7 @@ var request = require('request');
 var scrape  = require('./scraper/scrape').scrape;
 var db      = require('./database/db');
 var mysql   = require('mysql');
+var pg      = require('pg');
 
 var app = express();
 
@@ -30,25 +31,55 @@ app.use(express.methodOverride());
 app.use(app.router);
 app.use(express.static(path.join(__dirname, 'public')));
 
+var conString = "postgres://postgres:password@localhost:5432/wikiviz";
+
 
 //////////////////////////////////////////////////////////////////
 // EXPRESS ROUTING
 //////////////////////////////////////////////////////////////////
 
-//app.get('/', routes.index);  //KEEP ME!
+// app.get('/', routes.index);  //KEEP ME!
 
+// app.get('/', function(request, response) {
+//   console.log('SERVING ROOT');
+//   var client = new pg.Client(conString);
+//   client.connect(function(err) {
+//     if(err) {
+//       return console.error('could not connect to postgres', err);
+//     }
+//     console.log("Made the connection");
+//     var query = client.query("INSERT INTO urlLinks (url) VALUES ($1)",['www.hi.com'])
+
+    // query.on('row', function(row){
+    //   response.end(row.id + ' ' + row.url);
+    // });
+//     response.end('hello world ' + query);
+//   });
+// });
 app.get('/', function(request, response) {
-    db.connection.query("SELECT * FROM urls", function(err, rows, fields) {
-        if (err) {
-            console.log('error: ', err);
-            throw err;
-            response.send("ERROR: " + error);
-
-        } else {
-          response.send(['Hello World!!!! HOLA MUNDO!!!!', rows]);
-        }
+  pg.connect(process.env.HEROKU_POSTGRESQL_GOLD_URL, function(err, client, done) {
+    client.query('SELECT * FROM urlLinks', function(err, result) {
+      done();
+      if(err) return console.error(err);
+      console.log('connection was successful');
+      console.log(result.rows);
     });
+  });
+  response.end('hi');
 });
+
+// app.get('/', function(request, response) {
+//     db.connection.query("SELECT * FROM urls", function(err, rows, fields) {
+//         if (err) {
+//             console.log('error: ', err);
+//             throw err;
+//             response.send("ERROR: " + error);
+
+//         } else {
+//           response.send(['Hello World!!!! HOLA MUNDO!!!!', rows]);
+//         }
+//     });
+// });
 
 app.post('/urls', function(req, res) {
   res.header("Access-Control-Allow-Origin", "*");
