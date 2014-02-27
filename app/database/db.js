@@ -16,15 +16,15 @@ var conString = "postgres://postgres:password@localhost:5432/wikiviz";
 //////////////////////////////////////////////////////////////////
 
 // var urlLinksSelect = function(url, title) {
-//   return 'select * from urlLinks where url = \''
+//   return 'select * from urlLinks where url = \''1
 //           + url
 //           + '\' AND title != \'NULL\';';
 // };
 
 
-// var contains = function(url) {
-//   return client.queryAsync(urlLinksSelect(url, null));
-// };
+var contains = function(url) {
+  return client.queryAsync(urlLinksSelect(url, null));
+};
 
 
 var insertInputUrl = function(data, cb) {
