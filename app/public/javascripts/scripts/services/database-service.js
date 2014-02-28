@@ -30,6 +30,7 @@ angular.module('VisApp')
       });
 
       function format(data) {
+        var cloudCount = data.links.length
         console.log('*************current status', 'd3nodes[0]:', d3data.nodes[0]);
         console.log('*************current status', 'd3data.nodes[end]',d3data.nodes[d3data.nodes.length-1]);
 
@@ -48,43 +49,39 @@ angular.module('VisApp')
         sourceNode.incoming = data.incoming;
         sourceNode.outgoing = data.outgoing;
         sourceNode.rank     = 30;
-        // sourceNode.title    = data.title;
-        // sourceNode.url      = data.url;
-        // sourceNode.incoming = data.incoming;
-        // sourceNode.outgoing = data.outgoing;
-        // sourceNode.rank     = 20;
+
         d3data.nodes[urlid] = sourceNode; // or should this be done property by property?
         //nodes.push(sourceNode);
 
         //add child url data
         //should we limit number of child links??
         console.log('before adding new node-urls, d3data', d3data);
-        //angular.forEach(children, function (item, i ){
-        var queryCount = children.length;  //the number of nodes per query
-        for (var i = 0; i < queryCount; i++){
-          item = children[i];
+
+        var cloudCount = 20;  //the number of nodes per query
+        angular.forEach(children, function (item, i ){
+        //for (var i = 0; i < cloudCount; i++){
+          //item = children[i];
           count++;
-          var rank = queryCount - i;
+          var rank = cloudCount - i;
 
           var childNode = {};
           childNode.id       = count;
           childNode.title    = item.title;
           childNode.url      = item.url;
-          childNode.rank     = rank;
-          childNode.distance = item.distance;
-          //console.log('assembled childNode', childNode);
+          childNode.rank     = 100/item.distance;
+          childNode.distance = item.distance; //measure of closeness to source node
           nodes.push(childNode);
-          //console.log('checking array of nodes', nodes);
+
           var link = {};
           link.source = sourceid;
           link.target = count;
-          link.value  = 70;
+          link.distance  = item.distance*5;
           d3links.push(link);
-        };
+        });
 
         console.log('after node addition nodes.length', nodes.length, 'count', count);
         //console.log('we got some nodes', nodes);
-        d3data = { "nodes" : nodes, "links" : d3links, "queryCount" : queryCount };
+        d3data = { "nodes" : nodes, "links" : d3links, "cloudCount" : cloudCount };
         return d3data;
       }
 

@@ -79,8 +79,9 @@ angular.module('VisApp')
           return -(50+7200/(Math.abs(Math.pow(nodeCount,1.4)-2*nodeCount)));
         };//repulsive force between nodes
 
-        linkDistance = function(nodeCount) {
-          return (20 * Math.log(nodeCount));
+        linkDistance = function(d) {
+          console.log('check distance', d)
+          return d.distance;
         };
 
         var link, gnodes, nodeCount, scale, radius, colorScale;
@@ -99,14 +100,15 @@ angular.module('VisApp')
             .domain([0, nodeCount]).range([2, 10]);
           radius = function(d) { return scale(d.rank); };
           colorScale = d3.scale.linear()
-            .domain([0, data.queryCount])
+            .domain([0, data.cloudCount])
             .interpolate(d3.interpolateHsl)
             .range(["whitesmoke", ColorService.color(groupCount)])
 
           console.log('nodeCount',nodeCount, 'scale', scale(10));
 
           forceLayout
-            .linkDistance(linkDistance(nodeCount))
+            //.linkDistance(linkDistance(data.links.distance))
+            .linkDistance(function(d){ return d.distance})
             .charge(charge(nodeCount));
 
           // add data to links
@@ -137,7 +139,7 @@ angular.module('VisApp')
           gnodesEnter.append("svg:text")   
             .attr('class', 'label')
             .attr("x", '10')
-            .attr("y", '.34em')
+            .attr("y", '.64em')
             .text(function(d) { return d.title; } );
 
             function mouseover(d) { 
