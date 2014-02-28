@@ -129,7 +129,7 @@ var distBtwUrlVectors = function(v0, v1){
   //   console.log('added to database!');
   // });
 
-  //return linksObj2;
+  //return linksObj2;g
 };
 
 var urlLinksContains = function(url) {
