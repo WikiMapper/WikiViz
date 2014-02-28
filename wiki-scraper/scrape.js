@@ -3,7 +3,7 @@ var request = require('request');
 var fs      = require('fs');
 
 var sites = {};
-var site  = "http://www.hackreactor.com";
+var site  = "http://www.books.com";
 
 var printInfo = function() {
   fs.writeFile(__dirname + '/sites.txt', JSON.stringify(sites));
@@ -20,7 +20,7 @@ var scrapeChildren = function(links) {
 
 var savePage = function($, url) {
   var links = [];
-  
+
   $('a').each(function(i, link) {
     var href = $(link).attr('href');
     if ((/^\//).test(href)) {
