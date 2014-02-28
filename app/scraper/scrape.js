@@ -14,11 +14,26 @@ var getLinks = function(err, resp, html, url) {
   // url = url.replace(/http:\/\/en.wikipedia.org\/wiki/, "");
 
   var links = [];
-  $('#mw-content-text a').each(function(i, link) {
-    var internal = /#/gi.test( $(link).attr('href') );
+
+  $('#mw-content-text #toc').prevAll()
+    .filter('p').children('a').each(function(i, link) {
+
+    var linkTitle = $(link).attr('title');
+    var href      = $(link).attr('href');
+
+    links.push({
+      title: linkTitle,
+      url: 'http://wikipedia.com'+ href
+    });
+  });
+
+
+  $('#mw-content-text #toc').prevAll().filter('p')
+  .children('a').filter( function() {
+    var href = $(this).attr('href');
+    var internal = !(/[#]/g).test(href);
     if (!internal) {
-      var linkTitle = $(link).attr('title');
-      var href = $(link).attr('href');
+      var linkTitle = $(this).attr('title');
       links.push({
         title: linkTitle,
         url: 'http://wikipedia.com'+ href

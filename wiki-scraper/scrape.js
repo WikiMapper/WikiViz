@@ -3,7 +3,7 @@ var request = require('request');
 var fs      = require('fs');
 
 var sites = {};
-var site  = "http://www.books.com";
+var site  = "http://www.hackreactor.com";
 
 var printInfo = function() {
   fs.writeFile(__dirname + '/sites.txt', JSON.stringify(sites));
