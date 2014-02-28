@@ -4,6 +4,7 @@ var pReq    = Promise.promisify(require('request'));
 var request = require('request');
 var _       = require('underscore');
 var db      = require('../database/db');
+var alchemy = require('./getRelatedWords');
 
 
 var getLinks = function(err, resp, html, url) {
@@ -41,9 +42,36 @@ var getLinks = function(err, resp, html, url) {
     incoming: null,
     outgoing: links.length
   }
-  db.insertInputUrl(linksObj2, function(){
-    console.log('added to database!');
-  });
+
+  // console.log("Above myKeywords invocation");
+  // alchemy.myKeywords("url", linksObj2.url)
+  //   .then(function(data){
+  //     console.log("In .then, data: " + JSON.stringify(data['keywords']));
+
+  //   })
+  //   .error(function(error){ 
+  //     console.log(error)
+  //   });
+
+
+
+  Promise.all([alchemy.myKeywords("url", linksObj2.url), alchemy.myKeywords("url", linksObj2.links[0].url)])
+    .then(function(dataArr){
+     console.log("In .then Data0 :" + JSON.stringify(dataArr[0]));
+     console.log("In .then Data1 :" + JSON.stringify(dataArr[1]));
+    })
+    .error(function(error){
+     console.log("In .error Data0 :" + error)
+     console.log("In .error Data1 :" + error);
+    });
+
+  //do comparision
+
+  //console.log("In scrape, keywordkeywords);
+
+  // db.insertInputUrl(linksObj2, function(){  //SAVE ME FOR HEROKU
+  //   console.log('added to database!');
+  // });
 
   return linksObj2;
 };
@@ -57,7 +85,7 @@ var scrape = function(url, res) {
 
   //if (!urlLinksContains(url)) {
     request(url, function(err, resp, html) {
-      var linksObj = getLinks(1err, resp, html, url);
+      var linksObj = getLinks(err, resp, html, url);
       res.end(JSON.stringify(linksObj));
     });
   //}
