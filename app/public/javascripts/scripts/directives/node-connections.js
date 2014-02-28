@@ -17,7 +17,8 @@ angular.module('VisApp')
         
         var el = element[0],
             width = d3.select('body').node().offsetWidth ,
-            height = 700 ,
+            height = $window.innerHeight,
+            //height = 700 ,
             r = 12,
             gravity = 0.05,   //force at center of layout
             charge,
@@ -80,7 +81,7 @@ angular.module('VisApp')
         };//repulsive force between nodes
 
         linkDistance = function(d) {
-          console.log('check distance', d)
+          //console.log('check distance', d)
           return d.distance;
         };
 
@@ -95,20 +96,20 @@ angular.module('VisApp')
             .nodes(data.nodes)
             .links(data.links);
 
-          nodeCount = data.nodes.length;
+          nodeCount = data.cloudCount; //need nodeCount 
           scale = d3.scale.linear()
             .domain([0, nodeCount]).range([2, 10]);
           radius = function(d) { return scale(d.rank); };
           colorScale = d3.scale.linear()
-            .domain([0, data.cloudCount])
-            .interpolate(d3.interpolateHsl)
+            .domain([10, data.cloudCount])
+            .interpolate(d3.interpolateRgb)
             .range(["whitesmoke", ColorService.color(groupCount)])
 
           console.log('nodeCount',nodeCount, 'scale', scale(10));
 
           forceLayout
             //.linkDistance(linkDistance(data.links.distance))
-            .linkDistance(function(d){ return d.distance})
+            .linkDistance(linkDistance)
             .charge(charge(nodeCount));
 
           // add data to links
@@ -130,7 +131,7 @@ angular.module('VisApp')
             .on("mouseout", mouseout)
             .on("click", function(d, i) {
               console.log('CLICKED:', d.title, d.id, d.url, 'groupcnt', groupCount, ColorService.color());
-              DatabaseService.request(d.url, d.id).then(function(data){
+                DatabaseService.request(d.url, d.id).then(function(data){
                 scope.render(data);
               })
              });
@@ -147,8 +148,8 @@ angular.module('VisApp')
               tooltip_div
                   .html(scope.tooltipText(d)) //must immediately follow tooltip_div or doesn't work
                   .transition().style("opacity", 1)
-                  .style("left", (width-310) + "px")
-                  .style("top", 100 + "px");
+                  .style("left", (width-210) + "px")
+                  .style("top", 80 + "px");
               d3.select(this)
                   .transition().duration(150)
                   .attr('r', 40);

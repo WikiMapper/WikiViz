@@ -12,7 +12,7 @@ angular.module('VisApp')
 
     var doRequest = function(url, urlid) {
       if (!count){ urlid = 0 };
-      console.log('****** making request for ', url, 'urlid', urlid, 'existing d3data array', d3data);
+      console.log('****** making request for ', url, ', urlid', urlid, ', existing d3data array', d3data);
 
       return $http({
         method: 'POST',
@@ -25,12 +25,13 @@ angular.module('VisApp')
         return format(data.data);
       })
       .catch(function(e){
-        console.log('Request failed:', arguements);
+        console.log('Request failed:', arguments);
+        console.log('error', e);
         throw e;
       });
 
       function format(data) {
-        var cloudCount = data.links.length
+        var cloudCount = data.links.length;
         console.log('*************current status', 'd3nodes[0]:', d3data.nodes[0]);
         console.log('*************current status', 'd3data.nodes[end]',d3data.nodes[d3data.nodes.length-1]);
 
@@ -57,7 +58,6 @@ angular.module('VisApp')
         //should we limit number of child links??
         console.log('before adding new node-urls, d3data', d3data);
 
-        var cloudCount = 20;  //the number of nodes per query
         angular.forEach(children, function (item, i ){
         //for (var i = 0; i < cloudCount; i++){
           //item = children[i];
@@ -71,13 +71,16 @@ angular.module('VisApp')
           childNode.rank     = 100/item.distance;
           childNode.distance = item.distance; //measure of closeness to source node
           nodes.push(childNode);
-
+          console.log(childNode);
+          console.log('sourceid', sourceid, 'targetid', count);
           var link = {};
           link.source = sourceid;
           link.target = count;
           link.distance  = item.distance*5;
           d3links.push(link);
         });
+
+        console.log('AFTER adding new node-urls, d3data', d3data);
 
         console.log('after node addition nodes.length', nodes.length, 'count', count);
         //console.log('we got some nodes', nodes);
@@ -91,6 +94,7 @@ angular.module('VisApp')
       request : doRequest
     };
   }]);
+
 
 
 
@@ -158,4 +162,5 @@ angular.module('VisApp')
 // returning a static value defeats the purpose.
 
 //Extends the destination object dst by copying all of the properties from the src object(s) to dst. You can specify multiple src objects.
+
 
