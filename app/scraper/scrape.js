@@ -57,7 +57,7 @@ var scrape = function(url, res) {
 
   //if (!urlLinksContains(url)) {
     request(url, function(err, resp, html) {
-      var linksObj = getLinks(1err, resp, html, url);
+      var linksObj = getLinks(err, resp, html, url);
       res.end(JSON.stringify(linksObj));
     });
   //}
