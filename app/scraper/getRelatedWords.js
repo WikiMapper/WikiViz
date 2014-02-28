@@ -7,14 +7,14 @@ Promise.promisifyAll(alchemyapi);
 var prefiltered = {};
 var finished = false;
 
-var myKeywords = function(type, query) {
+var myConcepts = function(type, query) {
   var promise = new Promise(function(resolve, reject){
-    alchemyapi.keywords(type, query, { 'sentiment':1 }, function(data){
-      // console.log("in myKeywords, data: " + JSON.stringify(data['keywords']));
+    alchemyapi.concepts(type, query, { 'sentiment':1 }, function(data){
+      // console.log("in myconcepts, data: " + JSON.stringify(data['concepts']));
       var keywordRelevanceHash = {};
-      for (var i = 0; i < data.keywords.length; i++){
-        console.log(JSON.stringify(data.keywords[i]));
-        keywordRelevanceHash[data.keywords[i].text] = data.keywords[i].relevance;
+      for (var i = 0; i < data.concepts.length; i++){
+        // console.log(JSON.stringify(data.concepts[i]));
+        keywordRelevanceHash[data.concepts[i].text] = data.concepts[i].relevance;
       }
       resolve(keywordRelevanceHash);
     });
@@ -86,7 +86,7 @@ var getKeywords = function(url, cb){
 
 // getWords(process.argv[2], process.argv[3]);
 exports.getKeywords = getKeywords;
-exports.myKeywords = myKeywords;
+exports.myConcepts = myConcepts;
 
 
 
