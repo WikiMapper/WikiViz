@@ -1,5 +1,5 @@
 body {
-  background-color: #719FEF;
+  background-color: #7A89A3;
   font-size: 20px;
 }
 #form{
@@ -89,6 +89,11 @@ body {
   color: gold
 }
 
+.navbar-default .navbar-nav > li > a:hover,
+.navbar-default .navbar-nav > li > a:focus {
+  color: #7A89A3;
+  background-color: transparent;
+}
 
 
 /*** d3 styling ***************/
@@ -98,7 +103,7 @@ body {
 
 .node-group text {
   pointer-events: none;
-  font: 12px sans-serif;
+  font: 10px sans-serif;
   text-shadow: 0 1px 0 #7A89A3, 1px 0 0 #7A89A3, 0 -1px 0 #7A89A3, -1px 0 0 #7A89A3;
 }
 
@@ -158,4 +163,9 @@ div.d3tooltip {
 /*  -webkit-box-shadow: 3px 10px 6px -10px #777;
      -moz-box-shadow: 3px 10px 6px -10px #777;*/
           box-shadow: 3px 3px 5px #777;
+}
+
+.shadow {
+    -webkit-filter: drop-shadow( -5px -5px 5px #000 );
+            filter: drop-shadow( -5px -5px 5px #000 ); /* Same syntax as box-shadow */
 }
