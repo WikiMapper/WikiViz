@@ -5,12 +5,15 @@ angular.module('VisApp')
     // a function or an object containing a function
 
     var count = 0,
-        dummydata,
+        d3data = [],
         nodes = [],
-        links = [];
+        d3links = []
+        d3data ={ "nodes" : nodes, "links" : d3links};
 
-    var doRequest = function(url) {
-      console.log('making request for ', url, 'checking nodes', nodes);
+    var doRequest = function(url, urlid) {
+      if (!count){ urlid = 0 };
+      console.log('****** making request for ', url, 'urlid', urlid, 'existing d3data array', d3data);
+
       return $http({
         method: 'POST',
         url: '/urls',
@@ -18,7 +21,7 @@ angular.module('VisApp')
         headers : {'Content-Type':'application/json'}
       })
       .then(function(data){
-        console.log('Posted: ', data);
+        console.log('Posted: ', data, 'num links:', data.data.links.length);
         return format(data.data);
       })
       .catch(function(e){
@@ -27,51 +30,63 @@ angular.module('VisApp')
       });
 
       function format(data) {
-        var nodes, children, d3links;
-        nodes = [];
-        d3links = [];
-        children = data.links;
-        sourceNode = {};  
-        childNode = {};
-        sourceid = count;
+        console.log('*************current status', 'd3nodes[0]:', d3data.nodes[0]);
+        console.log('*************current status', 'd3data.nodes[end]',d3data.nodes[d3data.nodes.length-1]);
 
+        data.links.splice(0,1); //first item in links is repeat of source
+        var children = data.links,
+            sourceNode = {},
+            childNode = {},
+            sourceid = urlid;
 
-        //add source url data
+        //handle source url data
         var sourceNode = {};
-        if (!nodes.length) sourceNode.id = 0; 
+        console.log('what is sourceid', sourceid);
+        sourceNode.id = urlid;
         sourceNode.title    = data.title;
         sourceNode.url      = data.url;
         sourceNode.incoming = data.incoming;
         sourceNode.outgoing = data.outgoing;
-        count++;
-        nodes.push(sourceNode);
+        sourceNode.rank     = 30;
+        // sourceNode.title    = data.title;
+        // sourceNode.url      = data.url;
+        // sourceNode.incoming = data.incoming;
+        // sourceNode.outgoing = data.outgoing;
+        // sourceNode.rank     = 20;
+        d3data.nodes[urlid] = sourceNode; // or should this be done property by property?
+        //nodes.push(sourceNode);
 
         //add child url data
-        angular.forEach(children, function (item, i ){
-          var rank = children.length - i;
-          //skip first child, it's a repeat of source
-          if (i !== 0){
-            var childNode = {};
-            childNode.id       = count;
-            childNode.title    = item.title;
-            childNode.url      = item.url;
-            childNode.rank     = rank;
-            //console.log('assembled childNode', childNode);
-            nodes.push(childNode);
-            //console.log('checking array of nodes', nodes);
-            var link = {};
-            link.source = sourceid;
-            link.target = count;
-            link.value  = 100;
-            d3links.push(link);
-            count++;
-          }
-        });
-        console.log('nodes.length', nodes.length, 'count', count);
-        console.log('we got some nodes', nodes);
-        data = { "nodes" : nodes, "links" : d3links };
-        return data;
+        //should we limit number of child links??
+        console.log('before adding new node-urls, d3data', d3data);
+        //angular.forEach(children, function (item, i ){
+        var limit = 20;
+        for (var i = 0; i < limit; i++){
+          item = children[i];
+          count++;
+          var rank = limit - i;
+      
+          var childNode = {};
+          childNode.id       = count;
+          childNode.title    = item.title;
+          childNode.url      = item.url;
+          childNode.rank     = rank;
+          //console.log('assembled childNode', childNode);
+          nodes.push(childNode);
+          //console.log('checking array of nodes', nodes);
+          var link = {};
+          link.source = sourceid;
+          link.target = count;
+          link.value  = 70;
+          d3links.push(link);
+        };
+
+        console.log('after node addition nodes.length', nodes.length, 'count', count);
+        //console.log('we got some nodes', nodes);
+        d3data = { "nodes" : nodes, "links" : d3links, "limit" : limit };
+        return d3data;
       }
+
     };
 
     return {

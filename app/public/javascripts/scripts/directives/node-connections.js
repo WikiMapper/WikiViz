@@ -1,6 +1,6 @@
 angular.module('VisApp')
-  .directive('nodeConnections',['DatabaseService','d3Service', '$window', '$position',
-    function(DatabaseService, d3Service, $window, $position) {
+  .directive('nodeConnections',['DatabaseService','ColorService', 'd3Service', '$window', '$position',
+    function(DatabaseService, ColorService, d3Service, $window, $position) {
   	console.log('nodeConnections directive called');
   	return {
   		restrict : 'EA',
@@ -12,17 +12,17 @@ angular.module('VisApp')
 
   	function link (scope, element, attrs){
       //wait for d3 service to doad
+      var groupCount = 1;
       d3Service.d3().then(function(d3){
         
         var el = element[0],
             width = d3.select('body').node().offsetWidth ,
-            height = 600 ,
+            height = 700 ,
             r = 12,
             gravity = 0.05,   //force at center of layout
             charge,
             linkDistance,
             color = d3.scale.category10();
-
 
         // create the canvas for the model
         var svgCanvas = d3.select(element[0]).append("svg")
@@ -46,7 +46,7 @@ angular.module('VisApp')
         });
 
         scope.$watch('data', function(data){
-          console.log('watching', data);
+          console.log('watching', data, 'num nodes:', data.nodes.length);
           scope.data = data;   // TODO: make sure this is correct scope
           if(!data) return;
           return scope.render(data);
@@ -80,12 +80,10 @@ angular.module('VisApp')
         };//repulsive force between nodes
 
         linkDistance = function(nodeCount) {
-          return (50 * Math.log(nodeCount));
+          return (20 * Math.log(nodeCount));
         };
 
-        var link, gnodes
-
-    
+        var link, gnodes, nodeCount, scale, radius, colorScale;
 
         scope.render = function(data) {
           console.log('±±±±±±±±±±start render. data:', data);
@@ -96,16 +94,20 @@ angular.module('VisApp')
             .nodes(data.nodes)
             .links(data.links);
 
-          var nodeCount = data.nodes.length;
-          var scale = d3.scale.linear().domain([0, nodeCount]).range([2, 20]);
-          var radius = function(d) { return scale(d.rank); };
+          nodeCount = data.nodes.length;
+          scale = d3.scale.linear()
+            .domain([0, nodeCount]).range([2, 10]);
+          radius = function(d) { return scale(d.rank); };
+          colorScale = d3.scale.linear()
+            .domain([0, nodeCount])
+            .interpolate(d3.interpolateHsl)
+            .range(["whitesmoke", ColorService.color(groupCount)])
 
-          console.log('nodeCount',nodeCount, scale(10));
+          console.log('nodeCount',nodeCount, 'scale', scale(10));
 
           forceLayout
             .linkDistance(linkDistance(nodeCount))
             .charge(charge(nodeCount));
-        
 
           // add data to links
           link = svgCanvas.selectAll("line").data(data.links)
@@ -120,13 +122,13 @@ angular.module('VisApp')
           gnodesEnter
             .append('circle')
             .attr('class', 'node')
-            .attr('r', function(d) { return scale(d.rank) })
-            .style('fill', function(d) { return color(d.rank); })
+            .attr('r', radius)
+            .style('fill', function(d) { return colorScale(d.rank); })
             .on("mouseover", mouseover)
             .on("mouseout", mouseout)
             .on("click", function(d, i) {
-              console.log('CLICKED:', d.title, d.id, d.url);
-              DatabaseService.request(d.url).then(function(data){
+              console.log('CLICKED:', d.title, d.id, d.url, 'groupcnt', groupCount, ColorService.color(groupCount));
+              DatabaseService.request(d.url, d.id).then(function(data){
                 scope.render(data);
               })
              });
@@ -143,11 +145,11 @@ angular.module('VisApp')
               tooltip_div
                   .html(scope.tooltipText(d)) //must immediately follow tooltip_div or doesn't work
                   .transition().style("opacity", 1)
-                  .style("left", (width-400) + "px")
+                  .style("left", (width-310) + "px")
                   .style("top", 100 + "px");
               d3.select(this)
                   .transition().duration(150)
-                  .attr('r', 50);
+                  .attr('r', 40);
             }
 
             function mouseout(){
@@ -158,6 +160,7 @@ angular.module('VisApp')
             }
 
           forceLayout.start();
+          groupCount++;
         };      
       });
   	};

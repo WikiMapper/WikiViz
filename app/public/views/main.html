@@ -22,20 +22,33 @@
 <div>
   <ng-repeat="link in sourcedata.links" {{ link.source }}>
 </div>
-<hr>
-<div>
-  {{ sourcedata }}
-  {{ url }}
-</div>
 
-<!-- <div>
+<!-- 
+<div>
   <svg 
     width="120" height="120" 
      viewPort="0 0 120 120" version="1.1"
      xmlns="http://www.w3.org/2000/svg">
-    <g popover="A popover on an svg!" popover-trigger="mouseenter" >
-    <circle cx="60" cy="60" r="50"/>
-    </g>
-  </svg>
-</div>  -->
 
+    <circle cx="60" cy="60" r="50" class="effect1" />
+  </svg>
+  
+ <svg width="120" height="120"
+ xmlns="http://www.w3.org/2000/svg"
+ xmlns:xlink="http://www.w3.org/1999/xlink">
+
+  <filter id="dropShadow">
+    <feGaussianBlur in="SourceAlpha" stdDeviation="3" />
+    <feOffset dx="2" dy="4" />
+    <feMerge>
+        <feMergeNode />
+        <feMergeNode in="SourceGraphic" />
+    </feMerge>
+  </filter>
+
+  <circle cx="60"  cy="60" r="50" fill="green"
+          filter="url(#dropShadow)" />
+</svg>
+</div> 
+
+ -->
