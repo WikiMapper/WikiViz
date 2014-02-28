@@ -20,7 +20,7 @@ var scrapeChildren = function(links) {
 
 var savePage = function($, url) {
   var links = [];
-  
+
   $('a').each(function(i, link) {
     var href = $(link).attr('href');
     if ((/^\//).test(href)) {

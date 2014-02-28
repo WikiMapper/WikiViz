@@ -12,6 +12,7 @@ var myConcepts = function(type, query) {
     alchemyapi.concepts(type, query, { 'sentiment':1 }, function(data){
       // console.log("in myconcepts, data: " + JSON.stringify(data['concepts']));
       var keywordRelevanceHash = {};
+      console.log(data);
       for (var i = 0; i < data.concepts.length; i++){
         // console.log(JSON.stringify(data.concepts[i]));
         keywordRelevanceHash[data.concepts[i].text] = data.concepts[i].relevance;
