@@ -142,8 +142,8 @@ var scrape = function(url, res) {
 
   //if (!urlLinksContains(url)) {
     request(url, function(err, resp, html) {
-      var linksObj = getLinks(err, resp, html, url);
-      res.end(JSON.stringify(linksObj));
+      var linksObj = getLinks(err, resp, html, url, res);
+      //res.end(JSON.stringify(linksObj));
     });
   //}
 };
