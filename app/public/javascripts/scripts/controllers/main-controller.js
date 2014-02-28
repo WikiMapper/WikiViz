@@ -5,7 +5,7 @@ angular.module('VisApp')
 
       $scope.showForm = true;
       $scope.showVis = false;
-      $scope.url = 'http://en.wikipedia.org/wiki/Lollipop';            ;
+      $scope.url = 'http://en.wikipedia.org/wiki/Lollipop';
 
       $scope.reset = function(){
         console.log('should call right away');
@@ -13,7 +13,7 @@ angular.module('VisApp')
         $scope.showVis = false;
         $scope.url=null;
         $scope.sourcedata = null;
-        $scope.url = 'http://en.wikipedia.org/wiki/Lollipop';            ;
+        $scope.url = 'http://en.wikipedia.org/wiki/Lollipop';
 
       };
 
