@@ -3,7 +3,7 @@ angular.module('VisApp')
 
     var getColor = function(num){
       colormap = {
-          1  : "indigo",
+          1  : "orange",
           2  : "crimson",
           3  : "darkgreen",
           4  : "darkorchid",
