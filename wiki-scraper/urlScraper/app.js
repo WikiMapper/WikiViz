@@ -12,16 +12,6 @@ var partitions = [
     'TOZER',
     'wiki/Special:AllPages', 
     'w/index.php?title=Special:AllPages&from=%282Z%2C6Z%29-farnesyl+diphosphate+lyase'
-  ],
-  [ // name of the child along with start and ending URL
-    'BRUDUS',
-    'wiki/Special:AllPages', 
-    'w/index.php?title=Special:AllPages&from=%282Z%2C6Z%29-farnesyl+diphosphate+lyase'
-  ],
-  [ // name of the child along with start and ending URL
-    'SLAV',
-    'wiki/Special:AllPages', 
-    'w/index.php?title=Special:AllPages&from=%282Z%2C6Z%29-farnesyl+diphosphate+lyase'
   ]
 ];
 
