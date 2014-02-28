@@ -60,11 +60,11 @@ angular.module('VisApp')
         //should we limit number of child links??
         console.log('before adding new node-urls, d3data', d3data);
         //angular.forEach(children, function (item, i ){
-        var limit = 20;
-        for (var i = 0; i < limit; i++){
+        var queryCount = 20;  //the number of nodes per query
+        for (var i = 0; i < queryCount; i++){
           item = children[i];
           count++;
-          var rank = limit - i;
+          var rank = queryCount - i;
       
           var childNode = {};
           childNode.id       = count;
@@ -83,7 +83,7 @@ angular.module('VisApp')
 
         console.log('after node addition nodes.length', nodes.length, 'count', count);
         //console.log('we got some nodes', nodes);
-        d3data = { "nodes" : nodes, "links" : d3links, "limit" : limit };
+        d3data = { "nodes" : nodes, "links" : d3links, "queryCount" : queryCount };
         return d3data;
       }
 

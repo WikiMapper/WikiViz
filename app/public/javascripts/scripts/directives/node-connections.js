@@ -99,7 +99,7 @@ angular.module('VisApp')
             .domain([0, nodeCount]).range([2, 10]);
           radius = function(d) { return scale(d.rank); };
           colorScale = d3.scale.linear()
-            .domain([0, nodeCount])
+            .domain([0, data.queryCount])
             .interpolate(d3.interpolateHsl)
             .range(["whitesmoke", ColorService.color(groupCount)])
 
@@ -127,7 +127,7 @@ angular.module('VisApp')
             .on("mouseover", mouseover)
             .on("mouseout", mouseout)
             .on("click", function(d, i) {
-              console.log('CLICKED:', d.title, d.id, d.url, 'groupcnt', groupCount, ColorService.color(groupCount));
+              console.log('CLICKED:', d.title, d.id, d.url, 'groupcnt', groupCount, ColorService.color());
               DatabaseService.request(d.url, d.id).then(function(data){
                 scope.render(data);
               })
