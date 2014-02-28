@@ -71,6 +71,7 @@ angular.module('VisApp')
           childNode.title    = item.title;
           childNode.url      = item.url;
           childNode.rank     = rank;
+          childNode.distance = item.distance;
           //console.log('assembled childNode', childNode);
           nodes.push(childNode);
           //console.log('checking array of nodes', nodes);
