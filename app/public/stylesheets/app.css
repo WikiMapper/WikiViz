@@ -1,5 +1,5 @@
 body {
-  background-color: #719FEF;
+  background-color: #7A89A3;
   font-size: 20px;
 }
 #form{
@@ -89,6 +89,11 @@ body {
   color: gold
 }
 
+.navbar-default .navbar-nav > li > a:hover,
+.navbar-default .navbar-nav > li > a:focus {
+  color: #7A89A3;
+  background-color: transparent;
+}
 
 
 /*** d3 styling ***************/
