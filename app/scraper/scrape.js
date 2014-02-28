@@ -29,19 +29,18 @@ var getLinks = function(err, resp, html, url, res) {
   });
 
 
-  $('#mw-content-text #toc').prevAll().filter('p')
-  .children('a').filter( function() {
-    var href = $(this).attr('href');
-    var internal = !(/[#]/g).test(href);
-    if (!internal) {
-      var linkTitle = $(this).attr('title');
-      links.push({
-        title: linkTitle,
-        url: 'http://wikipedia.com'+ href
-        //distance: value
-      });
-    }
-  });
+  // $('#mw-content-text #toc').prevAll().filter('p')
+  // .children('a').filter( function() {
+  //   var href = $(this).attr('href');
+  //   var internal = !(/[#]/g).test(href);
+  //   if (!internal) {
+  //     var linkTitle = $(this).attr('title');
+  //     links.push({
+  //       title: linkTitle,
+  //       url: 'http://wikipedia.com'+ href
+  //     });
+  //   }
+  // });
 
   // var linksObj = {
   //   url: url,
@@ -130,7 +129,7 @@ var distBtwUrlVectors = function(v0, v1){
   //   console.log('added to database!');
   // });
 
-  // return linksObj2;
+  //return linksObj2;
 };
 
 var urlLinksContains = function(url) {
