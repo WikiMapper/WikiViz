@@ -15,18 +15,32 @@ var getLinks = function(err, resp, html, url, res) {
   // url = url.replace(/http:\/\/en.wikipedia.org\/wiki/, "");
 
   var links = [];
-  $('#mw-content-text a').each(function(i, link) {
-    var internal = /#/gi.test( $(link).attr('href') );
-    if (!internal) {
-      var linkTitle = $(link).attr('title');
-      var href = $(link).attr('href');
-      links.push({
-        title: linkTitle,
-        url: 'http://wikipedia.com'+ href
-        //distance: value
-      });
-    }
+
+  $('#mw-content-text #toc').prevAll()
+    .filter('p').children('a').each(function(i, link) {
+
+    var linkTitle = $(link).attr('title');
+    var href      = $(link).attr('href');
+
+    links.push({
+      title: linkTitle,
+      url: 'http://wikipedia.com'+ href
+    });
   });
+
+
+  // $('#mw-content-text #toc').prevAll().filter('p')
+  // .children('a').filter( function() {
+  //   var href = $(this).attr('href');
+  //   var internal = !(/[#]/g).test(href);
+  //   if (!internal) {
+  //     var linkTitle = $(this).attr('title');
+  //     links.push({
+  //       title: linkTitle,
+  //       url: 'http://wikipedia.com'+ href
+  //     });
+  //   }
+  // });
 
   // var linksObj = {
   //   url: url,
@@ -50,7 +64,7 @@ var getLinks = function(err, resp, html, url, res) {
   //     console.log("In .then, data: " + JSON.stringify(data['keywords']));
 
   //   })
-  //   .error(function(error){ 
+  //   .error(function(error){
   //     console.log(error)
   //   });
 
@@ -115,7 +129,7 @@ var distBtwUrlVectors = function(v0, v1){
   //   console.log('added to database!');
   // });
 
-  // return linksObj2;
+  //return linksObj2;g
 };
 
 var urlLinksContains = function(url) {
@@ -127,7 +141,8 @@ var scrape = function(url, res) {
 
   //if (!urlLinksContains(url)) {
     request(url, function(err, resp, html) {
-      getLinks(err, resp, html, url, res);
+      var linksObj = getLinks(err, resp, html, url, res);
+      //res.end(JSON.stringify(linksObj));
     });
   //}
 };

@@ -3,7 +3,7 @@ angular.module('VisApp')
     function(DatabaseService, ColorService, d3Service, $scope, $location){
       $scope.showForm = true;
       $scope.showVis = false;
-      $scope.url = 'http://en.wikipedia.org/wiki/Lollipop';
+      $scope.url = 'http://en.wikipedia.org/wiki/Dog';
 
       $scope.reset = function(){
         console.log('should call right away');
