@@ -86,7 +86,7 @@ angular.module('VisApp')
           var link = {};
           link.source = sourceid;
           link.target = count;
-          link.distance  = 7*item.distance;
+          link.distance  = 30*item.distance;
           d3links.push(link);
         });
 

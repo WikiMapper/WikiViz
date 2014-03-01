@@ -101,7 +101,7 @@ angular.module('VisApp')
 
           radius = function(d) { 
             //console.log('check radius', d.url, d.rank);
-            return 1.5*d.rank; };
+            return 2*d.rank; };
           colorScale = d3.scale.linear()
             .domain([0, 10])
             .interpolate(d3.interpolateRgb)
@@ -110,7 +110,7 @@ angular.module('VisApp')
           forceLayout
             //.linkDistance(linkDistance(data.links.distance))
             .linkDistance(linkDistance)
-            .charge(-100);
+            .charge(-300);
             //.charge(charge(data.cloudCount));
 
           // add data to links
