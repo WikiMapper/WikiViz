@@ -9,10 +9,11 @@ angular.module('VisApp')
         cloudIndex = 0,
         d3data = [],
         nodes = [],
-        d3links = []
-        d3data ={ "nodes" : nodes, "links" : d3links};
+        d3links = [],
+        d3data ={ "nodes" : nodes, "links" : d3links},
+        doRequest;
 
-    var doRequest = function(url, urlid) {
+    doRequest = function(url, urlid) {
       if (!count){ urlid = 0 };
       cloudIndex++;
       console.log('****** making request for ', url, ', urlid', urlid, ', existing d3data array', d3data);
@@ -35,27 +36,31 @@ angular.module('VisApp')
 
       function format(data) {
         cloudCount = data.links.length;
-        console.log('*************current status', 'd3nodes[0]:', d3data.nodes[0]);
+        console.log('*************current status', 'd3data.length:', d3data.length);
         console.log('*************current status', 'd3data.nodes[end]',d3data.nodes[d3data.nodes.length-1]);
 
-        data.links.splice(0,1); //first item in links is repeat of source
+        //VERIFY IF CORRECT!!!
+        //data.links.splice(0,1); //first item in links is repeat of source
         var children = data.links,
             sourceNode = {},
             childNode = {},
             sourceid = urlid;
 
-        //handle source url data
-        var sourceNode = {};
         console.log('what is sourceid', sourceid);
-        sourceNode.id = urlid;
-        sourceNode.title    = data.title;
-        sourceNode.url      = data.url;
-        // sourceNode.incoming = data.incoming;
-        // sourceNode.outgoing = data.outgoing;
-        sourceNode.rank     = 10;
+        //handle first source url data
+        if (count === 0){
+          var sourceNode = {};
+          sourceNode.id       = urlid;
+          sourceNode.title    = data.title;
+          sourceNode.url      = data.url;
+          // sourceNode.incoming = data.incoming;
+          // sourceNode.outgoing = data.outgoing;
+          sourceNode.rank     = 5;  //not sure what center node should be
 
-        d3data.nodes[urlid] = sourceNode; // or should this be done property by property?
-        //nodes.push(sourceNode);
+          //d3data.nodes[urlid] = sourceNode; // or should this be done property by property?
+          console.log('urlid',urlid, d3data.nodes[urlid]);
+          nodes.push(sourceNode);  
+        }
 
         //add child url data
         //should we limit number of child links??
@@ -71,16 +76,16 @@ angular.module('VisApp')
           childNode.id       = count;
           childNode.title    = item.title;
           childNode.url      = item.url;
-          childNode.rank     = 10/item.distance;
+          childNode.rank     = 15/item.distance;
           //childNode.distance     = item.distance; 
           nodes.push(childNode);
-          console.log(childNode);
-          console.log('sourceid', sourceid, 'targetid', count);
+          //console.log('childNode', childNode);
+          //console.log('sourceid', sourceid, 'targetid', count);
           
           var link = {};
           link.source = sourceid;
           link.target = count;
-          link.distance  = 5*item.distance;
+          link.distance  = 6*item.distance;
           d3links.push(link);
         });
 

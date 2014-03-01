@@ -20,7 +20,6 @@ angular.module('VisApp')
         $scope.showForm = false;
         $scope.showVis = true;
         $scope.showWait = true;
-        console.log('$scope.showWait',$scope.showWait);
         //DatabaseService.request('http://en.wikipedia.org/wiki/' + $scope.url);
         //DatabaseService.request( $scope.url);
         //$scope.returnedPromise = DatabaseService.request($scope.url);

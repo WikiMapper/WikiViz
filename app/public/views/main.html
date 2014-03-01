@@ -23,12 +23,15 @@
 </div>
 
 <div>
-  <ng-repeat="link in sourcedata.links" {{ link.source }}>
+  <ul>
+    <li class='smalltext' ng-repeat="link in sourcedata.links" >
+      {{ link.source }}
+      <br>
+      {{link.target}}
+    </li>
+  </ul>
 </div>
-<!-- <div>
-  want to display link info
-  {{ sourcedata.links}}
-  </div> -->
+
 
 
 <!-- <div>

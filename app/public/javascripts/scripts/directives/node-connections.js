@@ -18,7 +18,7 @@ angular.module('VisApp')
             height = $window.innerHeight,
             //height = 700 ,
             r = 12,
-            gravity = 0.05,   //force at center of layout
+            gravity = 0.2,   //force at center of layout
             charge,
             linkDistance,
             color = d3.scale.category10();
@@ -110,7 +110,8 @@ angular.module('VisApp')
           forceLayout
             //.linkDistance(linkDistance(data.links.distance))
             .linkDistance(linkDistance)
-            .charge(charge(data.cloudCount));
+            .charge(-100);
+            //.charge(charge(data.cloudCount));
 
           // add data to links
           link = svgCanvas.selectAll("line").data(data.links)
@@ -139,12 +140,12 @@ angular.module('VisApp')
           //svg element consisting of text
           gnodesEnter.append("svg:text")   
             .attr('class', 'label')
-            .attr("x", '10')
-            .attr("y", '.64em')
+            .attr("x", '6')
+            .attr("y", '.14em')
             .text(function(d) { return d.title; } );
 
             function mouseover(d) { 
-              console.log('mouseover: id', d.id);
+              console.log('mouseover: title:', d.title, ' id', d.id);
               tooltip_div
                   .html(scope.tooltipText(d)) //must immediately follow tooltip_div or doesn't work
                   .transition().style("opacity", 1)
@@ -152,7 +153,7 @@ angular.module('VisApp')
                   .style("top", 80 + "px");
               d3.select(this)
                   .transition().duration(150)
-                  .attr('r', 40);
+                  .attr('r', 30);
             }
 
             function mouseout(){
@@ -163,7 +164,6 @@ angular.module('VisApp')
             }
 
           forceLayout.start();
-          groupCount++;
         };      
       });
   	};
