@@ -3,7 +3,9 @@ angular.module('VisApp')
     function(DatabaseService, ColorService, d3Service, $scope, $location){
       $scope.showForm = true;
       $scope.showVis = false;
-      $scope.url = 'http://en.wikipedia.org/wiki/Dog';
+      $scope.showWait = false;
+      $scope.url = 'http://en.wikipedia.org/wiki/math';
+
 
       $scope.reset = function(){
         console.log('should call right away');
@@ -17,13 +19,16 @@ angular.module('VisApp')
       $scope.getInput = function(){
         $scope.showForm = false;
         $scope.showVis = true;
+        $scope.showWait = true;
+        console.log('$scope.showWait',$scope.showWait);
         //DatabaseService.request('http://en.wikipedia.org/wiki/' + $scope.url);
         //DatabaseService.request( $scope.url);
-        $scope.returnedPromise = DatabaseService.request($scope.url);
+        //$scope.returnedPromise = DatabaseService.request($scope.url);
         // console.log('check $scope.sourcedata',$scope.sourcedata.then);
-        $scope.returnedPromise.then(function(data) {
+        DatabaseService.request($scope.url).then(function(data) {
           $scope.sourcedata = data;
           console.log('datareturned $scope.sourcedata', $scope.sourcedata)
+          $scope.showWait = false;
         });
       };
 

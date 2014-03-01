@@ -16,7 +16,7 @@ var getLinks = function(err, resp, html, url, res) {
 
   var links = [];
 
-  $('#mw-content-text #toc').prevAll()
+  $('#mw-content-text #toc, .toclimit-3').prevAll()
     .filter('p').children('a').each(function(i, link) {
 
     var linkTitle = $(link).attr('title');
@@ -25,7 +25,7 @@ var getLinks = function(err, resp, html, url, res) {
     links.push({
       title: linkTitle,
       url: 'http://wikipedia.com'+ href,
-      distance: Math.random() * 10
+      distance: Math.random() * 9 + 1   //by autumn
     });
   });
 
