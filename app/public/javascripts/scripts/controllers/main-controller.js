@@ -13,6 +13,8 @@ angular.module('VisApp')
         $scope.showVis = false;
         $scope.url = null;
         $scope.sourcedata = null;
+        $scope.$apply();
+        console.log('$scope.sourcedata', $scope.sourcedata);
 
       };
 

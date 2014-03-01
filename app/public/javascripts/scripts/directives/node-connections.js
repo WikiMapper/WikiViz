@@ -23,9 +23,20 @@ angular.module('VisApp')
             color = d3.scale.category10();
 
         // create the canvas for the model
-        var svgCanvas = d3.select(element[0]).append("svg")
-          .attr("width", width)
-          .attr("height", height);
+        var svgCanvas = d3.select(element[0])
+          .append("svg")
+            .attr("width", width)
+            .attr("height", height)
+          .append('svg:g')            //append extra svg for zoom
+            .call(d3.behavior.zoom().on("zoom", redraw))
+          .append('svg:g');
+
+        function redraw() {
+          console.log("here", d3.event.translate, d3.event.scale);
+          svgCanvas.attr("transform",
+              "translate(" + d3.event.translate + ")"
+              + " scale(" + d3.event.scale + ")");
+        }
 
         var tooltip_div = d3.select(element[0]).append("div")
           .attr("class", "tooltip d3tooltip slateblue effect1")
@@ -69,15 +80,7 @@ angular.module('VisApp')
               .attr("x2", function(d) { return d.target.x; })  //pos of target node
               .attr("y2", function(d) { return d.target.y; });
            gnodes.attr("transform", function(d) { return "translate(" + d.x + "," + d.y + ")"; });
-          // node.attr("cx", function(d) {return d.x})
-          //     .attr("cy", function(d) {return d.y});
         });
-
-        // charge = function(nodeCount) {
-        //   //return -(50+7200/(Math.abs(Math.pow(nodeCount,1.4)-2*nodeCount)));
-        //   console.log(-72000/nodeCount);
-        //   return -72000/nodeCount;
-        // };
 
         scale = d3.scale.linear()
           .domain([0, nodeCount]).range([2, 10]);
