@@ -29,28 +29,6 @@ var getLinks = function(err, resp, html, url, res) {
     });
   });
 
-
-  // $('#mw-content-text #toc').prevAll().filter('p')
-  // .children('a').filter( function() {
-  //   var href = $(this).attr('href');
-  //   var internal = !(/[#]/g).test(href);
-  //   if (!internal) {
-  //     var linkTitle = $(this).attr('title');
-  //     links.push({
-  //       title: linkTitle,
-  //       url: 'http://wikipedia.com'+ href
-  //     });
-  //   }
-  // });
-
-  // var linksObj = {
-  //   url: url,
-  //   title: title,
-  //   incoming: null,
-  //   outgoing: links.length
-  // }
-  //insertDb(linkObj);
-
   var linksObj2 = {
     url: url,
     title: title,
@@ -138,14 +116,34 @@ var urlLinksContains = function(url) {
   //return false;
 }
 
-var scrape = function(url, res) {
+var getRandomUrl = function(cb, res){
+  request("http://en.wikipedia.org/wiki/Special:Random", function(err, resp, html){
+    if (err) { console.log(err)
+    } else {
+      cb(resp.request.href, res);
+    }
+  })
+}
 
+var scrape = function(url, res) {
+  if (url === '' || url === undefined){
+    url = getRandomUrl(scrapePage, res);
+  }
+  else {
+    scrapePage(url, res);
+  }
   //if (!urlLinksContains(url)) {
-    request(url, function(err, resp, html) {
-      var linksObj = getLinks(err, resp, html, url, res);
+    //request(url, function(err, resp, html) {
+      //getLinks(err, resp, html, url, res);
       //res.end(JSON.stringify(linksObj));
-    });
+    //});
   //}
 };
+
+var scrapePage = function(url, res){
+  request(url, function(err, resp, html) {
+    getLinks(err, resp, html, url, res);
+  });
+}
 
 exports.scrape = scrape;
