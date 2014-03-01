@@ -16,10 +16,9 @@ angular.module('VisApp')
         var el = element[0],
             width = d3.select('body').node().offsetWidth ,
             height = $window.innerHeight,
-            //height = 700 ,
             r = 12,
             gravity = 0.2,   //force at center of layout
-            charge,
+            charge = -400,
             linkDistance,
             color = d3.scale.category10();
 
@@ -53,7 +52,7 @@ angular.module('VisApp')
 
         scope.tooltipText = function(data) {
           var text = " <span class='bold'> Title:"  + "</span> "+ data.title;
-          return text
+          return text;
         };
 
         // construct the force-directed layout
@@ -74,15 +73,17 @@ angular.module('VisApp')
           //     .attr("cy", function(d) {return d.y});
         });
 
-        charge = function(nodeCount) {
-          return -(50+7200/(Math.abs(Math.pow(nodeCount,1.4)-2*nodeCount)));
-        };//repulsive force between nodes
+        // charge = function(nodeCount) {
+        //   //return -(50+7200/(Math.abs(Math.pow(nodeCount,1.4)-2*nodeCount)));
+        //   console.log(-72000/nodeCount);
+        //   return -72000/nodeCount;
+        // };
 
         scale = d3.scale.linear()
           .domain([0, nodeCount]).range([2, 10]);
 
         linkDistance = function(d) {
-          console.log('check distance',  d.distance, 'for', d.target);
+          //console.log('check distance',  d.distance, 'for', d.target);
           return d.distance;
         };
 
@@ -91,7 +92,7 @@ angular.module('VisApp')
         scope.render = function(data) {
           nodeCount = data.cloudCount; 
 
-          console.log('±±±±±±±±±±start render. data:', data);
+          console.log('±±±±±±±±±±start render. data:', data, 'nodeCount', nodeCount);
           console.log('start render selectAll:', svgCanvas.selectAll('*'));
           console.log('before remove',svgCanvas.selectAll('*')[0].length)
 
@@ -110,8 +111,7 @@ angular.module('VisApp')
           forceLayout
             //.linkDistance(linkDistance(data.links.distance))
             .linkDistance(linkDistance)
-            .charge(-300);
-            //.charge(charge(data.cloudCount));
+            .charge(charge);
 
           // add data to links
           link = svgCanvas.selectAll("line").data(data.links)
