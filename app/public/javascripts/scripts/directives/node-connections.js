@@ -62,8 +62,8 @@ angular.module('VisApp')
         });
 
         scope.tooltipText = function(data) {
-          var text = " <span> Title:" + data.title + "</span>"; 
-          return text;
+          var text = " <span> Title: " + data.title + "</span>";
+          return text
         };
 
         // construct the force-directed layout
