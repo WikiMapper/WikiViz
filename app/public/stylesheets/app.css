@@ -1,82 +1,161 @@
+html, body, div, span, applet, object, iframe,
+h1, h2, h3, h4, h5, h6, p, blockquote, pre,
+a, abbr, acronym, address, big, cite, code,
+del, dfn, em, img, ins, kbd, q, s, samp,
+small, strike, strong, sub, sup, tt, var,
+b, u, i, center,
+dl, dt, dd, ol, ul, li,
+fieldset, form, label, legend,
+table, caption, tbody, tfoot, thead, tr, th, td,
+article, aside, canvas, details, embed, 
+figure, figcaption, footer, header, hgroup, 
+menu, nav, output, ruby, section, summary,
+time, mark, audio, video {
+  margin: 0;
+  padding: 0;
+  border: 0;
+  font-size: 100%;
+  font: inherit;
+  vertical-align: baseline;
+}
+
+/* HTML5 display-role reset for older browsers */
+article, aside, details, figcaption, figure, 
+footer, header, hgroup, menu, nav, section {
+  display: block;
+}
+
 body {
-  background-color: #7A89A3;
-  font-size: 20px;
+  line-height: 1;
 }
 
-.slateblue {
-  background-color: #2C4269;
+a { 
+  color:#444; 
+  text-decoration: none; 
+  text-shadow: 0px 1px rgba(255,255,255,.3);
 }
 
+a:visited { 
+  color:#333; 
+}
 
-#wikiviz-search {
-  padding-top: 150px;
-  width: 600px;
+a:hover { 
+  color:#333; 
+}
+
+a:active { 
+  color:#333;
+  position: relative;
+  top: 1px;
+}
+
+ol, ul {
+  list-style: none;
+}
+
+blockquote, q {
+  quotes: none;
+}
+
+blockquote:before, blockquote:after,
+q:before, q:after {
+  content: '';
+  content: none;
+}
+
+table {
+  border-collapse: collapse;
+  border-spacing: 0;
+}
+
+body {
+  font-family: 'Varela Round', sans-serif;
+  background: url('http://st.gdefon.com/wallpapers_original/wallpapers/317024_minimalizm_razmytie_oboi_gradient_1920x1080_(www.GdeFon.ru).jpg');
+  background-size: cover;
+  background-repeat: no-repeat;
+  font-size: 17px;
+  color: #666;
+  width: 100%;
   margin: auto;
 }
 
-form
-/* This parent can be any width and height */
-.block {
-  text-align: center;
-  height: 200px;
+nav.nav li {
+  float: right;
+  display: inline;
+  list-style: none;
+  margin-right: 20px;
 }
 
-form input[type=text] {
-  width: 550px;
-  display: block;
-  font-size: 18px;
+nav.nav li a {
+  transition: all .2s ease;
   padding: 5px;
-  margin-bottom: 5px;
-} 
-
-.smalltext {
-  font-size: 8px;
 }
 
-
-/* The ghost, nudged to maintain perfect centering */
-.block:before {
-  content: '';
-  display: inline-block;
-  height: 100%;
-  vertical-align: middle;
-  margin-right: -0.25em; /* Adjusts for spacing */
+nav.nav li a:hover {
+  text-shadow: none;
+  border-bottom: 2px dotted #fff;
+  color: #fff;
 }
 
-/* The element to be centered, can
-   also be of any width and height */ 
-.centered {
-  display: inline-block;
-  vertical-align: middle;
-  width: 100%;
+nav.nav li a:active {
+  border: none;
 }
 
-::-webkit-input-placeholder {
-   text-align:center;
+ul.links {
+  padding: 30px 30px;
 }
 
-
-
-/*** Override bootsrap styling ***************/
-.nav, .pagination, .carousel, .panel-title a {
- cursor: pointer; 
+a#logo {
+  transition: all .2s ease;
+  text-indent: -9999px;
+  display: block;
+  width: 211px;
+  height: 211px;
+  background: url('/images/logo.png') no-repeat;
+  margin: 150px auto 60px auto;
 }
 
-.navbar-default {
-  background-color: #2C4269;
-  border-color: #1C2D4A;
+a#logo:hover {
+ background: url('/images/logo-hover.png') no-repeat; 
 }
 
-.navbar-default .navbar-brand {
-  color: #BFBFBF;
-  font-size: 24px;
+a#logo:active {
+  position: relative;
+  top: 1px;
+  background: url('/images/logo-active.png') no-repeat; 
 }
 
-.navbar-default .navbar-nav > li > a {
-  color: #BFBFBF
+input {
+  background: rgba(0,0,0,.05);
+  width: 35%;
+  position: relative;
+  display: block;
+  outline: none;
+  border: none;
+  border-radius: 3px;
+  margin: 0 auto;
+  padding: 20px 25px;
+  font-size: 18px;
+  color: #666;
+  text-align: center;
+  box-shadow: 0px 1px 0px 0px rgba(255,255,255,1),
+              inset 0px 1px 1px 0 rgba(0,0,0,.5);
 }
 
+.waiting {
+  padding: 40px;
+}
 
+.reset {
+  padding: 15px;
+  position: fixed;
+  top: 20px;
+  left: 20px;
+  border-radius: 3px;
+  border: none;
+  background: rgba(0,0,0,.4);
+  color: white;
+}
 
 /*** d3 styling ***************/
 .node-link {
@@ -103,29 +182,6 @@ title {
   fill: #B4B8D4;
 }
 
-.namefont {
-  font: bold 48px monospace;
-}
-
-.font1 {
-  font: bold 54px monospace;
-}
-
-.font2 {
-  font: bold 48px monospace;
-}
-.enter {
-  fill: green;
-}
-
-.update {
-  fill: #333;
-}
-
-.exit {
-  fill: brown;
-}
-
 div.d3tooltip { 
     position: absolute;     
     text-align: center;     
@@ -146,3 +202,5 @@ div.d3tooltip {
      -moz-box-shadow: 3px 10px 6px -10px #777;*/
           box-shadow: 3px 3px 5px #777;
 }
+
+

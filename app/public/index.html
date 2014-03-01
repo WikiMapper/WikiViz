@@ -18,40 +18,18 @@
 
 <body ng-app="VisApp">
 
-<!-- TEST FILE FOR POSTING WITH jQUERY -->
-
-<!--
-<form id="form">
-  <input type="text" id="url">
-  <input type="submit" id="user-submit" value="">
-</form>
- -->
-
-<!--   <header>
-    <div class="navigation">
-      <ul>
-        <li id='viztitle'>Wiki Viz</li>
-        <li><a href="/#/" >Visualize</a></li>
-        <li><a href="/#/about">About</a></li>
-      </ul>
-    </div>
-  </header> -->
-    <nav class="navbar navbar-default">
-    <div class="container">
-      <div class="navbar-header">
-        <a class="navbar-brand" href="/">Wiki Viz</a>
-      </div>
-
-      <ul class="nav navbar-nav navbar-right">
-        <li><a href="/#/"><i class="fa fa-home"></i> Home</a></li>
-        <li><a href="/#/about"><i class="fa fa-bullseye"></i> About</a></li>
-        <li><a href="/#/credits"><i class="fa fa-comment"></i> Credits</a></li>
-      </ul>
-    </div>
+  <nav class="nav">
+    <ul class="links">
+      <li><a href="/#/credits"><i class="link"></i> Credits</a></li>
+      <li><a href="/#/about"><i class="link"></i> About</a></li>
+      <li><a href="/#/"><i class="link"></i>WikiViz</a></li>
+    </ul>
   </nav>
 
+  <div class="search">
+    
+    <div id="search" ng-view=''></div>
 
-  <div ng-view=''>
   </div>
 
   <!-- Load app scripts -->
