@@ -60,7 +60,7 @@ angular.module('VisApp')
 
           //d3data.nodes[urlid] = sourceNode; // or should this be done property by property?
           console.log('urlid',urlid, d3data.nodes[urlid]);
-          nodes.push(sourceNode);  
+          nodes.push(sourceNode);
         }
 
         //add child url data
@@ -78,25 +78,29 @@ angular.module('VisApp')
           childNode.title    = item.title;
           childNode.url      = item.url;
           childNode.rank     = 15/item.distance;
-          //childNode.distance     = item.distance; 
+          //childNode.distance     = item.distance;
           nodes.push(childNode);
           //console.log('childNode', childNode);
           //console.log('sourceid', sourceid, 'targetid', count);
-          
+
           var link = {};
           link.source = sourceid;
           link.target = count;
           link.distance  = 30*item.distance;
           d3links.push(link);
+          if (childNode.title === "Paris"){
+            alert('target found in ' + cloudIndex + " clicks");
+
+          }
         });
 
         console.log('AFTER adding new node-urls, d3data', d3data);
 
         console.log('after node addition nodes.length', nodes.length, 'count', count);
         //console.log('we got some nodes', nodes);
-        d3data = {  "nodes" : nodes, 
-                    "links" : d3links, 
-                    "cloudCount" : cloudCount, 
+        d3data = {  "nodes" : nodes,
+                    "links" : d3links,
+                    "cloudCount" : cloudCount,
                     "cloudIndex" : cloudIndex};
         return d3data;
       }
