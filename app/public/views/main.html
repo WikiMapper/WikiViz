@@ -1,7 +1,9 @@
 
 
 
-<div id="wikiviz-search" ng-show='showForm'> 
+<div id="wikiviz-search" ng-show='showForm'>
+    <a href="/" id="logo">WikiViz</a>
+
   <form name='wikivizsearch' ng-submit='getInput()' novalidate>
     <!-- <input autofocus/ class="col-md-6 col-md-offset-3 center-block" -->
     <input autofocus/ class=" center-block"
@@ -10,19 +12,19 @@
   </form>
 </div>
 
-  <div ng-show='showWait' class=" center-block">
+  <div ng-show='showWait' class="waiting">
     Waiting for data to load...
   </div>
 
 <div ng-show='showVis'>
   <div node-connections data='sourcedata'></div>
   <button ng-click='reset()'
-    type="button" class="btn btn-primary center-block slateblue"> 
-    Reset 
+    type="button" class="reset"> 
+    RESET 
   </button>
 </div>
 
-<div>
+<!-- <div>
   <ul>
     <li class='smalltext' ng-repeat="link in sourcedata.links" >
       {{ link.source }}
@@ -30,7 +32,7 @@
       {{link.target}}
     </li>
   </ul>
-</div>
+</div> -->
 
 
 
@@ -59,6 +61,6 @@
   <circle cx="60"  cy="60" r="50" fill="green"
           filter="url(#dropShadow)" />
 </svg>
-</div> 
- -->
+</div>  -->
+
 
