@@ -12,9 +12,7 @@ angular.module('VisApp')
 
   	function link (scope, element, attrs){
       //wait for d3 service to doad
-      var groupCount = 1;
       d3Service.d3().then(function(d3){
-        
         var el = element[0],
             width = d3.select('body').node().offsetWidth ,
             height = $window.innerHeight,
@@ -80,14 +78,19 @@ angular.module('VisApp')
           return -(50+7200/(Math.abs(Math.pow(nodeCount,1.4)-2*nodeCount)));
         };//repulsive force between nodes
 
+        scale = d3.scale.linear()
+          .domain([0, nodeCount]).range([2, 10]);
+
         linkDistance = function(d) {
-          //console.log('check distance', d)
+          console.log('check distance',  d.distance, 'for', d.target);
           return d.distance;
         };
 
         var link, gnodes, nodeCount, scale, radius, colorScale;
 
         scope.render = function(data) {
+          nodeCount = data.cloudCount; 
+
           console.log('±±±±±±±±±±start render. data:', data);
           console.log('start render selectAll:', svgCanvas.selectAll('*'));
           console.log('before remove',svgCanvas.selectAll('*')[0].length)
@@ -96,21 +99,18 @@ angular.module('VisApp')
             .nodes(data.nodes)
             .links(data.links);
 
-          nodeCount = data.cloudCount; //need nodeCount 
-          scale = d3.scale.linear()
-            .domain([0, nodeCount]).range([2, 10]);
-          radius = function(d) { return scale(d.rank); };
+          radius = function(d) { 
+            //console.log('check radius', d.url, d.rank);
+            return d.rank; };
           colorScale = d3.scale.linear()
-            .domain([10, data.cloudCount])
+            .domain([0, 10])
             .interpolate(d3.interpolateRgb)
-            .range(["whitesmoke", ColorService.color(groupCount)])
-
-          console.log('nodeCount',nodeCount, 'scale', scale(10));
+            .range(["whitesmoke", ColorService.color(data.cloudIndex)])
 
           forceLayout
             //.linkDistance(linkDistance(data.links.distance))
             .linkDistance(linkDistance)
-            .charge(charge(nodeCount));
+            .charge(charge(data.cloudCount));
 
           // add data to links
           link = svgCanvas.selectAll("line").data(data.links)
@@ -130,7 +130,7 @@ angular.module('VisApp')
             .on("mouseover", mouseover)
             .on("mouseout", mouseout)
             .on("click", function(d, i) {
-              console.log('CLICKED:', d.title, d.id, d.url, 'groupcnt', groupCount, ColorService.color());
+              console.log('CLICKED:', d.title, d.id, d.url, 'groupcnt', nodeCount, ColorService.color(data.cloudIndex));
                 DatabaseService.request(d.url, d.id).then(function(data){
                 scope.render(data);
               })

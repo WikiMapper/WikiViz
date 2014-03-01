@@ -4,7 +4,7 @@ angular.module('VisApp')
       $scope.showForm = true;
       $scope.showVis = false;
       $scope.showWait = false;
-      $scope.url = 'http://en.wikipedia.org/wiki/Lollipop';
+      $scope.url = 'http://en.wikipedia.org/wiki/math';
 
 
       $scope.reset = function(){
