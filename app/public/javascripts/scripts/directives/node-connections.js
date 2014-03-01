@@ -52,7 +52,7 @@ angular.module('VisApp')
         });
 
         scope.tooltipText = function(data) {
-          var text = " <span class='bold'> Title:"  + "</span> "+ data.title;
+          var text = " <span> Title: " + data.title + "</span>";
           return text
         };
 
@@ -149,8 +149,8 @@ angular.module('VisApp')
               tooltip_div
                   .html(scope.tooltipText(d)) //must immediately follow tooltip_div or doesn't work
                   .transition().style("opacity", 1)
-                  .style("left", (width-210) + "px")
-                  .style("top", 80 + "px");
+                  .attr("class", "tooltip")
+        
               d3.select(this)
                   .transition().duration(150)
                   .attr('r', 30);
