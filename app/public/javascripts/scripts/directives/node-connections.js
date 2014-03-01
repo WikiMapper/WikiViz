@@ -134,7 +134,7 @@ angular.module('VisApp')
           forceLayout
             .nodes(data.nodes)
             .links(data.links);
- 
+
           forceLayout
             .linkDistance(linkDistance)
             .charge(charge);
