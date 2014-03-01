@@ -2,24 +2,24 @@
 
 
 <div id="wikiviz-search" ng-show='showForm'>
- 
+
   <form name='wikivizsearch' ng-submit='getInput()' novalidate>
    <input type="submit" id="logo" value="">
    <input autofocus/ class="searchbox"
-        ng-model='url' type="text" 
+        ng-model='url' type="text"
         placeholder="for testing: enter a number ">
   </form>
 </div>
 
   <div ng-show='showWait' class="waiting">
-    <img id="loadImg" src="http://maps.nrel.gov/sites/all/modules/custom_modules/hydra/assets/images/loading_bar.gif" style="margin:auto;position:relative;height:60px;width:auto;float:top">
+    <!-- <img id="loadImg" src="http://sierrafire.cr.usgs.gov/images/loading.gif">; -->
   </div>
 
 <div ng-show='showVis'>
   <div node-connections data='sourcedata'></div>
   <button ng-click='reset()'
-    type="button" class="reset"> 
-    RESET 
+    type="button" class="reset">
+    RESET
   </button>
 </div>
 
@@ -36,14 +36,14 @@
 
 
 <!-- <div>
-  <svg 
-    width="120" height="120" 
+  <svg
+    width="120" height="120"
      viewPort="0 0 120 120" version="1.1"
      xmlns="http://www.w3.org/2000/svg">
 
     <circle cx="60" cy="60" r="50" class="effect1" />
   </svg>
-  
+
  <svg width="120" height="120"
  xmlns="http://www.w3.org/2000/svg"
  xmlns:xlink="http://www.w3.org/1999/xlink">
