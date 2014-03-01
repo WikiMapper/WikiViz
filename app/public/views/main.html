@@ -2,11 +2,10 @@
 
 
 <div id="wikiviz-search" ng-show='showForm'>
-    <a href="/" id="logo">WikiViz</a>
-
+ 
   <form name='wikivizsearch' ng-submit='getInput()' novalidate>
-    <!-- <input autofocus/ class="col-md-6 col-md-offset-3 center-block" -->
-    <input autofocus/ class=" center-block"
+   <input type="submit" id="logo" value="">
+   <input autofocus/ class="searchbox"
         ng-model='url' type="text" 
         placeholder="for testing: enter a number ">
   </form>
@@ -62,5 +61,4 @@
           filter="url(#dropShadow)" />
 </svg>
 </div>  -->
-
 

@@ -25,26 +25,17 @@ footer, header, hgroup, menu, nav, section {
   display: block;
 }
 
-body {
-  line-height: 1;
-}
-
 a { 
-  color:#444; 
+  color:#222; 
   text-decoration: none; 
-  text-shadow: 0px 1px rgba(255,255,255,.3);
 }
 
 a:visited { 
-  color:#333; 
-}
-
-a:hover { 
-  color:#333; 
+  color:#222; 
 }
 
 a:active { 
-  color:#333;
+  color:#222;
   position: relative;
   top: 1px;
 }
@@ -70,13 +61,19 @@ table {
 
 body {
   font-family: 'Varela Round', sans-serif;
-  background: url('http://st.gdefon.com/wallpapers_original/wallpapers/317024_minimalizm_razmytie_oboi_gradient_1920x1080_(www.GdeFon.ru).jpg');
+  background: url('/images/background.png');
   background-size: cover;
   background-repeat: no-repeat;
   font-size: 17px;
   color: #666;
   width: 100%;
   margin: auto;
+}
+
+nav {
+  position: fixed;
+  top: 2px;
+  right: 2px;
 }
 
 nav.nav li {
@@ -102,10 +99,12 @@ nav.nav li a:active {
 }
 
 ul.links {
-  padding: 30px 30px;
+  padding: 20px 0px;
 }
 
-a#logo {
+#logo {
+  outline: none;
+  border: none;
   transition: all .2s ease;
   text-indent: -9999px;
   display: block;
@@ -115,18 +114,18 @@ a#logo {
   margin: 150px auto 60px auto;
 }
 
-a#logo:hover {
+#logo:hover {
  background: url('/images/logo-hover.png') no-repeat; 
 }
 
-a#logo:active {
+#logo:active {
   position: relative;
   top: 1px;
   background: url('/images/logo-active.png') no-repeat; 
 }
 
-input {
-  background: rgba(0,0,0,.05);
+.searchbox {
+  background: rgba(0,0,0,.1);
   width: 35%;
   position: relative;
   display: block;
@@ -136,36 +135,55 @@ input {
   margin: 0 auto;
   padding: 20px 25px;
   font-size: 18px;
-  color: #666;
+  color: #444;
   text-align: center;
-  box-shadow: 0px 1px 0px 0px rgba(255,255,255,1),
-              inset 0px 1px 1px 0 rgba(0,0,0,.5);
+  box-shadow: 0px 1px 0px 0px rgba(255,255,255,.75),
+              inset 0px 1px 2px 0 rgba(0,0,0,.75);
 }
 
 .waiting {
   padding: 40px;
 }
 
-.reset {
-  padding: 15px;
+.reset, .tooltip {
+  background: rgba(0,0,0,0);
+  border: 2px solid #222;
+  transition: all .2s ease;
+  padding: 20px;
   position: fixed;
-  top: 20px;
-  left: 20px;
-  border-radius: 3px;
-  border: none;
-  background: rgba(0,0,0,.4);
+  border-radius: 5px;
   color: white;
+  outline: none;
+}
+
+.tooltip span {
+  color: #222;
+}
+
+.tooltip {
+  top: 30px;
+  left: 30px;
+}
+
+.reset {
+  color: #222;
+  right: 20px;
+  bottom: 20px;
+}
+
+.reset:hover {
+  border-color: #fff;
+  color: #fff;
 }
 
 /*** d3 styling ***************/
 .node-link {
-  stroke:  #ccc;
+  stroke: rgba(0,0,0,.15);
 }
 
 .node-group text {
+  fill: #333;
   pointer-events: none;
-  font: 14px sans-serif;
-  text-shadow: 0 1px 0 #7A89A3, 1px 0 0 #7A89A3, 0 -1px 0 #7A89A3, -1px 0 0 #7A89A3;
 }
 
 text.label {
@@ -182,25 +200,41 @@ title {
   fill: #B4B8D4;
 }
 
-div.d3tooltip { 
-    position: absolute;     
-    text-align: center;     
-    width: 200px;          
-    height: 100px;         
-    padding: 8px;       
-    font: 18px sans-serif;    
-    background: -webkit-linear-gradient(top, #7A89A3 0%,#fff 30%);
-    color: #2C4269;
-    border: 3px; /* solid #2C4269 ;*/
-    border-radius: 8px;     
-    pointer-events: none;     
-}
-
 .effect1{
 /* l r b t */
-/*  -webkit-box-shadow: 3px 10px 6px -10px #777;
-     -moz-box-shadow: 3px 10px 6px -10px #777;*/
-          box-shadow: 3px 3px 5px #777;
+/*  -webkit-box-shadow: 3px 10px 6px -10px #222;
+     -moz-box-shadow: 3px 10px 6px -10px #222;*/
+          box-shadow: 3px 3px 5px #222;
 }
 
+.site-info {
+  padding: 30px;
+  width: 700px;
+  height: 200px;
+  margin: 50px 30px;
+}
+
+h1 {
+  text-shadow: 0px 1px rgba(255,255,255,.3);
+  color: #252525;
+  font-size: 40px;
+  margin-bottom: 30px;
+}
+
+p {
+  color: #444;
+  line-height: 1.6;
+}
+
+h1 {
+  text-shadow: 0px 1px rgba(255,255,255,.3);
+  color: #252525;
+  font-size: 40px;
+  margin-bottom: 30px;
+}
+
+p {
+  color: #444;
+  line-height: 1.6;
+}
 

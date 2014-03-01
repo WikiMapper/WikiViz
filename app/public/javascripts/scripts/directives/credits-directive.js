@@ -50,13 +50,13 @@ angular.module('VisApp')
           text.enter().append("text")
               .attr("class", "slateblue namefont")
               .attr("dy", ".35em")
-              .attr("y", -400)
-              .attr("x", function(d, i) { return (i * 36); })
+              .attr("y", -900)
+              .attr("x", function(d, i) { return (i * 20); })
               .style("fill-opacity", 1e-6)
               .text(function(d) { return d; })
             .transition()
               .duration(750)
-              .attr("y", 20)
+              .attr("y", 10)
               .style("fill-opacity", 1);
         }
 
