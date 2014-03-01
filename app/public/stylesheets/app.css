@@ -15,7 +15,7 @@ time, mark, audio, video {
   padding: 0;
   border: 0;
   font-size: 100%;
-  font: inherit;
+  font-family: Josefin Sans;
   vertical-align: baseline;
 }
 
@@ -222,7 +222,7 @@ h1 {
 }
 
 p {
-  color: #444;
+  color: #2B101E;
   line-height: 1.6;
 }
 
