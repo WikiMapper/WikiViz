@@ -56,6 +56,7 @@ angular.module('VisApp')
           // sourceNode.incoming = data.incoming;
           // sourceNode.outgoing = data.outgoing;
           sourceNode.rank     = 5;  //not sure what center node should be
+          sourceNode.x        = window.inner
 
           //d3data.nodes[urlid] = sourceNode; // or should this be done property by property?
           console.log('urlid',urlid, d3data.nodes[urlid]);
@@ -85,7 +86,7 @@ angular.module('VisApp')
           var link = {};
           link.source = sourceid;
           link.target = count;
-          link.distance  = 6*item.distance;
+          link.distance  = 7*item.distance;
           d3links.push(link);
         });
 

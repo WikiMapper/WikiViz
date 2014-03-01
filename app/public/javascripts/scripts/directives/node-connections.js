@@ -101,7 +101,7 @@ angular.module('VisApp')
 
           radius = function(d) { 
             //console.log('check radius', d.url, d.rank);
-            return d.rank; };
+            return 1.5*d.rank; };
           colorScale = d3.scale.linear()
             .domain([0, 10])
             .interpolate(d3.interpolateRgb)
