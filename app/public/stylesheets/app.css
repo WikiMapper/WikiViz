@@ -164,7 +164,7 @@ input {
 
 .node-group text {
   pointer-events: none;
-  font: 6px sans-serif;
+  font: 14px sans-serif;
   text-shadow: 0 1px 0 #7A89A3, 1px 0 0 #7A89A3, 0 -1px 0 #7A89A3, -1px 0 0 #7A89A3;
 }
 
