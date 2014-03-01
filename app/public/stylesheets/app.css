@@ -29,6 +29,10 @@ form input[type=text] {
   margin-bottom: 5px;
 } 
 
+.smalltext {
+  font-size: 8px;
+}
+
 
 /* The ghost, nudged to maintain perfect centering */
 .block:before {
@@ -81,7 +85,7 @@ form input[type=text] {
 
 .node-group text {
   pointer-events: none;
-  font: 10px sans-serif;
+  font: 6px sans-serif;
   text-shadow: 0 1px 0 #7A89A3, 1px 0 0 #7A89A3, 0 -1px 0 #7A89A3, -1px 0 0 #7A89A3;
 }
 

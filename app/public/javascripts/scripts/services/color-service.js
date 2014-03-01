@@ -3,7 +3,7 @@ angular.module('VisApp')
 
     var getColor = function(num){
       colormap = {
-          1  : "orange",
+          1  : "darkblue",
           2  : "crimson",
           3  : "darkgreen",
           4  : "darkorchid",
@@ -12,7 +12,8 @@ angular.module('VisApp')
           7  : "gold",
           8  : "mediumslateblue",
           9  : "darkblue",
-          10 : "seagreen"
+          10 : "seagreen",
+          11 : "red"
       };
       
       return colormap[num];
