@@ -214,6 +214,11 @@ title {
   margin: 50px 30px;
 }
 
+.site-info p, .site-info a{
+  margin-left: 20px;
+  font-size: 16px;
+}
+
 h1 {
   text-shadow: 0px 1px rgba(255,255,255,.3);
   color: #252525;
