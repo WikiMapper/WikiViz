@@ -8,10 +8,22 @@ angular.module('VisApp')
 
       $scope.reset = function(){
         $scope.showForm = true;
-        $scope.showVis = false;
+        //$scope.showVis = false;
         $scope.url = 'http://en.wikipedia.org/wiki/math';
         $scope.sourcedata = null;
-        console.log('RESET!!!!! $scope.sourcedata', $scope.sourcedata);
+        // $scope.sourcedata.nodes =null;
+        // $scope.sourcedata.d3links = null;
+        // $scope.sourcedata.cloudCount = null;
+        // $scope.sourcedata.cloudIndex =null;
+
+        //this doesn't have then, why does below?
+        $scope.sourcedata = DatabaseService.reset();  
+       
+        // DatabaseService.reset().then(function(data){
+        //   $scope.sourcedata = data;
+        //   console.log('in controller should have reset');
+        // });
+        console.log('RESET called $scope.sourcedata', $scope.sourcedata);
       };
 
       $scope.getInput = function(){
