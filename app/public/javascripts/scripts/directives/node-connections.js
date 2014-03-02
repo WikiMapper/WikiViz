@@ -138,7 +138,8 @@ angular.module('VisApp')
                 DatabaseService.request(d.url, d.id).then(function(data){
                 scope.render(data);
               })
-             });
+             })
+            .call(forceLayout.drag);
 
           //svg element consisting of text
           gnodesEnter.append("svg:text")   
