@@ -4,7 +4,7 @@ angular.module('VisApp')
   	return {
   		restrict : 'EA',
   		scope: {
-        data: '=' //sets up two-way databinding
+        data: '='           //sets up two-way databinding
       },
   		link : link
   	};
@@ -41,6 +41,11 @@ angular.module('VisApp')
           .attr("class", "tooltip d3tooltip slateblue effect1")
           .style("opacity", 1e-6);
 
+        scope.tooltipText = function(data) {
+          var text = " <span> Title:" + data.title + "</span>"; 
+          return text;
+        };
+
         // // Browswer onresize event
         // window.onresize = function() {
         //   scope.$apply();
@@ -54,30 +59,21 @@ angular.module('VisApp')
         // });
 
         scope.$watch('data', function(data){
-          console.log('WATCH CALLED');
-          //console.log('watching', data, 'num nodes:', data.nodes.length);
-          scope.data = data;   // TODO: make sure this is correct scope
-          if(!data) {
-            console.log('#(*&#$)(*#&)(* if NULLLLLL', data);
-            scope.data = null;
-            return;}
-          else{
-          return scope.render(data);
-        };
+          console.log('WATCH CALLED incoming data:', data);
+          scope.data = data; 
+          if(!data){
+            return;
+          }else{
+            return scope.render(data);
+          };
         }, true);
-
-        scope.tooltipText = function(data) {
-          var text = " <span> Title:" + data.title + "</span>"; 
-          return text;
-        };
 
         // construct the force-directed layout
         var forceLayout = d3.layout.force()
           .gravity(gravity)
           .size([width, height]);  //size of force layout
 
-        // tick = delta_t for simulation
-        // set functions tor run on tick event for node & link positions
+        // tick = delta_t for simulation, set functions tor run on tick event for node & link positions
         forceLayout.on("tick", function() {
           console.log('tick');
           link.attr("x1", function(d) { return d.source.x; })  //pos of source node
@@ -87,37 +83,59 @@ angular.module('VisApp')
            gnodes.attr("transform", function(d) { return "translate(" + d.x + "," + d.y + ")"; });
         });
 
+      
+        function getColor(colorIndex, rank) {
+          colorScale = d3.scale.linear()
+            .domain([-2, 10])
+            .interpolate(d3.interpolateRgb)
+            .range(["whitesmoke", ColorService.color(colorIndex)]);
+          return colorScale(rank);
+        } 
+
         scale = d3.scale.linear()
           .domain([0, nodeCount]).range([2, 10]);
 
-        linkDistance = function(d) {
+        function linkDistance(d) {
           //console.log('check distance',  d.distance, 'for', d.target);
           return d.distance;
-        };
+        }
+
+        function radius(d) { 
+          //console.log('check radius', d.url, d.rank);
+          return 2*d.rank; 
+        }
+
+        function mouseover(d) { 
+            console.log('mouseover: title:', d.title, ' id', d.id);
+            tooltip_div
+                .html(scope.tooltipText(d))   
+                .transition().style("opacity", 1)
+                .attr("class", "tooltip")
+            d3.select(this)
+                .transition().duration(150)
+                .attr('r', 30);
+        }
+
+        function mouseout(){
+          tooltip_div.transition().style("opacity", 1e-6);
+          d3.select(this)
+            .transition().duration(450)
+          .attr('r', radius)
+        }
 
         var link, gnodes, nodeCount, scale, radius, colorScale;
 
         scope.render = function(data) {
           nodeCount = data.cloudCount; 
 
-          console.log('±±±±±±±±±±start render. data:', data, 'nodeCount', nodeCount);
-          console.log('start render selectAll:', svgCanvas.selectAll('*'));
-          console.log('before remove',svgCanvas.selectAll('*')[0].length)
+          console.log('±±±±±±±±±±start render. incoming data:', data, 'nodeCount', nodeCount);
+          console.log('selectAll in svgCanvas:', svgCanvas.selectAll('*'));
 
           forceLayout
             .nodes(data.nodes)
             .links(data.links);
-
-          radius = function(d) { 
-            //console.log('check radius', d.url, d.rank);
-            return 2*d.rank; };
-          colorScale = d3.scale.linear()
-            .domain([-2, 10])
-            .interpolate(d3.interpolateRgb)
-            .range(["whitesmoke", ColorService.color(data.cloudIndex)])
-
+ 
           forceLayout
-            //.linkDistance(linkDistance(data.links.distance))
             .linkDistance(linkDistance)
             .charge(charge);
 
@@ -125,6 +143,7 @@ angular.module('VisApp')
           link = svgCanvas.selectAll("line").data(data.links)
           link.enter().append("line")
             .attr("class", "node-link");
+          link.exit().remove();
 
           //create node group to hold node + text
           gnodes = svgCanvas.selectAll("g").data(data.nodes);
@@ -135,7 +154,8 @@ angular.module('VisApp')
             .append('circle')
             .attr('class', 'node')
             .attr('r', radius)
-            .style('fill', function(d) { return colorScale(d.rank); })
+            .style('fill', function(d) { return getColor(data.cloudIndex, d.rank); })
+            //.style('fill', function(d) { return colorScale(d.rank); })
             .on("mouseover", mouseover)
             .on("mouseout", mouseout)
             .on("click", function(d, i) {
@@ -143,8 +163,9 @@ angular.module('VisApp')
                 DatabaseService.request(d.url, d.id).then(function(data){
                 scope.render(data);
               })
-             })
-            .call(forceLayout.drag);
+            });
+          gnodes.exit().remove();
+          console.log('what is gnodesEnter',gnodesEnter);
 
           //svg element consisting of text
           gnodesEnter.append("svg:text")   
@@ -152,32 +173,13 @@ angular.module('VisApp')
             .attr("x", '6')
             .attr("y", '.14em')
             .text(function(d) { return d.title; } );
-
-            function mouseover(d) { 
-              console.log('mouseover: title:', d.title, ' id', d.id);
-              tooltip_div
-                  .html(scope.tooltipText(d)) //must immediately follow tooltip_div or doesn't work
-                  .transition().style("opacity", 1)
-                  .attr("class", "tooltip")
-              d3.select(this)
-                  .transition().duration(150)
-                  .attr('r', 30);
-            }
-
-            function mouseout(){
-              tooltip_div.transition().style("opacity", 1e-6);
-              d3.select(this)
-                .transition().duration(450)
-              .attr('r', radius)
-            }
-
+          
+          console.log('after d3 stuff,selectAll in svgCanvas:', svgCanvas.selectAll('*'));
           forceLayout.start();
         };      
       });
   	};
 	}]);
-
-
 
 
 
