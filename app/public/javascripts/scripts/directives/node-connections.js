@@ -107,7 +107,7 @@ angular.module('VisApp')
             //console.log('check radius', d.url, d.rank);
             return 2*d.rank; };
           colorScale = d3.scale.linear()
-            .domain([0, 10])
+            .domain([-2, 10])
             .interpolate(d3.interpolateRgb)
             .range(["whitesmoke", ColorService.color(data.cloudIndex)])
 

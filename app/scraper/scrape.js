@@ -58,6 +58,7 @@ var getLinks = function(err, resp, html, url, res) {
   //    console.log("In .error Data0 :" + error)
   //    console.log("In .error Data1 :" + error);
   //   });
+
 var distBtwUrlVectors = function(v0, v1){
   var diff = {};
   var distSum = 0;
