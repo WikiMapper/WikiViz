@@ -1,11 +1,10 @@
 angular.module('VisApp')
   .directive('nodeConnections',['DatabaseService','ColorService', 'd3Service', '$window', '$position',
     function(DatabaseService, ColorService, d3Service, $window, $position) {
-  	console.log('nodeConnections directive called');
   	return {
   		restrict : 'EA',
   		scope: {
-        data: '='
+        data: '=' //sets up two-way databinding
       },
   		link : link
   	};
@@ -42,24 +41,30 @@ angular.module('VisApp')
           .attr("class", "tooltip d3tooltip slateblue effect1")
           .style("opacity", 1e-6);
 
-        // Browswer onresize event
-        window.onresize = function() {
-          scope.$apply();
-        };
+        // // Browswer onresize event
+        // window.onresize = function() {
+        //   scope.$apply();
+        // };
 
-        //Watch for resize event
-        scope.$watch(function() {
-          return angular.element($window)[0].innerWidth;
-        }, function() {
-          scope.render(scope.data); // TODO: make sure this is correct scope for incoming data!
-        });
+        // //Watch for resize event
+        // scope.$watch(function() {
+        //   return angular.element($window)[0].innerWidth;
+        // }, function() {
+        //   scope.render(scope.data); // TODO: make sure this is correct scope for incoming data!
+        // });
 
         scope.$watch('data', function(data){
-          console.log('watching', data, 'num nodes:', data.nodes.length);
+          console.log('WATCH CALLED');
+          //console.log('watching', data, 'num nodes:', data.nodes.length);
           scope.data = data;   // TODO: make sure this is correct scope
-          if(!data) return;
+          if(!data) {
+            console.log('#(*&#$)(*#&)(* if NULLLLLL', data);
+            scope.data = null;
+            return;}
+          else{
           return scope.render(data);
-        });
+        };
+        }, true);
 
         scope.tooltipText = function(data) {
           var text = " <span> Title:" + data.title + "</span>"; 
@@ -138,7 +143,8 @@ angular.module('VisApp')
                 DatabaseService.request(d.url, d.id).then(function(data){
                 scope.render(data);
               })
-             });
+             })
+            .call(forceLayout.drag);
 
           //svg element consisting of text
           gnodesEnter.append("svg:text")   

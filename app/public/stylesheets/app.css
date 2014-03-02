@@ -142,7 +142,12 @@ ul.links {
 }
 
 .waiting {
-  padding: 40px;
+  width: 50%;
+  position: relative;
+  padding-top: 100px;
+  margin: 0 auto;
+  text-align: center;
+  font-size: 28;
 }
 
 .reset, .tooltip {
