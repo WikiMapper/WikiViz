@@ -11,14 +11,8 @@ angular.module('VisApp')
         $scope.showVis = false;
         $scope.url = 'http://en.wikipedia.org/wiki/math';
         $scope.sourcedata = null;
-  
-        //this doesn't have then, why does below?
+        //this doesn't have promises pattern, as the DatabaseService call below does, why does below?
         $scope.sourcedata = DatabaseService.reset();  
-       
-        // DatabaseService.reset().then(function(data){
-        //   $scope.sourcedata = data;
-        //   console.log('in controller should have reset');
-        // });
         console.log('RESET called $scope.sourcedata', $scope.sourcedata);
       };
 
