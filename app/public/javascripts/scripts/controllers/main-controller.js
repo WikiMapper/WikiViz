@@ -8,14 +8,10 @@ angular.module('VisApp')
 
       $scope.reset = function(){
         $scope.showForm = true;
-        //$scope.showVis = false;
+        $scope.showVis = false;
         $scope.url = 'http://en.wikipedia.org/wiki/math';
         $scope.sourcedata = null;
-        // $scope.sourcedata.nodes =null;
-        // $scope.sourcedata.d3links = null;
-        // $scope.sourcedata.cloudCount = null;
-        // $scope.sourcedata.cloudIndex =null;
-
+  
         //this doesn't have then, why does below?
         $scope.sourcedata = DatabaseService.reset();  
        

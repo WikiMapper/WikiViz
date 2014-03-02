@@ -16,20 +16,18 @@ angular.module('VisApp')
 
     doReset = function(){
       console.log('doReset called');
-      // d3data.nodes = null;
-      // d3data.links = null;
       count = 0,
-        cloudCount = 0,
-        cloudIndex = 0,
-        d3data = [],
-        nodes = [],
-        d3links = [],
-        d3data = {  "nodes"       : nodes, 
-                    "links"       : d3links, 
-                    "cloudCount"  : cloudCount, 
-                    "cloudIndex"  : cloudIndex};
-        console.log('returning reset d3data', d3data);
-        return d3data;
+      cloudCount = 0,
+      cloudIndex = 0,
+      d3data = [],
+      nodes = [],
+      d3links = [],
+      d3data = {  "nodes"       : nodes, 
+                  "links"       : d3links, 
+                  "cloudCount"  : cloudCount, 
+                  "cloudIndex"  : cloudIndex};
+      console.log('returning reset d3data', d3data);
+      return d3data;
     };    
 
     doRequest = function(url, urlid) {
