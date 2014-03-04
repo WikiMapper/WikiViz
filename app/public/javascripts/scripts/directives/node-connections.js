@@ -31,7 +31,6 @@ angular.module('VisApp')
           .append('svg:g');
 
         function redraw() {
-          console.log("here", d3.event.translate, d3.event.scale);
           svgCanvas.attr("transform",
               "translate(" + d3.event.translate + ")"
               + " scale(" + d3.event.scale + ")");
@@ -46,20 +45,7 @@ angular.module('VisApp')
           return text;
         };
 
-        // // Browswer onresize event
-        // window.onresize = function() {
-        //   scope.$apply();
-        // };
-
-        // //Watch for resize event
-        // scope.$watch(function() {
-        //   return angular.element($window)[0].innerWidth;
-        // }, function() {
-        //   scope.render(scope.data); // TODO: make sure this is correct scope for incoming data!
-        // });
-
         scope.$watch('data', function(data){
-          console.log('WATCH CALLED incoming data:', data);
           scope.data = data; 
           if(!data){
             return;
@@ -82,7 +68,6 @@ angular.module('VisApp')
               .attr("y2", function(d) { return d.target.y; });
            gnodes.attr("transform", function(d) { return "translate(" + d.x + "," + d.y + ")"; });
         });
-
       
         function getColor(colorIndex, rank) {
           colorScale = d3.scale.linear()
@@ -96,17 +81,14 @@ angular.module('VisApp')
           .domain([0, nodeCount]).range([2, 10]);
 
         function linkDistance(d) {
-          //console.log('check distance',  d.distance, 'for', d.target);
           return d.distance;
         }
 
         function radius(d) { 
-          //console.log('check radius', d.url, d.rank);
           return 2*d.rank; 
         }
 
         function mouseover(d) { 
-            console.log('mouseover: title:', d.title, ' id', d.id);
             tooltip_div
                 .html(scope.tooltipText(d))   
                 .transition().style("opacity", 1)
@@ -127,9 +109,6 @@ angular.module('VisApp')
 
         scope.render = function(data) {
           nodeCount = data.cloudCount; 
-
-          console.log('±±±±±±±±±±start render. incoming data:', data, 'nodeCount', nodeCount);
-          console.log('selectAll in svgCanvas:', svgCanvas.selectAll('*'));
 
           forceLayout
             .nodes(data.nodes)
@@ -159,13 +138,11 @@ angular.module('VisApp')
             .on("mouseover", mouseover)
             .on("mouseout", mouseout)
             .on("click", function(d, i) {
-              console.log('CLICKED:', d.title, d.id, d.url, 'groupcnt', nodeCount, ColorService.color(data.cloudIndex));
                 DatabaseService.request(d.url, d.id).then(function(data){
                 scope.render(data);
               })
             });
           gnodes.exit().remove();
-          console.log('what is gnodesEnter',gnodesEnter);
 
           //svg element consisting of text
           gnodesEnter.append("svg:text")   
@@ -174,19 +151,9 @@ angular.module('VisApp')
             .attr("y", '.14em')
             .text(function(d) { return d.title; } );
           
-          console.log('after d3 stuff,selectAll in svgCanvas:', svgCanvas.selectAll('*'));
           forceLayout.start();
         };      
       });
   	};
 	}]);
 
-
-
-
-/*What we want to be able to do is separate the scope inside a 
-directive from the scope outside, and then map the outer scope 
-to a directive's inner scope. We can do this by creating what 
-we call an isolate scope. To do this, we can use a directive's scope option: */
-
-/* Bug in snake case to camel case from directive attribute!!!! */

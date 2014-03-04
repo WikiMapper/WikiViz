@@ -8,7 +8,6 @@
 angular.module('d3',[])
   .factory('d3Service', ['$document', '$q', '$rootScope',
     function($document, $q, $rootScope) {
-	   console.log('reading d3 module');
       var d = $q.defer();
       function onScriptLoad() {
         // Load client in the browser
