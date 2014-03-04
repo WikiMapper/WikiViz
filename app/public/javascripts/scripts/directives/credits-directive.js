@@ -12,7 +12,6 @@ angular.module('VisApp')
     };
 
     function link (scope, element, attrs){
-      console.log('in credits link funtion', scope.data);
       var word = scope.data.split('');
       //     wordLen = word.length,
       //     count = 0;
@@ -35,7 +34,6 @@ angular.module('VisApp')
         });
 
         function update(data) {
-          console.log('check word', data);
           //count++;
           // if (count === word.length){
           //   $interval.cancel();

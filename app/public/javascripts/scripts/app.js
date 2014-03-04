@@ -1,5 +1,3 @@
-// App configuration
-
 angular.module('VisApp', ['ngRoute', 'd3', 'ui.bootstrap']);
 
 angular.module('VisApp')
