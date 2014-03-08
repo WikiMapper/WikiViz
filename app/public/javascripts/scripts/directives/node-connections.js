@@ -42,7 +42,7 @@ angular.module('VisApp')
           .style("opacity", 1e-6);
 
         scope.tooltipText = function(data) {
-          var text = " <span> Title:" + data.title + "</span>"; 
+          var text = " <span> Title:" + data.title + "</span>";
           return text;
         };
 
@@ -60,7 +60,7 @@ angular.module('VisApp')
 
         scope.$watch('data', function(data){
           console.log('WATCH CALLED incoming data:', data);
-          scope.data = data; 
+          scope.data = data;
           if(!data){
             return;
           }else{
@@ -83,14 +83,14 @@ angular.module('VisApp')
            gnodes.attr("transform", function(d) { return "translate(" + d.x + "," + d.y + ")"; });
         });
 
-      
+
         function getColor(colorIndex, rank) {
           colorScale = d3.scale.linear()
             .domain([-2, 10])
             .interpolate(d3.interpolateRgb)
             .range(["whitesmoke", ColorService.color(colorIndex)]);
           return colorScale(rank);
-        } 
+        }
 
         scale = d3.scale.linear()
           .domain([0, nodeCount]).range([2, 10]);
@@ -100,15 +100,15 @@ angular.module('VisApp')
           return d.distance;
         }
 
-        function radius(d) { 
+        function radius(d) {
           //console.log('check radius', d.url, d.rank);
-          return 2*d.rank; 
+          return 2*d.rank;
         }
 
-        function mouseover(d) { 
+        function mouseover(d) {
             console.log('mouseover: title:', d.title, ' id', d.id);
             tooltip_div
-                .html(scope.tooltipText(d))   
+                .html(scope.tooltipText(d))
                 .transition().style("opacity", 1)
                 .attr("class", "tooltip")
             d3.select(this)
@@ -126,7 +126,7 @@ angular.module('VisApp')
         var link, gnodes, nodeCount, scale, radius, colorScale;
 
         scope.render = function(data) {
-          nodeCount = data.cloudCount; 
+          nodeCount = data.cloudCount;
 
           console.log('±±±±±±±±±±start render. incoming data:', data, 'nodeCount', nodeCount);
           console.log('selectAll in svgCanvas:', svgCanvas.selectAll('*'));
@@ -134,7 +134,7 @@ angular.module('VisApp')
           forceLayout
             .nodes(data.nodes)
             .links(data.links);
- 
+
           forceLayout
             .linkDistance(linkDistance)
             .charge(charge);
@@ -148,7 +148,7 @@ angular.module('VisApp')
           //create node group to hold node + text
           gnodes = svgCanvas.selectAll("g").data(data.nodes);
           gnodesEnter = gnodes.enter()
-            .append("g")          //g element used to group svg shapes 
+            .append("g")          //g element used to group svg shapes
             .attr("class", "node-group");
           gnodesEnter
             .append('circle')
@@ -168,15 +168,15 @@ angular.module('VisApp')
           console.log('what is gnodesEnter',gnodesEnter);
 
           //svg element consisting of text
-          gnodesEnter.append("svg:text")   
+          gnodesEnter.append("svg:text")
             .attr('class', 'label')
             .attr("x", '6')
             .attr("y", '.14em')
             .text(function(d) { return d.title; } );
-          
+
           console.log('after d3 stuff,selectAll in svgCanvas:', svgCanvas.selectAll('*'));
           forceLayout.start();
-        };      
+        };
       });
   	};
 	}]);
@@ -184,9 +184,9 @@ angular.module('VisApp')
 
 
 
-/*What we want to be able to do is separate the scope inside a 
-directive from the scope outside, and then map the outer scope 
-to a directive's inner scope. We can do this by creating what 
+/*What we want to be able to do is separate the scope inside a
+directive from the scope outside, and then map the outer scope
+to a directive's inner scope. We can do this by creating what
 we call an isolate scope. To do this, we can use a directive's scope option: */
 
 /* Bug in snake case to camel case from directive attribute!!!! */

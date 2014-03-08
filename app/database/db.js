@@ -2,24 +2,18 @@
 // MYSQL SETUP
 //////////////////////////////////////////////////////////////////
 
+//!!!!NOTICE: This file and the database folder is currently not in use in WikiViz!!!!
+
 var mysql   = require('mysql');
 var Promise = require('bluebird');
 var pg      = require('pg');
 
 var conString = "postgres://postgres:password@localhost:5432/wikiviz";
-//var client = new pg.Client(conString);
-
-//Promise.promisifyAll(client);
+var client = new pg.Client(conString);
 
 //////////////////////////////////////////////////////////////////
 // INSERTING USER INPUT INTO TABLE (inputUrls)
 //////////////////////////////////////////////////////////////////
-
-// var urlLinksSelect = function(url, title) {
-//   return 'select * from urlLinks where url = \''1
-//           + url
-//           + '\' AND title != \'NULL\';';
-// };
 
 
 var contains = function(url) {
@@ -32,7 +26,6 @@ var insertInputUrl = function(data, cb) {
     if (err) { console.log(err) }
     else {
       client.query("INSERT INTO urlLinks (url) VALUES ($1)",[data.url]);
-      cb();
     }
   });
 };
@@ -43,5 +36,4 @@ var insertInputUrl = function(data, cb) {
 // //////////////////////////////////////////////////////////////////
 
 exports.insertInputUrl = insertInputUrl;
-//exports.contains = contains;
-// exports.connection = connection;
+exports.contains = contains;

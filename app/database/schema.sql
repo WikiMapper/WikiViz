@@ -6,8 +6,8 @@ USE heroku_73f08b2ebf46a85;
 -- Globals
 -- ---
 
--- SET SQL_MODE="NO_AUTO_VALUE_ON_ZERO";
--- SET FOREIGN_KEY_CHECKS=0;
+SET SQL_MODE="NO_AUTO_VALUE_ON_ZERO";
+SET FOREIGN_KEY_CHECKS=0;
 
 -- ---
 -- Table 'urlLinks'
@@ -44,20 +44,3 @@ CREATE TABLE `urlMap` (
 ALTER TABLE `urlMap` ADD FOREIGN KEY (urlId) REFERENCES `urlLinks` (`id`);
 ALTER TABLE `urlMap` ADD FOREIGN KEY (linkId) REFERENCES `urlLinks` (`id`);
 
--- ---
--- Table Properties
--- ---
-
--- ALTER TABLE `urlLinks` ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_bin;
--- ALTER TABLE `urlMap` ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_bin;
-
--- ---
--- Test Data
--- ---
-
--- INSERT INTO `urlLinks` (`id`,`url`,`title`,`outgoing`,`incoming`) VALUES
--- ('','','','','');
--- INSERT INTO `urlMap` (`urlId`,`linkId`) VALUES
--- ('','');
-
-INSERT INTO `urlLinks`
