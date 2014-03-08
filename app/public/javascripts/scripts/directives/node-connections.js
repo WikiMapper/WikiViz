@@ -41,12 +41,13 @@ angular.module('VisApp')
           .style("opacity", 1e-6);
 
         scope.tooltipText = function(data) {
-          var text = " <span> Title:" + data.title + "</span>"; 
+          var text = " <span> Title:" + data.title + "</span>";
           return text;
         };
 
         scope.$watch('data', function(data){
-          scope.data = data; 
+
+          scope.data = data;
           if(!data){
             return;
           }else{
@@ -68,14 +69,14 @@ angular.module('VisApp')
               .attr("y2", function(d) { return d.target.y; });
            gnodes.attr("transform", function(d) { return "translate(" + d.x + "," + d.y + ")"; });
         });
-      
+
         function getColor(colorIndex, rank) {
           colorScale = d3.scale.linear()
             .domain([-2, 10])
             .interpolate(d3.interpolateRgb)
             .range(["whitesmoke", ColorService.color(colorIndex)]);
           return colorScale(rank);
-        } 
+        }
 
         scale = d3.scale.linear()
           .domain([0, nodeCount]).range([2, 10]);
@@ -84,13 +85,13 @@ angular.module('VisApp')
           return d.distance;
         }
 
-        function radius(d) { 
-          return 2*d.rank; 
+        function radius(d) {
+          return 2*d.rank;
         }
 
-        function mouseover(d) { 
+        function mouseover(d) {
             tooltip_div
-                .html(scope.tooltipText(d))   
+                .html(scope.tooltipText(d))
                 .transition().style("opacity", 1)
                 .attr("class", "tooltip")
             d3.select(this)
@@ -108,7 +109,7 @@ angular.module('VisApp')
         var link, gnodes, nodeCount, scale, radius, colorScale;
 
         scope.render = function(data) {
-          nodeCount = data.cloudCount; 
+          nodeCount = data.cloudCount;
 
           forceLayout
             .nodes(data.nodes)
@@ -127,7 +128,7 @@ angular.module('VisApp')
           //create node group to hold node + text
           gnodes = svgCanvas.selectAll("g").data(data.nodes);
           gnodesEnter = gnodes.enter()
-            .append("g")          //g element used to group svg shapes 
+            .append("g")          //g element used to group svg shapes
             .attr("class", "node-group");
           gnodesEnter
             .append('circle')
@@ -145,15 +146,14 @@ angular.module('VisApp')
           gnodes.exit().remove();
 
           //svg element consisting of text
-          gnodesEnter.append("svg:text")   
+          gnodesEnter.append("svg:text")
             .attr('class', 'label')
             .attr("x", '6')
             .attr("y", '.14em')
             .text(function(d) { return d.title; } );
-          
+
           forceLayout.start();
-        };      
+        };
       });
   	};
 	}]);
-

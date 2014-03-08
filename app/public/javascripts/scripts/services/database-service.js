@@ -18,12 +18,12 @@ angular.module('VisApp')
       d3data = [],
       nodes = [],
       d3links = [],
-      d3data = {  "nodes"       : nodes, 
-                  "links"       : d3links, 
-                  "cloudCount"  : cloudCount, 
+      d3data = {  "nodes"       : nodes,
+                  "links"       : d3links,
+                  "cloudCount"  : cloudCount,
                   "cloudIndex"  : cloudIndex};
       return d3data;
-    };    
+    };
 
     doRequest = function(url, urlid) {
       if (!count){ urlid = 0 };
@@ -62,7 +62,7 @@ angular.module('VisApp')
           sourceNode.rank     = 6;      //set in initial center center node radius
           sourceNode.x        = window.inner
 
-          nodes.push(sourceNode);  
+          nodes.push(sourceNode);
         }
 
         //add child url data
@@ -75,18 +75,23 @@ angular.module('VisApp')
           childNode.title    = item.title;
           childNode.url      = item.url;
           childNode.rank     = 15/item.distance;
+
           nodes.push(childNode);
-           
+
           var link = {};
           link.source = sourceid;
           link.target = count;
           link.distance  = 30*item.distance;
           d3links.push(link);
+          if (childNode.title === "Paris"){
+            alert('target found in ' + cloudIndex + " clicks");
+
+          }
         });
 
-        d3data = {  "nodes" : nodes, 
-                    "links" : d3links, 
-                    "cloudCount" : cloudCount, 
+        d3data = {  "nodes" : nodes,
+                    "links" : d3links,
+                    "cloudCount" : cloudCount,
                     "cloudIndex" : cloudIndex};
 
         return d3data;
