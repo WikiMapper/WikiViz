@@ -11,9 +11,8 @@ angular.module('VisApp')
         $scope.showVis = false;
         $scope.url = 'http://en.wikipedia.org/wiki/math';
         $scope.sourcedata = null;
-        //this doesn't have promises pattern, as the DatabaseService call below does, why does below?
+        //this doesn't have promises pattern, as the DatabaseService call below does, why?
         $scope.sourcedata = DatabaseService.reset();  
-        console.log('RESET called $scope.sourcedata', $scope.sourcedata);
       };
 
       $scope.getInput = function(){
@@ -22,7 +21,6 @@ angular.module('VisApp')
         $scope.showWait = true;
         DatabaseService.request($scope.url).then(function(data) {
           $scope.sourcedata = data;
-          console.log('datareturned $scope.sourcedata', $scope.sourcedata)
           $scope.showWait = false;
         });
       };
