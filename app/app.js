@@ -41,9 +41,6 @@ app.post('/urls', function(req, res) {
   scrape(req.body.url, res);
 });
 
-app.get('/[a-z]+', function(req, res){
-  res.end('Hello');
-});
 
 
 //////////////////////////////////////////////////////////////////
