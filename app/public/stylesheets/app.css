@@ -61,7 +61,7 @@ table {
 
 body {
   font-family: 'Varela Round', sans-serif;
-  background: url('/images/background.png');
+  background: #f0eee9;
   background-size: cover;
   background-repeat: no-repeat;
   font-size: 17px;
@@ -234,5 +234,9 @@ h1 {
 p {
   color: #2B101E;
   line-height: 1.6;
+}
+
+a.link {
+  color:#00aaaa;
 }
 
