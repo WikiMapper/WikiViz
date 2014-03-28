@@ -1,6 +1,6 @@
 angular.module('VisApp')
-  .directive('nodeConnections',['DatabaseService','ColorService', 'd3Service', '$window', '$position',
-    function(DatabaseService, ColorService, d3Service, $window, $position) {
+  .directive('nodeConnections',['DatabaseService','ColorService', 'd3Service', '$window',
+    function(DatabaseService, ColorService, d3Service, $window) {
   	return {
   		restrict : 'EA',
   		scope: {
