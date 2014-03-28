@@ -16,7 +16,7 @@ angular.module('VisApp')
             width = d3.select('body').node().offsetWidth ,
             height = $window.innerHeight,
             r = 12,
-            gravity = 0.2,   //force at center of layout
+            gravity = 0.3,   //force at center of layout
             charge = -1500,
             linkDistance,
             color = d3.scale.category10();
