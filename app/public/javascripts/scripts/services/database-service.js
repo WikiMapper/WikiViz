@@ -59,7 +59,7 @@ angular.module('VisApp')
           sourceNode.id       = urlid;
           sourceNode.title    = data.title;
           sourceNode.url      = data.url;
-          sourceNode.rank     = 6;      //set in initial center center node radius
+          sourceNode.rank     = 12;      //set in initial center center node radius
           sourceNode.x        = window.inner
 
           nodes.push(sourceNode);
