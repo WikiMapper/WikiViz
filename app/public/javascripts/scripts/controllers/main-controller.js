@@ -16,6 +16,7 @@ angular.module('VisApp')
       };
 
       $scope.getInput = function(){
+        $scope.reset();
         $scope.showForm = false;
         $scope.showVis = true;
         $scope.showWait = true;
