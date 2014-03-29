@@ -1,3 +1,5 @@
 .DS_Store
 app/bower_components
 node_modules
+app/npm-debug.log
+app/public/javascripts/lib

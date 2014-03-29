@@ -12,7 +12,6 @@ angular.module('VisApp')
     };
 
     function link (scope, element, attrs){
-      console.log('in credits link funtion', scope.data);
       var word = scope.data.split('');
       //     wordLen = word.length,
       //     count = 0;
@@ -27,7 +26,7 @@ angular.module('VisApp')
             .attr("width", width)
             .attr("height", height)
           .append("g")
-            .attr("transform", "translate(32," + (height / 2) + ")");
+            .attr("transform", "translate(48," + (height / 2) + ")");
 
         scope.$watch('data', function(){
           if(!data) return;
@@ -35,7 +34,6 @@ angular.module('VisApp')
         });
 
         function update(data) {
-          console.log('check word', data);
           //count++;
           // if (count === word.length){
           //   $interval.cancel();
@@ -49,14 +47,15 @@ angular.module('VisApp')
           // ENTER Create new elements as needed.
           text.enter().append("text")
               .attr("class", "slateblue namefont")
-              .attr("dy", ".35em")
-              .attr("y", -900)
-              .attr("x", function(d, i) { return (i * 20); })
+              .attr("dy", "-2em")
+              .attr("y", -10)
+              .attr("x", function(d, i) { return (i * 28); })
+              .style('font-size', "30px")
               .style("fill-opacity", 1e-6)
               .text(function(d) { return d; })
             .transition()
-              .duration(750)
-              .attr("y", 10)
+              .duration(4000)
+              .attr("y", 100)
               .style("fill-opacity", 1);
         }
 
