@@ -9,7 +9,7 @@ This project is in its early stages and will continue to grow with new features.
 
 ## Demo
 
-[IMG]http://i59.tinypic.com/5xzqe.png[/IMG]
+<a href="http://tinypic.com?ref=5xzqe" target="_blank"><img src="http://i59.tinypic.com/5xzqe.png" border="0" alt="Image and video hosting by TinyPic"></a>
 
 Click for a demo: <a href="http://pure-wildwood-3935.herokuapp.com/#/" target="_blank">WikiViz</a>.
 
