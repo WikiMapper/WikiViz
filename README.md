@@ -9,6 +9,8 @@ This project is in its early stages and will continue to grow with new features.
 
 ## Demo
 
+http://i59.tinypic.com/5xzqe.png
+
 Click for a demo: <a href="http://pure-wildwood-3935.herokuapp.com/#/" target="_blank">WikiViz</a>.
 
 ## Installation

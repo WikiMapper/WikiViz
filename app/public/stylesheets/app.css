@@ -183,8 +183,8 @@ ul.links {
 }
 
 .reset:hover {
-  border-color: #fff;
-  color: #fff;
+  border-color: #999;
+  color: #999;
 }
 
 /*** d3 styling ***************/

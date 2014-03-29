@@ -46,13 +46,6 @@ angular.module('VisApp')
         };
 
         scope.$watch('data', function(data){
-
-<<<<<<< HEAD
-        scope.tooltipText = function(data) {
-          var text = " <span> Title: " + data.title + "</span>";
-          return text
-        };
-=======
           scope.data = data;
           if(!data){
             return;
@@ -60,7 +53,6 @@ angular.module('VisApp')
             return scope.render(data);
           };
         }, true);
->>>>>>> f35bb4ea366f47b4e6c5e44fc881e056f1667f9f
 
         // construct the force-directed layout
         var forceLayout = d3.layout.force()
