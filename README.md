@@ -1,9 +1,9 @@
 WikiViz
 =======
 
-WikiViz: A Graph Visualization of Wikipedia Articles and their Embedded Links.
+**WikiViz: Graph Visualization of Wikipedia Articles and their Embedded Links.**
 
-Visualize and explore a graph of the embedded links within a Wikipedia article. The initial Wikipedia article title is the central node and titles of embedded links appear as children nodes distributed around the central node. Using NLP, our algorithm compares the content of the initial article and content of its embedded links - embedded links with similar content appear larger and closer to the intial article title (PENDING).
+Visualize and explore a graph of the embedded links within a Wikipedia article. The initial Wikipedia article title is the central node and titles of embedded links appear as child nodes distributed around the central node. Click on child nodes to reveal their embedded links and continue to grow your graph of article titles!
 
 This project is in its early stages and will continue to grow with new features. If something is not working or you would like a new feature, please use the issues page.
 
@@ -40,7 +40,7 @@ Code base: https://github.com/WikiMapper/WikiViz
   - Front end: see wikiviz-client folder for angular/D3
   - Back end: app folder / app.js for basic server
   - App / scraper / scape.js for scraper that extracts links from a given wikipedia page
-  - App / scraper / getRelatedWords.js for NLP processing of each page
+  - App / scraper / getRelatedWords.js for NLP processing of each page (not currently disabled to improve speed)
 
 ## Tech Stack
 
