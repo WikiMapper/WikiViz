@@ -7,10 +7,17 @@ Visualize and explore a graph of the embedded links within a Wikipedia article. 
 
 This project is in its early stages and will continue to grow with new features. If something is not working or you would like a new feature, please use the issues page.
 
+## Team
+Michael Tseng   
+Joseph Sample   
+Farhad Ghayour   
+Autumn Fjeld   
+James Wilson
+
 ## Demo
 
 <a href="http://tinypic.com?ref=5xzqe" target="_blank"><img src="http://i59.tinypic.com/5xzqe.png" border="0" alt="Image and video hosting by TinyPic"></a>
-Click for a demo: <a href="http://pure-wildwood-3935.herokuapp.com/#/" target="_blank">WikiViz</a>.
+Click for a demo: <a href="http://wikiviz.herokuapp.com/" target="_blank">WikiViz</a>.
 
 ## Installation
 
