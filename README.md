@@ -1,7 +1,7 @@
 WikiViz
 =======
 
-**WikiViz: Graph Visualization of Wikipedia Article Titles and their Embedded Links.**
+**WikiViz: Graph Visualization of Wikipedia Article Titles and Embedded Links.**
 
 Visualize and explore a graph of the embedded links within a Wikipedia article. The initial Wikipedia article title is the central node and titles of embedded links appear as child nodes distributed around the central node. Click on child nodes to reveal their embedded links and continue to grow your graph of article titles!
 
