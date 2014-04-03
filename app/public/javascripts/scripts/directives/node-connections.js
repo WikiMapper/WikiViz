@@ -62,7 +62,6 @@ angular.module('VisApp')
 
         // tick = delta_t for simulation, set functions tor run on tick event for node & link positions
         forceLayout.on("tick", function() {
-          console.log('tick');
           link.attr("x1", function(d) { return d.source.x; })  //pos of source node
               .attr("y1", function(d) { return d.source.y; })
               .attr("x2", function(d) { return d.target.x; })  //pos of target node
@@ -82,6 +81,7 @@ angular.module('VisApp')
           .domain([0, nodeCount]).range([2, 10]);
 
         function linkDistance(d) {
+          console.log(d)
           return d.distance;
         }
 

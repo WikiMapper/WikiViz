@@ -15,18 +15,22 @@ var getLinks = function(err, resp, html, url, res) {
 
   var links = [];
 
-  $('#mw-content-text #toc, .toclimit-3').prevAll()
-    .filter('p').children('a').each(function(i, link) {
+  var allLinks = $('#mw-content-text #toc, .toclimit-3').prevAll().filter('p').children('a');
 
+  allLinks.each(function(i, link) {
     var linkTitle = $(link).attr('title');
     var href      = $(link).attr('href');
 
+    console.log("length" + allLinks.length + "i" + i)
+    var i = i+1;
     links.push({
       title: linkTitle,
       url: 'http://wikipedia.com'+ href,
-      distance: Math.random() * 9 + 1
+      distance: (((9 / allLinks.length) * i) + 1)
     });
   });
+
+  console.log(links)
 
   var linksObj2 = {
     url: url,
