@@ -1,5 +1,8 @@
 <div id="wikiviz-search" ng-show='showForm'>
-
+<div>
+  <p ng-click='challenge()'> play game</p>
+  </div>
+  
   <form name='wikivizsearch' ng-submit='getInput()' novalidate>
    <input type="submit" id="logo" value="">
    <input autofocus/ class="searchbox"
@@ -18,7 +21,7 @@
     <p>Loading data ...</p>
 </div>
 
-<div ng-show='showVis'>
+<div ng-show='showVis' >
   <div node-connections data='sourcedata'></div>
   <button ng-click='reset()'
     type="button" class="reset">
