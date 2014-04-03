@@ -44,6 +44,33 @@ var getLinks = function(err, resp, html, url, res) {
   res.end(JSON.stringify(linksObj2));
 };
 
+var getTopPagesLinks = function(err, resp, html, res) {
+  var $ = cheerio.load(html);
+
+  var links = $('.wikitable a:not(.image)');
+  var start = $(links[Math.floor((Math.random() * 490) + 5)]);
+  var destination = $(links[Math.floor((Math.random() * 490) + 5)]);
+
+  var challenge = {
+    "to": {"title": start.attr('title'),
+          "url": start.attr('href')
+        },
+    "from": {"title": destination.attr('title'),
+          "url": destination.attr('href')
+        }
+  };
+
+  console.log(challenge);
+
+  res.end(JSON.stringify(challenge));
+};
+
+var scrapeTopPages = function(req, res){
+  request("http://en.wikipedia.org/wiki/Wikipedia:5000", function(err, resp, html) {
+    getTopPagesLinks(err, resp, html, res);
+  });
+}
+
 var distBtwUrlVectors = function(v0, v1){
   var diff = {};
   var distSum = 0;
@@ -88,3 +115,4 @@ var scrapePage = function(url, res){
 }
 
 exports.scrape = scrape;
+exports.scrapeTopPages = scrapeTopPages;

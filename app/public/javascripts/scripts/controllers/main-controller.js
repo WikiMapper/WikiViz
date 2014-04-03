@@ -1,6 +1,6 @@
 angular.module('VisApp')
-  .controller('MainCtrl', ['DatabaseService','ColorService', 'd3Service', '$scope', '$location',
-    function(DatabaseService, ColorService, d3Service, $scope, $location){
+  .controller('MainCtrl', ['DatabaseService','ColorService', 'd3Service', '$scope', '$location', 'ChallengeService',
+    function(DatabaseService, ColorService, d3Service, $scope, $location, ChallengeService){
       $scope.showForm = true;
       $scope.showVis = false;
       $scope.showWait = false;
@@ -12,7 +12,7 @@ angular.module('VisApp')
         $scope.url = 'http://en.wikipedia.org/wiki/math';
         $scope.sourcedata = null;
         //this doesn't have promises pattern, as the DatabaseService call below does, why?
-        $scope.sourcedata = DatabaseService.reset();  
+        $scope.sourcedata = DatabaseService.reset();
       };
 
       $scope.getInput = function(){
@@ -24,5 +24,10 @@ angular.module('VisApp')
           $scope.showWait = false;
         });
       };
+
+        ChallengeService.request().then(function(data) {
+          console.log(data);
+          $scope.challenge = data;
+        });
 
   }]);

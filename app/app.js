@@ -9,6 +9,7 @@ var http    = require('http');
 var path    = require('path');
 var request = require('request');
 var scrape  = require('./scraper/scrape').scrape;
+var scrapeTopPages = require('./scraper/scrape').scrapeTopPages;
 
 var app = express();
 
@@ -34,6 +35,12 @@ app.use(express.static(path.join(__dirname, 'public')));
 //////////////////////////////////////////////////////////////////
 
 app.get('/', routes.index);
+
+app.get('/challenge', function(req, res){
+  res.header("Access-Control-Allow-Origin", "*");
+  res.header("Access-Control-Allow-Headers", "X-Requested-With");
+  scrapeTopPages(req, res);
+});
 
 app.post('/urls', function(req, res) {
   res.header("Access-Control-Allow-Origin", "*");
