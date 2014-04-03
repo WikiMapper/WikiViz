@@ -1,4 +1,10 @@
-angular.module('VisApp', ['ngRoute', 'd3']);
+angular.module('VisApp', ['ngRoute', 'd3'])
+  .run(['ChallengeService', 'MemoryStoreService', function(ChallengeService, MemoryStoreService){
+     ChallengeService.request().then(function(data) {
+          console.log('challenge', data);
+          MemoryStoreService.storeData(data, 'tofrom');
+        });
+  }]);
 
 angular.module('VisApp')
   .config(['$routeProvider', function ($routeProvider) {
@@ -6,10 +12,6 @@ angular.module('VisApp')
       .when('/', {
         templateUrl: 'views/main.html',
         controller: 'MainCtrl'
-      })
-      .when('/game', {
-        templateUrl: 'views/game.html',
-        controller: ''
       })
       .when('/about', {
         templateUrl: 'views/about.html',
