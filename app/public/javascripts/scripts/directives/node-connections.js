@@ -80,6 +80,7 @@ angular.module('VisApp')
           .domain([0, nodeCount]).range([2, 10]);
 
         function linkDistance(d) {
+          console.log(d)
           return d.distance;
         }
 
