@@ -61,7 +61,7 @@ table {
 
 body {
   font-family: 'Varela Round', sans-serif;
-  background: url('/images/background.png');
+  background: #f0eee9;
   background-size: cover;
   background-repeat: no-repeat;
   font-size: 17px;
@@ -141,6 +141,12 @@ ul.links {
               inset 0px 1px 2px 0 rgba(0,0,0,.75);
 }
 
+.wikiviz-info {
+  padding: 20px 0 0 0;
+  text-align: center;
+}
+
+
 .waiting {
   width: 50%;
   position: relative;
@@ -177,8 +183,8 @@ ul.links {
 }
 
 .reset:hover {
-  border-color: #fff;
-  color: #fff;
+  border-color: #999;
+  color: #999;
 }
 
 /*** d3 styling ***************/
@@ -234,5 +240,22 @@ h1 {
 p {
   color: #2B101E;
   line-height: 1.6;
+}
+
+<<<<<<< HEAD
+h1 {
+  text-shadow: 0px 1px rgba(255,255,255,.3);
+  color: #252525;
+  font-size: 40px;
+  margin-bottom: 30px;
+}
+
+p {
+  color: #444;
+  line-height: 1.6;
+=======
+a.link {
+  color:#00aaaa;
+>>>>>>> f35bb4ea366f47b4e6c5e44fc881e056f1667f9f
 }
 

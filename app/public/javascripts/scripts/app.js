@@ -1,4 +1,4 @@
-angular.module('VisApp', ['ngRoute', 'd3', 'ui.bootstrap']);
+angular.module('VisApp', ['ngRoute', 'd3']);
 
 angular.module('VisApp')
   .config(['$routeProvider', function ($routeProvider) {
