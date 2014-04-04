@@ -1,6 +1,6 @@
 angular.module('VisApp')
-  .directive('nodeConnections',['DatabaseService','ColorService', 'd3Service', '$window',
-    function(DatabaseService, ColorService, d3Service, $window) {
+  .directive('nodeConnections',['DatabaseService','ColorService', 'NodeLinkService', 'd3Service', '$window', 
+    function(DatabaseService, ColorService, NodeLinkService, d3Service, $window) {
   	return {
   		restrict : 'EA',
   		scope: {
@@ -138,8 +138,9 @@ angular.module('VisApp')
             .on("mouseover", mouseover)
             .on("mouseout", mouseout)
             .on("click", function(d, i) {
-                DatabaseService.request(d.url, d.id).then(function(data){
-                scope.render(data);
+                DatabaseService.request(d.url)
+                  .then(function(data){
+                    scope.render(NodeLinkService.formatData(data));
               })
             });
           gnodes.exit().remove();

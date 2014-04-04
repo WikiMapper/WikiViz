@@ -1,7 +1,7 @@
 angular.module('VisApp')
   .factory('DatabaseService', ['$http', function($http) {
 
-    doRequest = function(url, urlid) {
+    doRequest = function(url) {
 
       return $http({
         method: 'POST',
