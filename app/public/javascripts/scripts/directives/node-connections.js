@@ -4,19 +4,20 @@ angular.module('VisApp')
   	return {
   		restrict : 'EA',
   		scope: {
-        data: '='           //sets up two-way databinding
+        data: '=',           //sets up two-way databinding
+        clickActions: '&'
       },
   		link : link
   	};
 
-  	function link (scope, element, attrs){
-      //wait for d3 service to doad
-      d3Service.d3().then(function(d3){
+  	function link (scope, element, attrs) {
+      //wait for d3 service to load
+      d3Service.d3().then(function(d3) {
         var el = element[0],
             width = d3.select('body').node().offsetWidth ,
             height = $window.innerHeight,
             r = 12,
-            gravity = 0.3,   //force at center of layout
+            gravity = 0.2,   //force at center of layout
             charge = -1500,
             linkDistance,
             color = d3.scale.category10();
@@ -50,7 +51,7 @@ angular.module('VisApp')
           if(!data){
             return;
           }else{
-            return scope.render(data);
+            return render(data);
           };
         }, true);
 
@@ -87,6 +88,10 @@ angular.module('VisApp')
           return 2*d.rank;
         }
 
+        function charge() {
+
+        }
+
         function mouseover(d) {
           console.log('mouseover', d.url, d.id);
             tooltip_div
@@ -98,7 +103,7 @@ angular.module('VisApp')
                 .attr('r', 30);
         }
 
-        function mouseout(){
+        function mouseout() {
           tooltip_div.transition().style("opacity", 1e-6);
           d3.select(this)
             .transition().duration(450)
@@ -107,7 +112,7 @@ angular.module('VisApp')
 
         var link, gnodes, nodeCount, scale, radius, colorScale;
 
-        scope.render = function(data) {
+        render = function(data) {
           nodeCount = data.cloudCount;
 
           forceLayout
@@ -139,9 +144,10 @@ angular.module('VisApp')
             .on("mouseout", mouseout)
             .on("click", function(d, i) {
                 console.log('Node Clicked!  url', d.url, d.id)
+                scope.clickActions();
                 DatabaseService.request(d.url)
                   .then(function(data){
-                    scope.render(NodeLinkService.formatData(data,d.id));
+                    render(NodeLinkService.formatData(data,d.id));
               })
             });
           gnodes.exit().remove();
