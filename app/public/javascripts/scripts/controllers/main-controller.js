@@ -7,14 +7,13 @@ angular.module('VisApp')
       $scope.showForm = true;
       $scope.showVis = false;
       $scope.showWait = false;
-      $scope.url = 'http://en.wikipedia.org/wiki/math';
+      $scope.url = 'http://en.wikipedia.org/wiki/lollipop';
 
       $scope.reset = function(){
         $scope.showForm = true;
         $scope.showVis = false;
-        $scope.url = 'http://en.wikipedia.org/wiki/math';
+        // $scope.url = 'http://en.wikipedia.org/wiki/math';
         $scope.sourcedata = null;
-        //this doesn't have promises pattern, as the DatabaseService call below does, why?
         $scope.sourcedata = NodeLinkService.reset();
       };
 
@@ -27,8 +26,6 @@ angular.module('VisApp')
           .then(function(data) {
             $scope.rawdata = data;
             console.log('raw', data);
-            //raw data looks lik this:
-            //{url: "http://en.wikipedia.org/wiki/math", title: "Mathematics", links: Array[45], incoming: null, outgoing: 45}
             $scope.sourcedata = NodeLinkService.formatData(data);
             $scope.showWait = false;
           });
@@ -43,12 +40,8 @@ angular.module('VisApp')
           console.log('challenge', data.data);
           var fromNode = data.data.from;
           fromNode.links =[];
-          // need to at least have links as a property with empty array
           $scope.sourcedata = NodeLinkService.formatData(fromNode);
-          // $scope.challenge = data;
-        // $scope.sourcedata =     
         });
       };
-
 
   }]);

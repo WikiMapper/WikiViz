@@ -80,7 +80,6 @@ angular.module('VisApp')
           .domain([0, nodeCount]).range([2, 10]);
 
         function linkDistance(d) {
-          console.log(d)
           return d.distance;
         }
 
@@ -89,6 +88,7 @@ angular.module('VisApp')
         }
 
         function mouseover(d) {
+          console.log('mouseover', d.url, d.id);
             tooltip_div
                 .html(scope.tooltipText(d))
                 .transition().style("opacity", 1)
@@ -138,9 +138,10 @@ angular.module('VisApp')
             .on("mouseover", mouseover)
             .on("mouseout", mouseout)
             .on("click", function(d, i) {
+                console.log('Node Clicked!  url', d.url, d.id)
                 DatabaseService.request(d.url)
                   .then(function(data){
-                    scope.render(NodeLinkService.formatData(data));
+                    scope.render(NodeLinkService.formatData(data,d.id));
               })
             });
           gnodes.exit().remove();

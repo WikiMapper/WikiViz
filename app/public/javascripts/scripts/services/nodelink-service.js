@@ -2,7 +2,8 @@ angular.module('VisApp')
   .factory('NodeLinkService', ['$http', function($http) {
 
     var urlid = 0,
-        cloudCount = 0,
+        nodesInCloud = 0,
+        runningNodeCount = 0,
         cloudIndex = 0,
         d3data = [],
         nodes = [],
@@ -13,53 +14,45 @@ angular.module('VisApp')
 
     var reset = function(){
       urlid = 0,
-      cloudCount = 0,
+      nodesInCloud = 0,
+      runningNodeCount = 0,
       cloudIndex = 0,
       d3data = [],
       nodes = [],
       d3links = [],
       d3data = {  "nodes"       : nodes,
                   "links"       : d3links,
-                  "cloudCount"  : cloudCount,
+                  "nodesInCloud"  : nodesInCloud,
                   "cloudIndex"  : cloudIndex};
       return d3data;
     };
 
-    // doRequest = function(url, urlid) {
-    //   if (!count){ urlid = 0 };
-    //   cloudIndex++;
-
-    //   return $http({
-    //     method: 'POST',
-    //     url: '/urls',
-    //     data: {url : url} ,
-    //     headers : {'Content-Type':'application/json'}
-    //   })
-    //   .then(function(data){
-    //     console.log('Posted: ', data, 'num links:', data.data.links.length);
-    //     return format(data.data);
-    //   })
-    //   .catch(function(e){
-    //     console.log('error', e);
-    //     throw e;
-    //   });
-
     var formatData =  function(data, urlid) {
-      console.log('formatting', data, urlid);
-      if (!urlid){ urlid = 0 };
+      console.log('NodeLinkServie dataformatting', data, urlid, 'runningCount', runningNodeCount);
+      console.log('Existing data', d3data.nodes);
+      //handle 3 start cases:
+      //1. single from node for game, urlid is undefined, data.lengths =[]
+      //2. call from single node, don't want to generate that nde again
+      //3. normal call with center nodes & cloud data, urlid = undefined
+      // if (urlid === undefined && data.links.length === 0){ 
+      //   console.log('+++++++++++++++++');
+      //   urlid = 0; 
+      //   runningNodeCount = 0;
+      // }
+      //reset data after single node call for the challenge
+      // if (d3data.nodes){
+      //   if (data.title === d3.nodes[0].title){
+      //     reset();
+      //   }
+        
+      // }
       cloudIndex++;
-      cloudCount = data.links.length;
-
-        //data.links.splice(0,1); // if first item in links is repeat of source
-        var children = data.links,
-            sourceNode = {},
-            childNode = {},
-            sourceid = urlid;
-
+      nodesInCloud = data.links.length;
         //handle first source url data
-        if (urlid === 0){
+        if (urlid === undefined){
+          urlid = 0;
           var sourceNode = {};
-          sourceNode.id       = urlid;
+          sourceNode.id       = 0;
           sourceNode.title    = data.title;
           sourceNode.url      = data.url;
           sourceNode.rank     = 12;      //set in initial center center node radius
@@ -68,13 +61,20 @@ angular.module('VisApp')
           nodes.push(sourceNode);
         }
 
+        var children = data.links,
+            sourceNode = {},
+            childNode = {},
+            sourceid = urlid;
+
+
         //add child url data
         angular.forEach(children, function (item, i ){
-          urlid++;
-          var rank = cloudCount - i;
+          
+          runningNodeCount++;
+          var rank = nodesInCloud - i;
 
           var childNode = {};
-          childNode.id       = urlid;
+          childNode.id       = runningNodeCount;
           childNode.title    = item.title;
           childNode.url      = item.url;
           childNode.rank     = 15/item.distance;
@@ -83,20 +83,20 @@ angular.module('VisApp')
 
           var link = {};
           link.source = sourceid;
-          link.target = urlid;
+          link.target = runningNodeCount;
+          console.log('sourceid', sourceid, 'target', runningNodeCount);
           link.distance  = 30*item.distance;
           d3links.push(link);
           if (childNode.title === "Paris"){
             alert('target found in ' + cloudIndex + " clicks");
-
           }
         });
-        console.log('nodes',nodes);
+        //console.log('nodes',nodes);
         d3data = {  "nodes" : nodes,
                     "links" : d3links,
-                    "cloudCount" : cloudCount,
+                    "nodesInCloud" : nodesInCloud,
                     "cloudIndex" : cloudIndex};
-        console.log('d3data', d3data.nodes, d3data.links);
+        //console.log('d3data', d3data.nodes, d3data.links);
         return d3data;
     };
 
