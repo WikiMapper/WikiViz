@@ -44,4 +44,8 @@ angular.module('VisApp')
         });
       };
 
+      $scope.clickActions = function(){
+        console.log('******WOOoooooo clickActions*****');
+      };
+
   }]);
