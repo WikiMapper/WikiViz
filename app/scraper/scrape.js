@@ -53,10 +53,12 @@ var getTopPagesLinks = function(err, resp, html, res) {
 
   var challenge = {
     "to": {"title": start.attr('title'),
-          "url": start.attr('href')
+          "url": 'http://wikipedia.com' + start.attr('href'),
+          "links": []
         },
     "from": {"title": destination.attr('title'),
-          "url": destination.attr('href')
+          "url": 'http://wikipedia.com' + destination.attr('href'),
+          "links": []
         }
   };
 
